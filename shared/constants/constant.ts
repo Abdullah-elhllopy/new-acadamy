@@ -1,0 +1,1 @@
+export const I18LANG = "i18nextLng"
