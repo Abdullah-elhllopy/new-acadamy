@@ -55,6 +55,11 @@ export function Header() {
                     {t('ourPartners')}
                   </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/our-customers" className="w-full cursor-pointer">
+                    {t('ourCustomers')}
+                  </Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -140,14 +145,23 @@ export function Header() {
                   <Link href="/about" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
                     {t('aboutUs')}
                   </Link>
+                  <Link href="/our-team" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
+                    {t('ourTeam')}
+                  </Link>
                   <Link href="/programs" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
                     {t('allPrograms')}
                   </Link>
                   <Link href="/trainers" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
                     {t('trainers')}
                   </Link>
+                  <Link href="/images-center" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
+                    {t('imagesCenter')}
+                  </Link>
                   <Link href="/contact" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
                     {t('contact')}
+                  </Link>
+                  <Link href="/be-trainer" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
+                    {t('beTrainer')}
                   </Link>
                   <Button
                     className="rounded-full h-11 bg-primary hover:bg-secondary text-white font-medium mt-4"
