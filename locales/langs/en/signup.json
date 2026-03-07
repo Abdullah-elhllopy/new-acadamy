@@ -1,0 +1,34 @@
+{
+  "title": "Create Account",
+  "description": "Join ID Academy and access premium training opportunities",
+  "fullName": "Full Name",
+  "fullNamePlaceholder": "Your full name",
+  "accountType": "Account Type",
+  "companyName": "Company Name",
+  "companyNamePlaceholder": "Your company name",
+  "email": "Email",
+  "emailPlaceholder": "your@email.com",
+  "password": "Password",
+  "passwordPlaceholder": "At least 6 characters",
+  "confirmPassword": "Confirm Password",
+  "confirmPasswordPlaceholder": "Confirm your password",
+  "createAccount": "Create Account",
+  "creatingAccount": "Creating account...",
+  "alreadyHaveAccount": "Already have an account?",
+  "signIn": "Sign In",
+  "roles": {
+    "trainee": "Individual Trainee",
+    "corporateManager": "Corporate Manager",
+    "trainerApplicant": "Trainer Applicant"
+  },
+  "errors": {
+    "fillAllFields": "Please fill all required fields",
+    "passwordMismatch": "Passwords do not match",
+    "passwordTooShort": "Password is too short",
+    "companyRequired": "Please enter company name",
+    "accountCreationFailed": "Failed to create account"
+  },
+  "success": {
+    "accountCreated": "Account created successfully. Please sign in."
+  }
+}

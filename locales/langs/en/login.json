@@ -1,0 +1,24 @@
+{
+  "title": "Sign In",
+  "description": "Enter your credentials to access your account",
+  "email": "Email",
+  "emailPlaceholder": "your@email.com",
+  "password": "Password",
+  "passwordPlaceholder": "Password",
+  "forgotPassword": "Forgot password?",
+  "signIn": "Sign In",
+  "signingIn": "Signing in...",
+  "or": "OR",
+  "noAccount": "Don't have an account?",
+  "signUp": "Sign Up",
+  "testCredentials": "Test Credentials:",
+  "testEmail": "Email: test@example.com",
+  "testPassword": "Password: password123",
+  "errors": {
+    "fillAllFields": "Please fill all fields",
+    "loginFailed": "Login failed"
+  },
+  "success": {
+    "loggedIn": "Logged in successfully!"
+  }
+}

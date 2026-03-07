@@ -169,3 +169,9 @@
 [dir="ltr"] {
   direction: ltr;
 }
+
+/* Force RTL on Radix UI components */
+[dir="rtl"] [data-slot="tabs"],
+[dir="rtl"] [data-radix-collection-item] {
+  direction: rtl;
+}

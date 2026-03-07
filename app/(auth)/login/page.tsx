@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useLanguage } from '@/shared/hooks/useLanguage'
+import { useTranslate } from '@/locales/use-locales'
 import { useAuth } from '@/shared/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -14,9 +14,8 @@ import { Mail, Lock, ArrowRight } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
-  const { language } = useLanguage()
+  const { t } = useTranslate('login')
   const { login, isLoading } = useAuth()
-  const isArabic = language === 'ar'
 
   const [formData, setFormData] = useState({
     email: '',
@@ -27,7 +26,7 @@ export default function LoginPage() {
     e.preventDefault()
     
     if (!formData.email || !formData.password) {
-      toast.error(isArabic ? 'يرجى ملء جميع الحقول' : 'Please fill all fields')
+      toast.error(t('errors.fillAllFields'))
       return
     }
 
@@ -35,15 +34,15 @@ export default function LoginPage() {
       const result = await login(formData.email, formData.password)
       
       if (result.success) {
-        toast.success(isArabic ? 'تم تسجيل الدخول بنجاح' : 'Logged in successfully!')
+        toast.success(t('success.loggedIn'))
         setTimeout(() => {
           router.push('/dashboard')
         }, 500)
       } else {
-        toast.error(result.error || (isArabic ? 'فشل تسجيل الدخول' : 'Login failed'))
+        toast.error(result.error || t('errors.loginFailed'))
       }
     } catch (err) {
-      toast.error(isArabic ? 'فشل تسجيل الدخول' : 'Login failed')
+      toast.error(t('errors.loginFailed'))
     }
   }
 
@@ -51,55 +50,53 @@ export default function LoginPage() {
     <div className="flex items-center justify-center py-16 px-4 bg-muted min-h-[calc(100vh-20rem)]">
       <div className="w-full max-w-md">
         <Card className="shadow-lg border-border">
-          <CardHeader className={`space-y-4 pb-6 ${isArabic ? 'text-right' : ''}`}>
+          <CardHeader className="space-y-4 pb-6">
             <CardTitle className="text-3xl font-bold text-primary">
-              {isArabic ? 'دخول' : 'Sign In'}
+              {t('title')}
             </CardTitle>
             <CardDescription className="text-base">
-              {isArabic
-                ? 'أدخل بيانات اعتماداتك للوصول إلى حسابك'
-                : 'Enter your credentials to access your account'}
+              {t('description')}
             </CardDescription>
           </CardHeader>
 
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-5">
-              <div className={`space-y-2 ${isArabic ? 'text-right' : ''}`}>
+              <div className="space-y-2">
                 <Label htmlFor="email" className="text-base font-semibold">
-                  {isArabic ? 'البريد الإلكتروني' : 'Email'}
+                  {t('email')}
                 </Label>
                 <div className="relative">
-                  <Mail className={`w-5 h-5 absolute top-3 text-muted-foreground pointer-events-none ${isArabic ? 'right-3' : 'left-3'}`} />
+                  <Mail className="w-5 h-5 absolute top-3 start-3 text-muted-foreground pointer-events-none" />
                   <Input
                     id="email"
                     type="email"
-                    placeholder={isArabic ? 'أدخل بريدك الإلكتروني' : 'your@email.com'}
+                    placeholder={t('emailPlaceholder')}
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className={`h-11 ${isArabic ? 'pr-10' : 'pl-10'}`}
+                    className="h-11 ps-10"
                     disabled={isLoading}
                   />
                 </div>
               </div>
 
-              <div className={`space-y-2 ${isArabic ? 'text-right' : ''}`}>
+              <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password" className="text-base font-semibold">
-                    {isArabic ? 'كلمة المرور' : 'Password'}
+                    {t('password')}
                   </Label>
                   <Link href="/forgot-password" className="text-sm text-secondary hover:underline font-semibold">
-                    {isArabic ? 'هل نسيت كلمتك؟' : 'Forgot password?'}
+                    {t('forgotPassword')}
                   </Link>
                 </div>
                 <div className="relative">
-                  <Lock className={`w-5 h-5 absolute top-3 text-muted-foreground pointer-events-none ${isArabic ? 'right-3' : 'left-3'}`} />
+                  <Lock className="w-5 h-5 absolute top-3 start-3 text-muted-foreground pointer-events-none" />
                   <Input
                     id="password"
                     type="password"
-                    placeholder={isArabic ? 'أدخل كلمة مرورك' : 'Password'}
+                    placeholder={t('passwordPlaceholder')}
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    className={`h-11 ${isArabic ? 'pr-10' : 'pl-10'}`}
+                    className="h-11 ps-10"
                     disabled={isLoading}
                   />
                 </div>
@@ -111,45 +108,45 @@ export default function LoginPage() {
                 disabled={isLoading}
               >
                 {isLoading ? (
-                  <span>{isArabic ? 'جاري الدخول...' : 'Signing in...'}</span>
+                  <span>{t('signingIn')}</span>
                 ) : (
                   <>
-                    <span>{isArabic ? 'دخول' : 'Sign In'}</span>
-                    <ArrowRight className="w-5 h-5 mr-2" />
+                    <span>{t('signIn')}</span>
+                    <ArrowRight className="w-5 h-5 ms-2" />
                   </>
                 )}
               </Button>
 
-              <div className={`relative my-6 ${isArabic ? 'text-right' : ''}`}>
+              <div className="relative my-6">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-border" />
                 </div>
                 <div className="relative flex justify-center text-sm">
                   <span className="px-2 bg-card text-muted-foreground">
-                    {isArabic ? 'أو' : 'OR'}
+                    {t('or')}
                   </span>
                 </div>
               </div>
 
-              <p className={`text-center text-base text-muted-foreground ${isArabic ? 'text-right' : ''}`}>
-                {isArabic ? 'ليس لديك حساب؟' : "Don't have an account?"}{' '}
+              <p className="text-center text-base text-muted-foreground">
+                {t('noAccount')}{' '}
                 <Link href="/signup" className="font-semibold text-secondary hover:underline">
-                  {isArabic ? 'إنشاء حساب' : 'Sign Up'}
+                  {t('signUp')}
                 </Link>
               </p>
             </form>
           </CardContent>
         </Card>
 
-        <div className={`mt-6 p-5 bg-muted rounded-xl text-sm text-muted-foreground border border-border ${isArabic ? 'text-right' : ''}`}>
+        <div className="mt-6 p-5 bg-muted rounded-xl text-sm text-muted-foreground border border-border">
           <p className="font-bold mb-3 text-primary text-base">
-            {isArabic ? 'بيانات اختبار:' : 'Test Credentials:'}
+            {t('testCredentials')}
           </p>
           <p className="text-sm mb-1">
-            {isArabic ? 'البريد الإلكتروني: test@example.com' : 'Email: test@example.com'}
+            {t('testEmail')}
           </p>
           <p className="text-sm">
-            {isArabic ? 'كلمة المرور: password123' : 'Password: password123'}
+            {t('testPassword')}
           </p>
         </div>
       </div>

@@ -1,0 +1,34 @@
+{
+  "title": "إنشاء حساب",
+  "description": "انضم إلى أكاديمية ID واستمتع بفرص التدريب المتميزة",
+  "fullName": "الاسم الكامل",
+  "fullNamePlaceholder": "أدخل اسمك الكامل",
+  "accountType": "نوع الحساب",
+  "companyName": "اسم الشركة",
+  "companyNamePlaceholder": "اسم شركتك",
+  "email": "البريد الإلكتروني",
+  "emailPlaceholder": "أدخل بريدك الإلكتروني",
+  "password": "كلمة المرور",
+  "passwordPlaceholder": "أدخل كلمة مرورك",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "confirmPasswordPlaceholder": "أعد إدخال كلمة مرورك",
+  "createAccount": "إنشاء حساب",
+  "creatingAccount": "جاري الإنشاء...",
+  "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
+  "signIn": "دخول",
+  "roles": {
+    "trainee": "متدرب فردي",
+    "corporateManager": "مدير مؤسسي",
+    "trainerApplicant": "متقدم كمدرب"
+  },
+  "errors": {
+    "fillAllFields": "يرجى ملء جميع الحقول المطلوبة",
+    "passwordMismatch": "كلمات المرور غير متطابقة",
+    "passwordTooShort": "كلمة المرور قصيرة جداً",
+    "companyRequired": "يرجى إدخال اسم الشركة",
+    "accountCreationFailed": "فشل في إنشاء الحساب"
+  },
+  "success": {
+    "accountCreated": "تم إنشاء الحساب بنجاح. يرجى تسجيل الدخول."
+  }
+}

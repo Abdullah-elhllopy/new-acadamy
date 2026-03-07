@@ -3,9 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useLanguage } from '@/shared/hooks/useLanguage'
-import { Header } from '@/components/layout/header'
-import { Footer } from '@/components/layout/footer'
+import { useTranslate } from '@/locales/use-locales'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -17,8 +15,7 @@ import { UserRole } from '@/shared/constants/roles'
 
 export default function SignupPage() {
   const router = useRouter()
-  const { language } = useLanguage()
-  const isArabic = language === 'ar'
+  const { t } = useTranslate('signup')
   const [isLoading, setIsLoading] = useState(false)
 
   const [formData, setFormData] = useState({
@@ -31,31 +28,31 @@ export default function SignupPage() {
   })
 
   const roleOptions = [
-    { value: UserRole.TRAINEE, labelEn: 'Individual Trainee', labelAr: 'متدرب فردي' },
-    { value: UserRole.CORPORATE_MANAGER, labelEn: 'Corporate Manager', labelAr: 'مدير مؤسسي' },
-    { value: UserRole.TRAINER_APPLICANT, labelEn: 'Trainer Applicant', labelAr: 'متقدم كمدرب' },
+    { value: UserRole.TRAINEE, label: t('roles.trainee') },
+    { value: UserRole.CORPORATE_MANAGER, label: t('roles.corporateManager') },
+    { value: UserRole.TRAINER_APPLICANT, label: t('roles.trainerApplicant') },
   ]
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
-      toast.error(isArabic ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill all required fields')
+      toast.error(t('errors.fillAllFields'))
       return
     }
 
     if (formData.password !== formData.confirmPassword) {
-      toast.error(isArabic ? 'كلمات المرور غير متطابقة' : 'Passwords do not match')
+      toast.error(t('errors.passwordMismatch'))
       return
     }
 
     if (formData.password.length < 6) {
-      toast.error(isArabic ? 'كلمة المرور قصيرة جداً' : 'Password is too short')
+      toast.error(t('errors.passwordTooShort'))
       return
     }
 
     if (formData.role === UserRole.CORPORATE_MANAGER && !formData.company) {
-      toast.error(isArabic ? 'يرجى إدخال اسم الشركة' : 'Please enter company name')
+      toast.error(t('errors.companyRequired'))
       return
     }
 
@@ -64,14 +61,10 @@ export default function SignupPage() {
       // Simulate signup
       await new Promise((resolve) => setTimeout(resolve, 1000))
       
-      toast.success(
-        isArabic
-          ? 'تم إنشاء الحساب بنجاح. يرجى تسجيل الدخول.'
-          : 'Account created successfully. Please sign in.'
-      )
+      toast.success(t('success.accountCreated'))
       router.push('/login')
     } catch (err) {
-      toast.error(isArabic ? 'فشل في إنشاء الحساب' : 'Failed to create account')
+      toast.error(t('errors.accountCreationFailed'))
     } finally {
       setIsLoading(false)
     }
@@ -83,43 +76,41 @@ export default function SignupPage() {
       <main className="flex-1 flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-md">
           <Card>
-            <CardHeader className={`space-y-3 ${isArabic ? 'text-right' : ''}`}>
+            <CardHeader className="space-y-3">
               <CardTitle className="text-2xl">
-                {isArabic ? 'إنشاء حساب' : 'Create Account'}
+                {t('title')}
               </CardTitle>
               <CardDescription>
-                {isArabic
-                  ? 'انضم إلى أكاديمية ID واستمتع بفرص التدريب المتميزة'
-                  : 'Join ID Academy and access premium training opportunities'}
+                {t('description')}
               </CardDescription>
             </CardHeader>
 
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Full Name */}
-                <div className={`space-y-2 ${isArabic ? 'text-right' : ''}`}>
+                <div className="space-y-2">
                   <Label htmlFor="name">
-                    {isArabic ? 'الاسم الكامل' : 'Full Name'}
+                    {t('fullName')}
                   </Label>
                   <div className="relative">
-                    <User className={`w-4 h-4 absolute top-3 text-muted-foreground pointer-events-none ${isArabic ? 'right-3' : 'left-3'}`} />
+                    <User className="w-4 h-4 absolute top-3 start-3 text-muted-foreground pointer-events-none" />
                     <Input
                       id="name"
-                      placeholder={isArabic ? 'أدخل اسمك الكامل' : 'Your full name'}
+                      placeholder={t('fullNamePlaceholder')}
                       value={formData.name}
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      className={isArabic ? 'pr-10' : 'pl-10'}
+                      className="ps-10"
                       disabled={isLoading}
                     />
                   </div>
                 </div>
 
                 {/* User Role */}
-                <div className={`space-y-2 ${isArabic ? 'text-right' : ''}`}>
+                <div className="space-y-2">
                   <Label htmlFor="role">
-                    {isArabic ? 'نوع الحساب' : 'Account Type'}
+                    {t('accountType')}
                   </Label>
                   <Select
                     value={formData.role}
@@ -134,7 +125,7 @@ export default function SignupPage() {
                     <SelectContent>
                       {roleOptions.map((option) => (
                         <SelectItem key={option.value} value={option.value}>
-                          {isArabic ? option.labelAr : option.labelEn}
+                          {option.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -143,20 +134,20 @@ export default function SignupPage() {
 
                 {/* Company (for corporate managers) */}
                 {formData.role === UserRole.CORPORATE_MANAGER && (
-                  <div className={`space-y-2 ${isArabic ? 'text-right' : ''}`}>
+                  <div className="space-y-2">
                     <Label htmlFor="company">
-                      {isArabic ? 'اسم الشركة' : 'Company Name'}
+                      {t('companyName')}
                     </Label>
                     <div className="relative">
-                      <Building2 className={`w-4 h-4 absolute top-3 text-muted-foreground pointer-events-none ${isArabic ? 'right-3' : 'left-3'}`} />
+                      <Building2 className="w-4 h-4 absolute top-3 start-3 text-muted-foreground pointer-events-none" />
                       <Input
                         id="company"
-                        placeholder={isArabic ? 'اسم شركتك' : 'Your company name'}
+                        placeholder={t('companyNamePlaceholder')}
                         value={formData.company}
                         onChange={(e) =>
                           setFormData({ ...formData, company: e.target.value })
                         }
-                        className={isArabic ? 'pr-10' : 'pl-10'}
+                        className="ps-10"
                         disabled={isLoading}
                       />
                     </div>
@@ -164,63 +155,63 @@ export default function SignupPage() {
                 )}
 
                 {/* Email */}
-                <div className={`space-y-2 ${isArabic ? 'text-right' : ''}`}>
+                <div className="space-y-2">
                   <Label htmlFor="email">
-                    {isArabic ? 'البريد الإلكتروني' : 'Email'}
+                    {t('email')}
                   </Label>
                   <div className="relative">
-                    <Mail className={`w-4 h-4 absolute top-3 text-muted-foreground pointer-events-none ${isArabic ? 'right-3' : 'left-3'}`} />
+                    <Mail className="w-4 h-4 absolute top-3 start-3 text-muted-foreground pointer-events-none" />
                     <Input
                       id="email"
                       type="email"
-                      placeholder={isArabic ? 'أدخل بريدك الإلكتروني' : 'your@email.com'}
+                      placeholder={t('emailPlaceholder')}
                       value={formData.email}
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
-                      className={isArabic ? 'pr-10' : 'pl-10'}
+                      className="ps-10"
                       disabled={isLoading}
                     />
                   </div>
                 </div>
 
                 {/* Password */}
-                <div className={`space-y-2 ${isArabic ? 'text-right' : ''}`}>
+                <div className="space-y-2">
                   <Label htmlFor="password">
-                    {isArabic ? 'كلمة المرور' : 'Password'}
+                    {t('password')}
                   </Label>
                   <div className="relative">
-                    <Lock className={`w-4 h-4 absolute top-3 text-muted-foreground pointer-events-none ${isArabic ? 'right-3' : 'left-3'}`} />
+                    <Lock className="w-4 h-4 absolute top-3 start-3 text-muted-foreground pointer-events-none" />
                     <Input
                       id="password"
                       type="password"
-                      placeholder={isArabic ? 'أدخل كلمة مرورك' : 'At least 6 characters'}
+                      placeholder={t('passwordPlaceholder')}
                       value={formData.password}
                       onChange={(e) =>
                         setFormData({ ...formData, password: e.target.value })
                       }
-                      className={isArabic ? 'pr-10' : 'pl-10'}
+                      className="ps-10"
                       disabled={isLoading}
                     />
                   </div>
                 </div>
 
                 {/* Confirm Password */}
-                <div className={`space-y-2 ${isArabic ? 'text-right' : ''}`}>
+                <div className="space-y-2">
                   <Label htmlFor="confirm-password">
-                    {isArabic ? 'تأكيد كلمة المرور' : 'Confirm Password'}
+                    {t('confirmPassword')}
                   </Label>
                   <div className="relative">
-                    <Lock className={`w-4 h-4 absolute top-3 text-muted-foreground pointer-events-none ${isArabic ? 'right-3' : 'left-3'}`} />
+                    <Lock className="w-4 h-4 absolute top-3 start-3 text-muted-foreground pointer-events-none" />
                     <Input
                       id="confirm-password"
                       type="password"
-                      placeholder={isArabic ? 'أعد إدخال كلمة مرورك' : 'Confirm your password'}
+                      placeholder={t('confirmPasswordPlaceholder')}
                       value={formData.confirmPassword}
                       onChange={(e) =>
                         setFormData({ ...formData, confirmPassword: e.target.value })
                       }
-                      className={isArabic ? 'pr-10' : 'pl-10'}
+                      className="ps-10"
                       disabled={isLoading}
                     />
                   </div>
@@ -233,23 +224,23 @@ export default function SignupPage() {
                   disabled={isLoading}
                 >
                   {isLoading ? (
-                    <span>{isArabic ? 'جاري الإنشاء...' : 'Creating account...'}</span>
+                    <span>{t('creatingAccount')}</span>
                   ) : (
                     <>
-                      <span>{isArabic ? 'إنشاء حساب' : 'Create Account'}</span>
-                      <ArrowRight className="w-4 h-4 ml-2" />
+                      <span>{t('createAccount')}</span>
+                      <ArrowRight className="w-4 h-4 ms-2" />
                     </>
                   )}
                 </Button>
 
                 {/* Sign in link */}
-                <p className={`text-center text-sm text-muted-foreground ${isArabic ? 'text-right' : ''}`}>
-                  {isArabic ? 'هل لديك حساب بالفعل؟' : 'Already have an account?'}{' '}
+                <p className="text-center text-sm text-muted-foreground">
+                  {t('alreadyHaveAccount')}{' '}
                   <Link
                     href="/login"
                     className="font-semibold text-primary hover:underline"
                   >
-                    {isArabic ? 'دخول' : 'Sign In'}
+                    {t('signIn')}
                   </Link>
                 </p>
               </form>

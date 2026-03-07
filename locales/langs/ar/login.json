@@ -1,0 +1,24 @@
+{
+  "title": "دخول",
+  "description": "أدخل بيانات اعتماداتك للوصول إلى حسابك",
+  "email": "البريد الإلكتروني",
+  "emailPlaceholder": "أدخل بريدك الإلكتروني",
+  "password": "كلمة المرور",
+  "passwordPlaceholder": "أدخل كلمة مرورك",
+  "forgotPassword": "هل نسيت كلمتك؟",
+  "signIn": "دخول",
+  "signingIn": "جاري الدخول...",
+  "or": "أو",
+  "noAccount": "ليس لديك حساب؟",
+  "signUp": "إنشاء حساب",
+  "testCredentials": "بيانات اختبار:",
+  "testEmail": "البريد الإلكتروني: test@example.com",
+  "testPassword": "كلمة المرور: password123",
+  "errors": {
+    "fillAllFields": "يرجى ملء جميع الحقول",
+    "loginFailed": "فشل تسجيل الدخول"
+  },
+  "success": {
+    "loggedIn": "تم تسجيل الدخول بنجاح"
+  }
+}
