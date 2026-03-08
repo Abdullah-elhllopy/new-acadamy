@@ -54,6 +54,9 @@
   --sidebar-accent-foreground: 255 255 255;
   --sidebar-border: 195 201 213;
   --sidebar-ring: 23 188 67;
+  --hero-bg: 57 70 94;
+  --enrolled-btn: 30 58 95;
+  --enrolled-btn-hover: 44 74 111;
 }
 
 .dark {
@@ -131,6 +134,9 @@
   --color-sidebar-accent-foreground: rgb(var(--sidebar-accent-foreground));
   --color-sidebar-border: rgb(var(--sidebar-border));
   --color-sidebar-ring: rgb(var(--sidebar-ring));
+  --color-hero-bg: rgb(var(--hero-bg));
+  --color-enrolled-btn: rgb(var(--enrolled-btn));
+  --color-enrolled-btn-hover: rgb(var(--enrolled-btn-hover));
 }
 
 @layer base {

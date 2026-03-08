@@ -97,7 +97,7 @@ export default function BookingPage({ params }: { params: { sessionId: string } 
   }
 
   return (
-    <ProtectedRoute>
+    // <ProtectedRoute>
       <div className="min-h-screen flex flex-col bg-background">
 
         <main className="flex-1 py-12 md:py-16">
@@ -114,7 +114,7 @@ export default function BookingPage({ params }: { params: { sessionId: string } 
 
             {/* Progress steps */}
             <div className="mb-8">
-              <div className={`flex items-center justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex items-center justify-between  `}>
                 {steps.map((step, idx) => {
                   const status = getStepStatus(step.id)
                   return (
@@ -144,7 +144,7 @@ export default function BookingPage({ params }: { params: { sessionId: string } 
               </div>
 
               {/* Step labels */}
-              <div className={`flex items-center justify-between mt-3 text-xs font-medium ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex items-center justify-between mt-3 text-xs font-medium  `}>
                 {steps.map((step) => (
                   <span key={step.id} className="text-muted-foreground">
                     {isArabic ? step.labelAr : step.labelEn}
@@ -284,20 +284,20 @@ export default function BookingPage({ params }: { params: { sessionId: string } 
                 {currentStep === 'confirmation' && (
                   <div className="space-y-4">
                     <div className="bg-muted rounded-lg p-4 space-y-3">
-                      <div className={`flex justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className={`flex justify-between  `}>
                         <span className="text-muted-foreground">{isArabic ? 'البرنامج' : 'Program'}</span>
                         <span className="font-semibold">{isArabic ? program.titleAr : program.titleEn}</span>
                       </div>
                       <Separator />
-                      <div className={`flex justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className={`flex justify-between  `}>
                         <span className="text-muted-foreground">{isArabic ? 'الاسم' : 'Name'}</span>
                         <span className="font-semibold">{formData.firstName} {formData.lastName}</span>
                       </div>
-                      <div className={`flex justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className={`flex justify-between  `}>
                         <span className="text-muted-foreground">{isArabic ? 'البريد الإلكتروني' : 'Email'}</span>
                         <span className="font-semibold text-sm">{formData.email}</span>
                       </div>
-                      <div className={`flex justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className={`flex justify-between  `}>
                         <span className="text-muted-foreground">{isArabic ? 'طريقة الدفع' : 'Payment Method'}</span>
                         <Badge>
                           {formData.paymentMethod === 'bank_transfer'
@@ -308,7 +308,7 @@ export default function BookingPage({ params }: { params: { sessionId: string } 
                         </Badge>
                       </div>
                       <Separator />
-                      <div className={`flex justify-between text-lg ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className={`flex justify-between text-lg  `}>
                         <span className="font-bold">{isArabic ? 'الإجمالي' : 'Total'}</span>
                         <span className="font-bold text-primary">{program.price} SR</span>
                       </div>
@@ -335,7 +335,7 @@ export default function BookingPage({ params }: { params: { sessionId: string } 
               {/* Navigation buttons */}
               <Separator />
               <div className="p-6">
-                <div className={`flex gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex gap-4  `}>
                   {currentStep !== 'personal' && (
                     <Button variant="outline" onClick={handleBack} className="flex-1">
                       <ArrowLeft className={`w-4 h-4 ${isArabic ? 'ml-2' : 'mr-2'}`} />
@@ -360,6 +360,6 @@ export default function BookingPage({ params }: { params: { sessionId: string } 
           </div>
         </main>
       </div>
-    </ProtectedRoute>
+    // </ProtectedRoute>
   )
 }

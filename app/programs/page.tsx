@@ -1,15 +1,18 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { useLanguage } from '@/shared/hooks/useLanguage'
+import { useTranslate } from '@/locales/use-locales'
 import { ProgramCard } from '@/components/cards/program-card'
 import { FilterSidebar, FilterState } from '@/components/filters/filter-sidebar'
 import { EmptyState } from '@/components/states/empty-state'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination'
-import { Search, ListIcon } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { Program, Session } from '@/shared/types'
+import Link from 'next/link'
+import { Breadcrumb } from '@/components/shared/breadcrumb'
 
 // Mock data
 const mockPrograms: (Program & { sessions: Session[] })[] = [
@@ -121,8 +124,8 @@ const mockPrograms: (Program & { sessions: Session[] })[] = [
 ]
 
 export default function ProgramsPage() {
-  const { language } = useLanguage()
-  const isArabic = language === 'ar'
+  const { t, currentLang } = useTranslate('programs')
+  const isArabic = currentLang.value === 'ar'
   const [searchTerm, setSearchTerm] = useState('')
   const [filters, setFilters] = useState<FilterState>({
     categories: [],
@@ -130,30 +133,28 @@ export default function ProgramsPage() {
     locations: [],
     trainers: [],
   })
+  const [activeCategory, setActiveCategory] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 6
+  const itemsPerPage = 9
+
+  const categories = [
+    { id: 'all', labelEn: 'All', labelAr: 'الكل' },
+    { id: 'leadership', labelEn: 'Leadership', labelAr: 'القيادة' },
+    { id: 'marketing', labelEn: 'Marketing', labelAr: 'التسويق' },
+    { id: 'management', labelEn: 'Management', labelAr: 'الإدارة' },
+    { id: 'technology', labelEn: 'Technology', labelAr: 'التقنية' },
+    { id: 'business', labelEn: 'Business', labelAr: 'الأعمال' },
+  ]
 
   // Filter programs based on search and filters
   const filteredPrograms = useMemo(() => {
     return mockPrograms.filter((program) => {
       const title = isArabic ? program.titleAr : program.titleEn
       const searchMatch = title.toLowerCase().includes(searchTerm.toLowerCase())
-
-      const categoryMatch =
-        filters.categories.length === 0 ||
-        filters.categories.some((cat) => program.category.toLowerCase().includes(cat))
-
-      const priceMatch =
-        program.sessions[0].price >= filters.priceRange[0] &&
-        program.sessions[0].price <= filters.priceRange[1]
-
-      const locationMatch =
-        filters.locations.length === 0 ||
-        filters.locations.some((loc) => program.location.toLowerCase().includes(loc))
-
-      return searchMatch && categoryMatch && priceMatch && locationMatch
+      const categoryMatch = activeCategory === 'all' || program.category.toLowerCase() === activeCategory
+      return searchMatch && categoryMatch
     })
-  }, [searchTerm, filters, isArabic])
+  }, [searchTerm, activeCategory, isArabic])
 
   // Pagination
   const totalPages = Math.ceil(filteredPrograms.length / itemsPerPage)
@@ -175,157 +176,183 @@ export default function ProgramsPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-
-      <main className="flex-1">
-        {/* Page header */}
-        <section className="bg-muted py-12 md:py-16">
-          <div className="container mx-auto px-4 md:px-20">
-            <div className={isArabic ? 'text-right' : ''}>
-              <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-                {isArabic ? 'البرامج التدريبية' : 'Training Programs'}
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                {isArabic
-                  ? 'اكتشف برامجنا المتنوعة والمصممة بعناية'
-                  : 'Discover our carefully curated training programs'}
-              </p>
-            </div>
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      {/* Top Navigation Bar */}
+      <div className="bg-[#3d4f6b] text-white">
+        <div className="container mx-auto px-4 md:px-20">
+          <div className="flex items-center justify-between h-16">
+            <Breadcrumb
+              items={[
+                { label: isArabic ? 'الرئيسية' : 'Home', href: '/' },
+                { label: isArabic ? 'جميع الدورات' : 'All Courses' }
+              ]}
+              isArabic={isArabic}
+              className="text-white"
+            />
+            <Button className="bg-[#2c3e56] hover:bg-[#1f2d3d] rounded-full px-6">
+              {isArabic ? 'التعليم' : 'Education'}
+            </Button>
           </div>
-        </section>
+        </div>
+      </div>
 
-        {/* Main content */}
-        <section className="py-12 md:py-16 bg-white">
-          <div className="container mx-auto px-4 md:px-20">
-            <div className="flex flex-col lg:flex-row gap-8">
-              {/* Sidebar filters - desktop */}
-              <aside className="hidden lg:block lg:w-64 flex-shrink-0">
-                <FilterSidebar
-                  filters={filters}
-                  onChange={setFilters}
-                  onReset={handleReset}
-                />
-              </aside>
+      {/* Category Tabs */}
+      <div className="bg-[#2c3e56] text-white border-t border-gray-600">
+        <div className="container mx-auto px-4 md:px-20">
+          <div className="flex items-center gap-4 overflow-x-auto py-3">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => {
+                  setActiveCategory(cat.id)
+                  setCurrentPage(1)
+                }}
+                className={`px-6 py-2 rounded-full whitespace-nowrap transition-colors ${
+                  activeCategory === cat.id
+                    ? 'bg-white text-[#2c3e56]'
+                    : 'hover:bg-[#3d4f6b]'
+                }`}
+              >
+                {isArabic ? cat.labelAr : cat.labelEn}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
-              {/* Main content */}
-              <div className="flex-1">
-                {/* Search and mobile filters */}
-                <div className="flex flex-col md:flex-row gap-4 mb-10">
-                  {/* Search */}
-                  <div className={`flex-1 relative ${isArabic ? 'text-right' : ''}`}>
-                    <Search className={`w-5 h-5 absolute top-3.5 text-muted-foreground pointer-events-none ${isArabic ? 'right-3' : 'left-3'}`} />
-                    <Input
-                      placeholder={isArabic ? 'ابحث عن برامج...' : 'Search programs...'}
-                      value={searchTerm}
-                      onChange={(e) => {
-                        setSearchTerm(e.target.value)
-                        setCurrentPage(1)
-                      }}
-                      className={`h-12 ${isArabic ? 'pr-11' : 'pl-11'}`}
-                    />
+      {/* Main Content */}
+      <main className="flex-1 py-12">
+        <div className="container mx-auto px-4 md:px-20">
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Sidebar Filters */}
+            <aside className="lg:w-64 flex-shrink-0">
+              <FilterSidebar
+                filters={filters}
+                onChange={setFilters}
+                onReset={handleReset}
+              />
+            </aside>
+
+            {/* Main Content Area */}
+            <div className="flex-1">
+              {/* Search Bar */}
+              <div className="mb-8">
+                <div className="relative">
+                  <Search className={`w-5 h-5 absolute top-3.5 text-muted-foreground ${isArabic ? 'right-3' : 'left-3'}`} />
+                  <Input
+                    placeholder={isArabic ? 'ابحث عن دورة...' : 'Search for a course...'}
+                    value={searchTerm}
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value)
+                      setCurrentPage(1)
+                    }}
+                    className={`h-12 ${isArabic ? 'pr-11 text-right' : 'pl-11'}`}
+                  />
+                </div>
+              </div>
+
+              {/* Filter Label */}
+              <div className={`mb-6 ${isArabic ? 'text-right' : ''}`}>
+                <h2 className="text-xl font-bold text-foreground">
+                  {isArabic ? 'التصنيف حسب' : 'Filter by'}
+                </h2>
+              </div>
+
+              {/* Programs Grid */}
+              {paginatedPrograms.length > 0 ? (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-12">
+                    {paginatedPrograms.map((program) => (
+                      <ProgramCard
+                        key={program.id}
+                        program={program}
+                        session={program.sessions[0]}
+                        language={currentLang.value as 'en' | 'ar'}
+                      />
+                    ))}
                   </div>
 
-                  {/* Mobile filter button */}
-                  <Button
-                    variant="outline"
-                    className="lg:hidden h-12 rounded-lg"
-                  >
-                    <ListIcon className="w-5 h-5 ml-2" />
-                    {isArabic ? 'المرشحات' : 'Filters'}
-                  </Button>
-                </div>
+                  {/* Pagination */}
+                  {totalPages > 1 && (
+                    <div className="flex justify-center mb-12">
+                      <Pagination>
+                        <PaginationContent>
+                          {currentPage > 1 && (
+                            <PaginationItem>
+                              <PaginationPrevious
+                                href="#"
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  setCurrentPage(currentPage - 1)
+                                }}
+                              />
+                            </PaginationItem>
+                          )}
 
-                {/* Results */}
-                <div className={`mb-8 ${isArabic ? 'text-right' : ''}`}>
-                  <p className="text-base text-muted-foreground font-medium">
-                    {filteredPrograms.length}{' '}
-                    {isArabic ? 'برنامج متاح' : 'programs available'}
-                  </p>
-                </div>
-
-                {/* Programs grid */}
-                {paginatedPrograms.length > 0 ? (
-                  <>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
-                      {paginatedPrograms.map((program) => (
-                        <ProgramCard
-                          key={program.id}
-                          program={program}
-                          session={program.sessions[0]}
-                          language={language as 'en' | 'ar'}
-                        />
-                      ))}
-                    </div>
-
-                    {/* Pagination */}
-                    {totalPages > 1 && (
-                      <div className="flex justify-center">
-                        <Pagination>
-                          <PaginationContent>
-                            {currentPage > 1 && (
-                              <PaginationItem>
-                                <PaginationPrevious
-                                  href="#"
-                                  onClick={() => setCurrentPage(currentPage - 1)}
-                                />
-                              </PaginationItem>
-                            )}
-
-                            {[...Array(totalPages)].map((_, i) => {
-                              const pageNum = i + 1
-                              const shouldShow =
-                                pageNum === 1 ||
-                                pageNum === totalPages ||
-                                Math.abs(pageNum - currentPage) <= 1
-
-                              if (!shouldShow)
-                                return <PaginationEllipsis key={pageNum} />
-
+                          {[...Array(totalPages)].map((_, i) => {
+                            const pageNum = i + 1
+                            if (pageNum === 1 || pageNum === totalPages || Math.abs(pageNum - currentPage) <= 1) {
                               return (
                                 <PaginationItem key={pageNum}>
                                   <PaginationLink
                                     href="#"
-                                    onClick={() => setCurrentPage(pageNum)}
+                                    onClick={(e) => {
+                                      e.preventDefault()
+                                      setCurrentPage(pageNum)
+                                    }}
                                     isActive={pageNum === currentPage}
                                   >
                                     {pageNum}
                                   </PaginationLink>
                                 </PaginationItem>
                               )
-                            })}
+                            }
+                            return null
+                          })}
 
-                            {currentPage < totalPages && (
-                              <PaginationItem>
-                                <PaginationNext
-                                  href="#"
-                                  onClick={() => setCurrentPage(currentPage + 1)}
-                                />
-                              </PaginationItem>
-                            )}
-                          </PaginationContent>
-                        </Pagination>
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <EmptyState
-                    title={isArabic ? 'لم يتم العثور على برامج' : 'No Programs Found'}
-                    description={
-                      isArabic
-                        ? 'حاول تعديل معايير البحث أو المرشحات'
-                        : 'Try adjusting your search criteria or filters'
-                    }
-                    language={language as 'en' | 'ar'}
-                    action={{
-                      label: isArabic ? 'إعادة تعيين' : 'Reset Filters',
-                      href: '#',
-                    }}
-                  />
-                )}
-              </div>
+                          {currentPage < totalPages && (
+                            <PaginationItem>
+                              <PaginationNext
+                                href="#"
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  setCurrentPage(currentPage + 1)
+                                }}
+                              />
+                            </PaginationItem>
+                          )}
+                        </PaginationContent>
+                      </Pagination>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <EmptyState
+                  title={isArabic ? 'لم يتم العثور على دورات' : 'No programs found'}
+                  description={isArabic ? 'جرب تغيير معايير البحث' : 'Try changing your search criteria'}
+                  language={currentLang.value as 'en' | 'ar'}
+                />
+              )}
             </div>
           </div>
-        </section>
+
+          {/* CTA Section */}
+          <div className="bg-[#3d4f6b] text-white rounded-2xl p-12 text-center mt-12">
+            <h2 className="text-3xl font-bold mb-4">
+              {isArabic ? 'احجز برنامجك الخاص' : 'Book Your Custom Program'}
+            </h2>
+            <p className="text-lg mb-6 opacity-90">
+              {isArabic
+                ? 'هل تريد برنامج تدريبي مخصص لشركتك؟ نحن هنا لمساعدتك'
+                : 'Want a custom training program for your company? We are here to help'}
+            </p>
+            <Button asChild className="bg-white text-[#3d4f6b] hover:bg-gray-100 rounded-full px-8 py-6 text-lg">
+              <Link href="/contact">
+                {isArabic ? 'اتصل بنا' : 'Contact Us'}
+              </Link>
+            </Button>
+          </div>
+        </div>
       </main>
     </div>
   )

@@ -42,25 +42,25 @@ export function SessionCard({ session, language, onBook }: SessionCardProps) {
       <CardContent className="space-y-4">
         {/* Date and time */}
         <div className={`space-y-2 ${isArabic ? 'text-right' : ''}`}>
-          <div className={`flex items-center gap-2 text-sm text-muted-foreground ${isArabic ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex items-center gap-2 text-sm text-muted-foreground  `}>
             <Calendar className="w-4 h-4" />
             <span>{formattedDate}</span>
           </div>
-          <div className={`flex items-center gap-2 text-sm text-muted-foreground ${isArabic ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex items-center gap-2 text-sm text-muted-foreground  `}>
             <Clock className="w-4 h-4" />
             <span>{session.time}</span>
           </div>
         </div>
 
         {/* Location */}
-        <div className={`flex items-center gap-2 text-sm text-muted-foreground ${isArabic ? 'flex-row-reverse' : ''}`}>
+        <div className={`flex items-center gap-2 text-sm text-muted-foreground  `}>
           <MapPin className="w-4 h-4" />
           <span>{session.location}</span>
         </div>
 
         {/* Occupancy */}
         <div className={isArabic ? 'text-right' : ''}>
-          <div className={`flex items-center justify-between text-sm mb-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex items-center justify-between text-sm mb-2  `}>
             <span className="text-muted-foreground">
               {isArabic ? 'المقاعد المتاحة' : 'Available Seats'}
             </span>
@@ -77,7 +77,7 @@ export function SessionCard({ session, language, onBook }: SessionCardProps) {
         </div>
 
         {/* Price and button */}
-        <div className={`flex items-center justify-between pt-4 border-t border-border ${isArabic ? 'flex-row-reverse' : ''}`}>
+        <div className={`flex items-center justify-between pt-4 border-t border-border  `}>
           <div>
             <p className="text-2xl font-bold text-primary">
               {session.price.toLocaleString()} <span className="text-sm font-normal text-muted-foreground">SR</span>

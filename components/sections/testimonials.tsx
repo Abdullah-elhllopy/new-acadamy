@@ -88,7 +88,7 @@ export function Testimonials() {
                 </p>
 
                 {/* Author */}
-                <div className={`flex items-center gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex items-center gap-4  `}>
                   <Avatar>
                     <AvatarFallback className="bg-primary/10 text-primary font-semibold">
                       {testimonial.avatar}

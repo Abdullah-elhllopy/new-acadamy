@@ -9,5 +9,13 @@
   "details": "التفاصيل",
   "view": "عرض",
   "comingSoon": "قريباً",
-  "browseAll": "تصفح جميع البرامج"
+  "browseAll": "تصفح جميع البرامج",
+  "pageTitle": "البرامج التدريبية",
+  "pageDescription": "اكتشف برامجنا المتنوعة والمصممة بعناية",
+  "searchPlaceholder": "ابحث عن برامج...",
+  "filters": "المرشحات",
+  "programsAvailable": "برنامج متاح",
+  "noProgramsFound": "لم يتم العثور على برامج",
+  "noProgramsDescription": "حاول تعديل معايير البحث أو المرشحات",
+  "resetFilters": "إعادة تعيين"
 }

@@ -157,7 +157,7 @@ function DashboardContent() {
         {/* CTA to browse more programs */}
         <Card className="mt-8 border-primary/20 bg-primary/5">
           <CardContent className="pt-6">
-            <div className={`flex items-center justify-between gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+            <div className={`flex items-center justify-between gap-4  `}>
               <div className={isArabic ? 'text-right' : ''}>
                 <h3 className="font-semibold text-foreground mb-1">
                   {isArabic ? 'استكشف المزيد من البرامج' : 'Explore More Programs'}

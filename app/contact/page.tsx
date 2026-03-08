@@ -109,7 +109,7 @@ export default function ContactPage() {
 
               <Card>
                 <CardContent className="pt-6">
-                  <div className={`flex items-start gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <div className={`flex items-start gap-4  `}>
                     <Mail className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                     <div >
                       <p className="font-semibold mb-1">{isArabic ? 'البريد الإلكتروني' : 'Email'}</p>
@@ -123,7 +123,7 @@ export default function ContactPage() {
 
               <Card>
                 <CardContent className="pt-6">
-                  <div className={`flex items-start gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <div className={`flex items-start gap-4  `}>
                     <Phone className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                     <div >
                       <p className="font-semibold mb-1">{isArabic ? 'الهاتف' : 'Phone'}</p>
@@ -137,7 +137,7 @@ export default function ContactPage() {
 
               <Card>
                 <CardContent className="pt-6">
-                  <div className={`flex items-start gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <div className={`flex items-start gap-4  `}>
                     <MapPin className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                     <div >
                       <p className="font-semibold mb-1">{isArabic ? 'العنوان' : 'Address'}</p>
@@ -149,7 +149,7 @@ export default function ContactPage() {
 
               <Card>
                 <CardContent className="pt-6">
-                  <div className={`flex items-start gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <div className={`flex items-start gap-4  `}>
                     <Clock className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                     <div >
                       <p className="font-semibold mb-1">{isArabic ? 'ساعات العمل' : 'Working Hours'}</p>

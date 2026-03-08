@@ -9,5 +9,13 @@
   "details": "Details",
   "view": "View",
   "comingSoon": "Coming Soon",
-  "browseAll": "Browse All Programs"
+  "browseAll": "Browse All Programs",
+  "pageTitle": "Training Programs",
+  "pageDescription": "Discover our carefully curated training programs",
+  "searchPlaceholder": "Search programs...",
+  "filters": "Filters",
+  "programsAvailable": "programs available",
+  "noProgramsFound": "No Programs Found",
+  "noProgramsDescription": "Try adjusting your search criteria or filters",
+  "resetFilters": "Reset Filters"
 }

@@ -61,7 +61,7 @@ export function FilterSidebar({ filters, onChange, onReset }: FilterSidebarProps
   return (
     <div className="space-y-6 p-6 bg-card rounded-lg border border-border">
       {/* Header */}
-      <div className={`flex items-center justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
+      <div className={`flex items-center justify-between  `}>
         <h3 className="font-semibold text-foreground">
           {isArabic ? 'المرشحات' : 'Filters'}
         </h3>
@@ -78,7 +78,7 @@ export function FilterSidebar({ filters, onChange, onReset }: FilterSidebarProps
       </div>
 
       {/* Categories */}
-      <div className={isArabic ? 'text-right' : ''}>
+      <div >
         <Label className="font-semibold text-foreground mb-3 block">
           {isArabic ? 'الفئات' : 'Categories'}
         </Label>
@@ -86,7 +86,7 @@ export function FilterSidebar({ filters, onChange, onReset }: FilterSidebarProps
           {CATEGORIES.map((category) => (
             <div
               key={category.id}
-              className={`flex items-center space-x-2 ${isArabic ? 'flex-row-reverse space-x-reverse' : ''}`}
+              className={`flex items-center space-x-2 `}
             >
               <Checkbox
                 id={category.id}
@@ -109,7 +109,7 @@ export function FilterSidebar({ filters, onChange, onReset }: FilterSidebarProps
       <Separator />
 
       {/* Price Range */}
-      <div className={isArabic ? 'text-right' : ''}>
+      <div >
         <Label className="font-semibold text-foreground mb-4 block">
           {isArabic ? 'نطاق السعر' : 'Price Range'}
         </Label>
@@ -122,7 +122,7 @@ export function FilterSidebar({ filters, onChange, onReset }: FilterSidebarProps
             onValueChange={handlePriceChange}
             className="w-full"
           />
-          <div className={`flex items-center justify-between text-sm text-muted-foreground ${isArabic ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex items-center justify-between text-sm text-muted-foreground  `}>
             <span>{filters.priceRange[0].toLocaleString()} SR</span>
             <span>-</span>
             <span>{filters.priceRange[1].toLocaleString()} SR</span>
@@ -133,7 +133,7 @@ export function FilterSidebar({ filters, onChange, onReset }: FilterSidebarProps
       <Separator />
 
       {/* Locations */}
-      <div className={isArabic ? 'text-right' : ''}>
+      <div >
         <Label className="font-semibold text-foreground mb-3 block">
           {isArabic ? 'المواقع' : 'Locations'}
         </Label>
@@ -141,7 +141,7 @@ export function FilterSidebar({ filters, onChange, onReset }: FilterSidebarProps
           {LOCATIONS.map((location) => (
             <div
               key={location.id}
-              className={`flex items-center space-x-2 ${isArabic ? 'flex-row-reverse space-x-reverse' : ''}`}
+              className={`flex items-center space-x-2 `}
             >
               <Checkbox
                 id={location.id}

@@ -1,102 +1,76 @@
 import Link from 'next/link'
-import { Star, Clock, Users, MapPin, ArrowRight } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Calendar, Clock, MapPin } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Program, Session } from '@/shared/types'
 
 interface ProgramCardProps {
   program: Program
   session: Session
   language: 'en' | 'ar'
-  onViewDetails?: () => void
 }
 
-export function ProgramCard({ program, session, language, onViewDetails }: ProgramCardProps) {
+export function ProgramCard({ program, session, language }: ProgramCardProps) {
   const isArabic = language === 'ar'
   const title = isArabic ? program.titleAr : program.titleEn
-  const description = isArabic ? program.descriptionAr : program.descriptionEn
-  const availableSeats = session.availableSeats
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 border border-border rounded-xl">
-      {/* Program image placeholder */}
-      <div className="relative w-full h-48 bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
-        <div className="text-4xl font-bold text-primary/20">{program.category}</div>
-        <Badge className="absolute top-4 right-4 bg-white text-primary border-none shadow-sm">
-          {program.category}
-        </Badge>
-      </div>
-
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-md">
-            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-            <span className="text-sm font-semibold text-foreground">{program.trainer.rating.toFixed(1)}</span>
-          </div>
-        </div>
-        <CardTitle className={`text-xl line-clamp-2 text-primary ${isArabic ? 'text-right' : ''}`}>
-          {title}
-        </CardTitle>
-        <CardDescription className={`line-clamp-2 text-muted-foreground ${isArabic ? 'text-right' : ''}`}>
-          {description}
-        </CardDescription>
-      </CardHeader>
-
-      <CardContent className="space-y-4">
-        {/* Trainer info */}
-        <div className={isArabic ? 'text-right' : ''}>
-          <p className="text-sm text-muted-foreground">
-            <span className="font-semibold text-foreground">{isArabic ? program.trainer.nameAr : program.trainer.nameEn}</span>
-          </p>
+    <Link href={`/programs/${program.id}`}>
+      <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group py-0 pb-1">
+        {/* Image */}
+        <div className="relative w-full h-52 bg-gradient-to-br from-slate-700 to-slate-900 overflow-hidden">
+          <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-10" />
+          <Badge className="absolute top-4 right-4 bg-white/90 text-slate-900 hover:bg-white">
+            {isArabic ? 'عبر الإنترنت' : 'Online'}
+          </Badge>
         </div>
 
-        {/* Program details */}
-        <div className="space-y-2 text-sm text-muted-foreground">
-          <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-            <MapPin className="w-4 h-4" />
-            <span>{program.location}</span>
-          </div>
-          <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-            <Clock className="w-4 h-4" />
-            <span>{program.duration} {isArabic ? 'ساعة' : 'hours'}</span>
-          </div>
-          <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-            <Users className="w-4 h-4" />
-            <span>
-              {availableSeats} {isArabic ? 'مقاعد متاحة' : 'seats available'} / {session.totalSeats}
-            </span>
-          </div>
-        </div>
+        <CardContent className="px-6 flex flex-col justify-between h-full space-y-3">
+          {/* Title */}
+          <h3 className={`text-lg font-bold text-slate-900  line-clamp-2  `}>
+            {title}
+          </h3>
 
-        {/* Availability indicator */}
-        <div className="w-full bg-muted rounded-full h-2">
-          <div
-            className="bg-secondary h-2 rounded-full transition-all"
-            style={{ width: `${(availableSeats / session.totalSeats) * 100}%` }}
-          />
-        </div>
-
-        {/* Price and button */}
-        <div className={`flex items-center justify-between pt-4 border-t border-border ${isArabic ? 'flex-row-reverse' : ''}`}>
-          <div>
-            <p className="text-2xl font-bold text-primary">
-              {session.price.toLocaleString()} <span className="text-sm font-normal text-muted-foreground">SR</span>
-            </p>
+          {/* Details */}
+          <div className="space-y-3 mb-4">
+            <div className={`flex items-center gap-2 text-sm text-slate-600 `}>
+              <Calendar className="w-4 h-4" />
+              <span>{isArabic ? '14 محاضرة' : '14 lectures'}</span>
+            </div>
+            <div className={`flex items-center gap-2 text-sm text-slate-600 `}>
+              <Clock className="w-4 h-4" />
+              <span>{isArabic ? '30 ساعة' : '30 hours'}</span>
+            </div>
+            <div className={`flex items-center gap-2 text-sm text-slate-600 `}>
+              <MapPin className="w-4 h-4" />
+              <span>{isArabic ? 'أونلاين' : 'Online'}</span>
+            </div>
           </div>
-          <Button
-            size="sm"
-            className="rounded-full bg-primary hover:bg-secondary text-white"
-            onClick={onViewDetails}
-            asChild
-          >
-            <Link href={`/programs/${program.id}`}>
-              {isArabic ? 'عرض التفاصيل' : 'View Details'}
-              <ArrowRight className="w-4 h-4 mr-1" />
-            </Link>
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+
+          {/* Trainer and Price */}
+          <div className={`flex items-center justify-between pt-4 border-t `}>
+            <div className={`flex items-center gap-3 `}>
+              <Avatar className="w-10 h-10">
+                <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
+                  {(isArabic ? program.trainer.nameAr : program.trainer.nameEn).split(' ').map(n => n[0]).join('')}
+                </AvatarFallback>
+              </Avatar>
+              <span className="text-sm font-medium text-slate-700">
+                {isArabic ? 'اسم المدرب' : 'Trainer Name'}
+              </span>
+            </div>
+            <div className={isArabic ? 'text-left' : 'text-right'}>
+              <p className="text-xl font-bold text-slate-900">
+                {session.price.toLocaleString()}
+                <span className="text-sm font-normal text-slate-600 mr-1">
+                  {isArabic ? 'جنيه' : 'EGP'}
+                </span>
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   )
 }

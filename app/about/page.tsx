@@ -120,7 +120,7 @@ export default function AboutPage() {
                 return (
                   <Card key={idx}>
                     <CardContent className="pt-6">
-                      <div className={`flex items-start gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className={`flex items-start gap-4  `}>
                         <Icon className="w-8 h-8 text-primary flex-shrink-0" />
                         <div className={isArabic ? 'text-right' : ''}>
                           <h3 className="font-semibold text-foreground mb-2">

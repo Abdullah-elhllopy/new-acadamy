@@ -1,276 +1,387 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/shared/hooks/useLanguage'
-import { useAuth } from '@/shared/hooks/useAuth'
-import { Header } from '@/components/layout/header'
-import { Footer } from '@/components/layout/footer'
-import { TrainerCard } from '@/components/cards/trainer-card'
-import { SessionCard } from '@/components/cards/session-card'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
-import { Clock, Users, MapPin, CheckCircle, Star, Share2, BookOpen } from 'lucide-react'
-import { toast } from 'sonner'
+import { Clock, Calendar, MapPin, ChevronDown, ChevronUp, Play, Star, Video, Download } from 'lucide-react'
+import Image from 'next/image'
+import { Breadcrumb } from '@/components/shared/breadcrumb'
 
-// Mock program data
 const mockProgram = {
   id: '1',
-  titleEn: 'Leadership Development',
-  titleAr: 'تطوير المهارات القيادية',
-  descriptionEn: 'Comprehensive program for developing leadership skills and strategic thinking',
-  descriptionAr: 'برنامج شامل لتطوير المهارات القيادية والتفكير الاستراتيجي',
-  longDescriptionEn: 'This comprehensive 3-day leadership program is designed for mid to senior-level professionals who want to enhance their leadership capabilities. Through interactive workshops and real-world case studies, participants will develop critical leadership competencies including strategic thinking, decision-making, and team management.',
-  longDescriptionAr: 'تم تصميم برنامج القيادة الشامل المدتد لثلاثة أيام للمهنيين على المستويات المتوسطة والعليا الذين يرغبون في تعزيز قدراتهم القيادية. من خلال ورش عمل تفاعلية ودراسات حالات واقعية، سيطور المشاركون الكفاءات القيادية الحاسمة.',
-  category: 'Leadership',
-  trainer: {
-    id: '1',
-    nameEn: 'Dr. Mohammed Ahmed',
-    nameAr: 'د. محمد أحمد',
-    rating: 4.8,
-    reviewCount: 124,
-    qualifications: ['PhD in Business Management', 'Executive Coach', 'Fortune 500 Consultant'],
-    linkedIn: 'https://linkedin.com/in/mohammedahmed',
+  titleAr: 'مهارات قيادة الاجتماعات الافتراضية والواقعية (أونلاين)',
+  descriptionAr: 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.',
+  price: 220,
+  duration: '30 ساعة',
+  sessions: '34 محاضرة',
+  location: 'أونلاين',
+  enrollmentDate: 'لقد اشتركت هذا الكورس في 8 ابريل 2021',
+  rating: 4.5,
+  reviewCount: 120,
+  isEnrolled: false, // Change to true to test enrolled state
+  learningPoints: [
+    'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة',
+    'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى',
+    'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة',
+    'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص',
+  ],
+  curriculum: [
+    {
+      id: 1,
+      title: 'مقدمة',
+      lessons: [
+        { id: 1, title: 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة', duration: '3 د' },
+        { id: 2, title: 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى', duration: '3 د' },
+      ]
+    },
+    {
+      id: 2,
+      title: 'شباتر 2',
+      lessons: [
+        { id: 1, title: 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة', duration: '3 د' },
+        { id: 2, title: 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة', duration: '3 د' },
+      ]
+    },
+    { id: 3, title: 'ماذا بعد؟', lessons: [] },
+    { id: 4, title: 'شباتر 4', lessons: [] },
+    { id: 5, title: 'شباتر 5', lessons: [] },
+    { id: 6, title: 'شباتر 6', lessons: [] },
+  ],
+  trainers: [
+    { id: 1, name: 'أحمد محمد', title: 'ولقائه أو تخصص المدرب', image: '/placeholder-avatar.jpg' },
+    { id: 2, name: 'أحمد محمد', title: 'ولقائه أو تخصص المدرب', image: '/placeholder-avatar.jpg' },
+    { id: 3, name: 'أحمد محمد', title: 'ولقائه أو تخصص المدرب', image: '/placeholder-avatar.jpg' },
+  ],
+  provider: {
+    name: 'كلية الدراسات العليا للتعليم',
+    university: 'جامعة هارفارد',
+    description: 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.'
   },
-  location: 'Riyadh',
-  price: 2999,
-  duration: 24,
-  capacity: 20,
-  objectives: [
-    { en: 'Master different leadership styles', ar: 'إتقان أنماط القيادة المختلفة' },
-    { en: 'Develop strategic thinking skills', ar: 'تطوير مهارات التفكير الاستراتيجي' },
-    { en: 'Improve team dynamics and communication', ar: 'تحسين ديناميكية الفريق والتواصل' },
-    { en: 'Learn conflict resolution techniques', ar: 'تعلم تقنيات حل النزاعات' },
-  ],
-  sessions: [
-    {
-      id: 'ses1',
-      programId: '1',
-      startDate: new Date('2024-03-15'),
-      endDate: new Date('2024-03-17'),
-      time: '9:00 AM - 5:00 PM',
-      location: 'Riyadh Conference Center',
-      availableSeats: 8,
-      totalSeats: 20,
-      price: 2999,
-    },
-    {
-      id: 'ses2',
-      programId: '1',
-      startDate: new Date('2024-04-10'),
-      endDate: new Date('2024-04-12'),
-      time: '9:00 AM - 5:00 PM',
-      location: 'Riyadh Business Hub',
-      availableSeats: 15,
-      totalSeats: 20,
-      price: 2999,
-    },
-  ],
   reviews: [
-    { author: 'Ahmed Al-Mansouri', rating: 5, text: 'Excellent program with practical insights' },
-    { author: 'Sarah Johnson', rating: 5, text: 'Best leadership training I have attended' },
-  ],
+    { id: 1, author: 'أحمد محمد', rating: 5, date: '14 يونيو', text: 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص.', avatar: '/placeholder-avatar.jpg' },
+    { id: 2, author: 'أحمد محمد', rating: 5, date: '14 يونيو', text: 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص.', avatar: '/placeholder-avatar.jpg' },
+  ]
 }
 
 export default function ProgramDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter()
   const { language } = useLanguage()
-  const { isAuthenticated } = useAuth()
   const isArabic = language === 'ar'
-  const program = mockProgram
+  const [expandedSections, setExpandedSections] = useState<number[]>([1])
 
-  const title = isArabic ? program.titleAr : program.titleEn
-  const description = isArabic ? program.descriptionAr : program.descriptionEn
-  const longDescription = isArabic ? program.longDescriptionEn : program.longDescriptionAr
-
-  const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href)
-    toast.success(isArabic ? 'تم نسخ الرابط' : 'Link copied to clipboard')
+  const toggleSection = (id: number) => {
+    setExpandedSections(prev =>
+      prev.includes(id) ? prev.filter(s => s !== id) : [...prev, id]
+    )
   }
 
-  const handleBookNow = (sessionId: string) => {
-    if (!isAuthenticated) {
-      toast.info(isArabic ? 'يرجى تسجيل الدخول أولاً' : 'Please sign in first')
-      router.push('/login')
-      return
-    }
-    router.push(`/booking/${sessionId}`)
+  const handleEnroll = () => {
+    router.push(`/booking/${params.id}`)
+  }
+
+  const handleGoToCourse = () => {
+    router.push(`/online-courses/${params.id}`)
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="bg-hero-bg py-8 md:py-8">
+        <div className="container mx-auto px-4 md:px-20">
+          <Breadcrumb
+            items={[
+              { label: isArabic ? 'الرئيسية' : 'Home', href: '/' },
+              { label: isArabic ? 'البرامج' : 'Programs', href: '/programs' },
+              { label: mockProgram.titleAr }
+            ]}
+            isArabic={isArabic}
+            className="text-white mb-6"
+          />
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start lg:justify-between">
+            {/* Title and Info */}
+            <div className="text-white flex-1">
+              <Badge className="mb-4 bg-white text-slate-800 hover:bg-white">
+                عبر الإنترنت
+              </Badge>
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
+                {mockProgram.titleAr}
+              </h1>
+              <p className="text-white/90 leading-relaxed mb-6">
+                {mockProgram.descriptionAr}
+              </p>
+              <Button className="bg-white text-slate-800 hover:bg-white/90">
+                <Download className="w-4 h-4 ml-2" />
+                تحميل بطاقات الدورة
+              </Button>
+            </div>
 
-      <main className="flex-1">
-        {/* Hero section */}
-        <section className="bg-gradient-to-br from-primary/10 to-accent/10 py-12 md:py-16 border-b border-border">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col gap-6">
-              {/* Breadcrumb */}
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Link href="/programs" className="hover:text-foreground transition-colors">
-                  {isArabic ? 'البرامج' : 'Programs'}
-                </Link>
-                <span>/</span>
-                <span>{title}</span>
-              </div>
-
-              {/* Title and info */}
-              <div className={isArabic ? 'text-right' : ''}>
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <div className="flex-1">
-                    <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-                      {title}
-                    </h1>
-                    <p className="text-lg text-muted-foreground">
-                      {description}
-                    </p>
-                  </div>
-                  <Badge className="shrink-0">{program.category}</Badge>
-                </div>
-
-                {/* Quick info */}
-                <div className="flex flex-wrap gap-4 md:gap-8 text-sm">
-                  <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                    <Clock className="w-4 h-4 text-primary" />
-                    <span>{program.duration} {isArabic ? 'ساعة' : 'hours'}</span>
-                  </div>
-                  <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                    <Users className="w-4 h-4 text-primary" />
-                    <span>{program.capacity} {isArabic ? 'مقعد' : 'seats'}</span>
-                  </div>
-                  <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                    <MapPin className="w-4 h-4 text-primary" />
-                    <span>{program.location}</span>
-                  </div>
-                  <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                    <Star className="w-4 h-4 fill-accent text-accent" />
-                    <span>{program.trainer.rating} ({program.trainer.reviewCount} {isArabic ? 'تقييم' : 'reviews'})</span>
-                  </div>
+            {/* Video */}
+            <div className="w-full lg:w-155 shrink-0">
+              <div className="relative w-full h-50 md:h-70 lg:h-84.5 bg-slate-800 rounded-lg overflow-hidden">
+                <Image
+                  src="/placeholder-course.jpg"
+                  alt={mockProgram.titleAr}
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                  <button className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/90 flex items-center justify-center hover:bg-white transition-colors">
+                    <Play className="w-8 h-8 md:w-10 md:h-10 text-slate-800 mr-1" fill="currentColor" />
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Content section */}
-        <section className="py-12 md:py-16">
-          <div className="container px-4 md:px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Main content */}
-              <div className="lg:col-span-2 space-y-8">
-                {/* Overview */}
-                <div className={isArabic ? 'text-right' : ''}>
-                  <h2 className="text-2xl font-bold text-foreground mb-4">
-                    {isArabic ? 'نظرة عامة' : 'Overview'}
-                  </h2>
-                  <p className="text-muted-foreground leading-relaxed mb-6">
-                    {longDescription}
-                  </p>
-                </div>
-
-                <Separator />
-
-                {/* Learning objectives */}
-                <div className={isArabic ? 'text-right' : ''}>
-                  <h2 className="text-2xl font-bold text-foreground mb-4">
-                    {isArabic ? 'الأهداف التعليمية' : 'Learning Objectives'}
-                  </h2>
-                  <div className="space-y-3">
-                    {program.objectives.map((obj, idx) => {
-                      const objText = isArabic ? obj.ar : obj.en
-                      return (
-                        <div
-                          key={idx}
-                          className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}
-                        >
-                          <CheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                          <span className="text-foreground">{objText}</span>
-                        </div>
-                      )
-                    })}
+      {/* Main Content */}
+      <div className="container px-4 py-8  md:px-20">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Content */}
+          <div className="lg:col-span-2 space-y-8 order-2 lg:order-1">
+            {/* What You'll Learn */}
+            <div>
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
+                ستتعلم في هذه الدورة
+              </h2>
+              <div className="space-y-3">
+                {mockProgram.learningPoints.map((point, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 shrink-0" />
+                    <p className="text-muted-foreground text-sm md:text-base">{point}</p>
                   </div>
-                </div>
-
-                <Separator />
-
-                {/* Trainer section */}
-                <div className={isArabic ? 'text-right' : ''}>
-                  <h2 className="text-2xl font-bold text-foreground mb-4">
-                    {isArabic ? 'المدرب' : 'Your Trainer'}
-                  </h2>
-                  <TrainerCard
-                    trainer={program.trainer}
-                    language={language as 'en' | 'ar'}
-                  />
-                </div>
-
-                <Separator />
-
-                {/* Reviews section */}
-                <div className={isArabic ? 'text-right' : ''}>
-                  <h2 className="text-2xl font-bold text-foreground mb-4">
-                    {isArabic ? 'آراء المتدربين' : 'Trainee Reviews'}
-                  </h2>
-                  <div className="space-y-4">
-                    {program.reviews.map((review, idx) => (
-                      <Card key={idx}>
-                        <CardContent className="pt-6">
-                          <div className="flex items-start justify-between gap-4 mb-2">
-                            <p className="font-semibold text-foreground">{review.author}</p>
-                            <div className="flex gap-0.5">
-                              {[...Array(review.rating)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className="w-4 h-4 fill-accent text-accent"
-                                />
-                              ))}
-                            </div>
-                          </div>
-                          <p className="text-muted-foreground">{review.text}</p>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
+                ))}
               </div>
+            </div>
 
-              {/* Sidebar - Sessions and CTA */}
-              <div className="lg:col-span-1 space-y-6 h-fit sticky top-4">
-                {/* Pricing card */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>
-                      {isArabic ? 'اختر جلسة' : 'Select Session'}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    {program.sessions.map((session) => (
-                      <SessionCard
-                        key={session.id}
-                        session={session}
-                        language={language as 'en' | 'ar'}
-                        onBook={() => handleBookNow(session.id)}
-                      />
-                    ))}
+            {/* Curriculum */}
+            <div>
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
+                محتوي هذه الدورة
+              </h2>
+              <div className="space-y-2">
+                {mockProgram.curriculum.map((section) => (
+                  <Card key={section.id} className="overflow-hidden">
+                    <button
+                      onClick={() => toggleSection(section.id)}
+                      className="w-full p-4 flex items-center justify-between hover:bg-accent/5 transition-colors text-right"
+                    >
+                      <span className="font-semibold text-foreground">{section.title}</span>
+                      {expandedSections.includes(section.id) ? (
+                        <ChevronUp className="w-5 h-5 text-muted-foreground shrink-0" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5 text-muted-foreground shrink-0" />
+                      )}
+                    </button>
+                    {expandedSections.includes(section.id) && section.lessons.length > 0 && (
+                      <div className="border-t bg-gray-50">
+                        {section.lessons.map((lesson) => (
+                          <div
+                            key={lesson.id}
+                            className="px-4 py-3 flex items-start justify-between gap-4 border-b last:border-b-0"
+                          >
+                            <div className="flex items-start gap-3 flex-1 min-w-0">
+                              <Video className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                              <span className="text-sm text-muted-foreground wrap-break-word">{lesson.title}</span>
+                            </div>
+                            <span className="text-sm text-muted-foreground whitespace-nowrap">{lesson.duration}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* Trainers */}
+            <div>
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
+                المدربون
+              </h2>
+              <div className="space-y-4">
+                {mockProgram.trainers.map((trainer) => (
+                  <div key={trainer.id} className="flex items-center gap-4">
+                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-slate-200 overflow-hidden shrink-0">
+                      <Image src={trainer.image} alt={trainer.name} width={64} height={64} className="object-cover" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground">{trainer.name}</h3>
+                      <p className="text-sm text-muted-foreground">{trainer.title}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Provider */}
+            <div>
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
+                مقدمة من
+              </h2>
+              <Card>
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-slate-800 flex items-center justify-center shrink-0">
+                      <span className="text-white text-xl md:text-2xl">H</span>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-foreground">{mockProgram.provider.name}</h3>
+                      <p className="text-sm text-muted-foreground">{mockProgram.provider.university}</p>
+                    </div>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
+                    {mockProgram.provider.description}
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Reviews */}
+            <div>
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-2">
+                آراء المتدربين
+              </h2>
+              <div className="flex items-center gap-2 mb-6">
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 md:w-5 md:h-5 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <span className="text-xl md:text-2xl font-bold">{mockProgram.rating}</span>
+                <span className="text-sm md:text-base text-muted-foreground">({mockProgram.reviewCount} تقييماً)</span>
+              </div>
+              <div className="space-y-4">
+                {mockProgram.reviews.map((review) => (
+                  <Card key={review.id}>
+                    <CardContent className="p-4 md:p-6">
+                      <div className="flex items-start gap-3 md:gap-4 mb-3">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-200 overflow-hidden shrink-0">
+                          <Image src={review.avatar} alt={review.author} width={48} height={48} className="object-cover" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-2 mb-1">
+                            <h4 className="font-semibold text-foreground truncate">{review.author}</h4>
+                            <span className="text-xs md:text-sm text-muted-foreground whitespace-nowrap">{review.date}</span>
+                          </div>
+                          <div className="flex gap-1 mb-2">
+                            {[...Array(review.rating)].map((_, i) => (
+                              <Star key={i} className="w-3 h-3 md:w-4 md:h-4 fill-yellow-400 text-yellow-400" />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-muted-foreground leading-relaxed text-sm md:text-base">{review.text}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Sidebar */}
+          <div className="lg:col-span-1 order-1 lg:order-2">
+            <div className="lg:sticky lg:top-4">
+              {mockProgram.isEnrolled ? (
+                /* Enrolled State */
+                <Card className="bg-muted/30">
+                  <CardContent className="p-6 space-y-4">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Calendar className="w-4 h-4" />
+                      <span>{mockProgram.enrollmentDate}</span>
+                    </div>
+
+                    <Button
+                      onClick={handleGoToCourse}
+                      className="w-full bg-enrolled-btn hover:bg-enrolled-btn-hover text-white font-semibold py-6 text-lg"
+                    >
+                      اذهب الي الكورس
+                    </Button>
+
+                    <div className="space-y-3 pt-4 border-t">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">مدة الدورة</span>
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4" />
+                          <span className="font-medium">{mockProgram.duration}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">عدد المحاضرات</span>
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4" />
+                          <span className="font-medium">{mockProgram.sessions}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">مكان الدورة</span>
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4" />
+                          <span className="font-medium">{mockProgram.location}</span>
+                        </div>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
+              ) : (
+                /* Not Enrolled State */
+                <Card>
+                  <CardContent className="p-6 space-y-4">
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-foreground">
+                        {mockProgram.price} جنيه مصري
+                      </div>
+                    </div>
 
-                {/* Share button */}
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={handleShare}
-                >
-                  <Share2 className="w-4 h-4 mr-2" />
-                  {isArabic ? 'مشاركة' : 'Share'}
-                </Button>
-              </div>
+                    <Button
+                      onClick={handleEnroll}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-6 text-lg"
+                    >
+                      التحق بالدورة
+                    </Button>
+
+                    <div className="space-y-3 pt-4 border-t">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">مدة الدورة</span>
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4" />
+                          <span className="font-medium">{mockProgram.duration}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">عدد المحاضرات</span>
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4" />
+                          <span className="font-medium">{mockProgram.sessions}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">مكان الدورة</span>
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4" />
+                          <span className="font-medium">{mockProgram.location}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="pt-4 border-t text-center text-sm text-muted-foreground">
+                      ترغب في حجز مجموعة أو فريق؟ <br />
+                      <Link href="/contact" className="text-primary hover:underline">
+                        اطلب التواصل
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </div>
     </div>
   )
 }
