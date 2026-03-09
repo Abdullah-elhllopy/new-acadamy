@@ -60,7 +60,7 @@ export function ProgramCard({ program, session, language }: ProgramCardProps) {
                 {isArabic ? 'اسم المدرب' : 'Trainer Name'}
               </span>
             </div>
-            <div className={isArabic ? 'text-left' : 'text-right'}>
+            <div >
               <p className="text-xl font-bold text-slate-900">
                 {session.price.toLocaleString()}
                 <span className="text-sm font-normal text-slate-600 mr-1">

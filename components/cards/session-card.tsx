@@ -26,7 +26,7 @@ export function SessionCard({ session, language, onBook }: SessionCardProps) {
 
   return (
     <Card className="hover:border-primary/50 transition-all">
-      <CardHeader className={isArabic ? 'text-right' : ''}>
+      <CardHeader >
         <div className="flex items-start justify-between gap-4">
           <div>
             <CardTitle className="text-lg">
@@ -41,7 +41,7 @@ export function SessionCard({ session, language, onBook }: SessionCardProps) {
 
       <CardContent className="space-y-4">
         {/* Date and time */}
-        <div className={`space-y-2 ${isArabic ? 'text-right' : ''}`}>
+        <div className={`space-y-2 `}>
           <div className={`flex items-center gap-2 text-sm text-muted-foreground  `}>
             <Calendar className="w-4 h-4" />
             <span>{formattedDate}</span>
@@ -59,7 +59,7 @@ export function SessionCard({ session, language, onBook }: SessionCardProps) {
         </div>
 
         {/* Occupancy */}
-        <div className={isArabic ? 'text-right' : ''}>
+        <div >
           <div className={`flex items-center justify-between text-sm mb-2  `}>
             <span className="text-muted-foreground">
               {isArabic ? 'المقاعد المتاحة' : 'Available Seats'}
