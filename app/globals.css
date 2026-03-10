@@ -58,6 +58,7 @@
   --search-hover: #F1F1FF;
   --border-light: #E2E2E2;
   --gray-dark: #707070;
+  --disabled: #C2C6CE;
   --shadow-color: rgba(0, 0, 0, 0.1);
   --radius: 0.625rem;
 }
@@ -98,6 +99,7 @@
   --search-hover: #2C4A6F;
   --border-light: #39465E;
   --gray-dark: #707070;
+  --disabled: #C2C6CE;
   --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -141,6 +143,7 @@
   --color-search-hover: var(--search-hover);
   --color-border-light: var(--border-light);
   --color-gray-dark: var(--gray-dark);
+  --color-disabled: var(--disabled);
   --color-shadow: var(--shadow-color);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

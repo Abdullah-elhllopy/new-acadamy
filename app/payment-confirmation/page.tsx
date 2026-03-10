@@ -14,7 +14,7 @@ export default function PaymentConfirmationPage() {
     <div className="min-h-screen flex items-center justify-center py-16 px-4">
       <Card className="w-full max-w-2xl">
         <CardContent className="pt-12 pb-8">
-          <div className={`text-center space-y-6 ${isArabic ? 'text-right' : ''}`}>
+          <div className={`text-center space-y-6 `}>
             <div className="flex justify-center">
               <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
                 <CheckCircle2 className="w-12 h-12 text-green-600" />
@@ -35,19 +35,19 @@ export default function PaymentConfirmationPage() {
             <Card className="bg-muted">
               <CardContent className="pt-6">
                 <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className={isArabic ? 'text-right' : ''}>
+                  <div >
                     <p className="text-muted-foreground mb-1">{isArabic ? 'رقم الطلب' : 'Order Number'}</p>
                     <p className="font-semibold">#ORD-2024-001</p>
                   </div>
-                  <div className={isArabic ? 'text-right' : ''}>
+                  <div >
                     <p className="text-muted-foreground mb-1">{isArabic ? 'التاريخ' : 'Date'}</p>
                     <p className="font-semibold">2024-03-15</p>
                   </div>
-                  <div className={isArabic ? 'text-right' : ''}>
+                  <div >
                     <p className="text-muted-foreground mb-1">{isArabic ? 'المبلغ' : 'Amount'}</p>
                     <p className="font-semibold">2,500 {isArabic ? 'ر.س' : 'SAR'}</p>
                   </div>
-                  <div className={isArabic ? 'text-right' : ''}>
+                  <div >
                     <p className="text-muted-foreground mb-1">{isArabic ? 'طريقة الدفع' : 'Payment Method'}</p>
                     <p className="font-semibold">{isArabic ? 'بطاقة ائتمان' : 'Credit Card'}</p>
                   </div>

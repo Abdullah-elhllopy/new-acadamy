@@ -71,6 +71,7 @@ const config: Config = {
         'search-hover': 'var(--color-search-hover)',
         'border-light': 'var(--color-border-light)',
         'gray-dark': 'var(--color-gray-dark)',
+        'disabled': 'var(--color-disabled)',
         'shadow': 'var(--color-shadow)',
       },
       borderRadius: {

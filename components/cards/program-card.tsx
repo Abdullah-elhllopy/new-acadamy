@@ -19,7 +19,7 @@ export function ProgramCard({ program, session, language }: ProgramCardProps) {
     <Link href={`/programs/${program.id}`}>
       <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group py-0 pb-1">
         {/* Image */}
-        <div className="relative w-full h-52 bg-gradient-to-br from-slate-700 to-slate-900 overflow-hidden">
+        <div className="relative w-full h-52 bg-linear-to-br from-slate-700 to-slate-900 overflow-hidden">
           <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-10" />
           <Badge className="absolute top-4 right-4 bg-white/90 text-slate-900 hover:bg-white">
             {isArabic ? 'عبر الإنترنت' : 'Online'}

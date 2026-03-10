@@ -285,7 +285,7 @@ export default function BeTrainerPage() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="h-14 bg-primary border-primary rounded-[30px] hover:bg-primary-hover disabled:bg-[#c2c6ce] disabled:border-[#c2c6ce]"
+                  className="h-14 bg-primary border-primary rounded-[30px] hover:bg-primary-hover disabled:bg-disabled  disabled:border-disabled"
                 >
                   {loading ? 'جارى ارسال الطلب ...' : 'ارسال الطلب'}
                 </Button>
