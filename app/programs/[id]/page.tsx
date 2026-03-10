@@ -1,9 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-// import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
+
 
 import { CourseReviews } from '@/components/shared/course-reviews'
 import { CourseDetailsHero } from '@/components/shared/course-details-hero'
@@ -14,6 +13,7 @@ import { CourseTrainers } from '@/components/shared/course-trainers'
 import { RelatedCourses } from '@/components/shared/related-courses'
 import { ArticlesSection } from '@/components/shared/articles-section'
 import { SimpleAvatar } from '@/components/shared/simple-avatar'
+import { motion } from 'framer-motion'
 
 const mockCourse = {
   id: '1',
@@ -189,7 +189,12 @@ export default function CourseDetailsPage({ params }: { params: { id: string } }
 
       <div className="px-4 md:px-20 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-[44%_10%_45%] gap-8">
-          <div className="space-y-20">
+          <motion.div 
+            className="space-y-20"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             <WhatYouWillLearn objectives={mockCourse.wwwl} />
             <CourseLectures lectures={mockCourse.courseLectures} />
             <CourseTrainers trainers={mockCourse.ourinstructors} />
@@ -198,11 +203,7 @@ export default function CourseDetailsPage({ params }: { params: { id: string } }
             <div>
               <h2 className="text-4xl font-bold text-primary mb-10">مقدمة من</h2>
               <div className="flex items-start gap-6 mb-6">
-                {/* <div className="w-24 h-24 rounded-full bg-muted-foreground overflow-hidden shrink-0">
-                  <Image src={mockCourse.provider.avatar} alt={mockCourse.provider.name} width={100} height={100} className="object-cover" />
-                </div> */}
                 <SimpleAvatar
-                  
                   src={mockCourse.provider.avatar}
                   alt={mockCourse.provider.name}
                   className="w-24 h-24 text-2xl  bg-muted-foreground"
@@ -216,11 +217,15 @@ export default function CourseDetailsPage({ params }: { params: { id: string } }
             </div>
 
             <CourseReviews reviews={mockCourse.reviews} />
-          </div>
+          </motion.div>
 
           <div />
 
-          <div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
             <CourseDetailsSidebar
               price={mockCourse.courseCost}
               currency="جنيه مصرى"
@@ -234,7 +239,7 @@ export default function CourseDetailsPage({ params }: { params: { id: string } }
               onRequestProgram={() => router.push(`/apply-for-program/${mockCourse.id}`)}
               courseId={mockCourse.id}
             />
-          </div>
+          </motion.div>
         </div>
       </div>
 

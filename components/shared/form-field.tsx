@@ -4,6 +4,7 @@ import { UseFormReturn, FieldValues, Path } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import { cn } from '@/lib/utils'
 
 interface FormFieldProps<T extends FieldValues> {
   name: Path<T>
@@ -14,6 +15,9 @@ interface FormFieldProps<T extends FieldValues> {
   isArabic?: boolean
   required?: boolean
   rows?: number
+  className?: string
+  labelClassName?: string
+  inputClassName?: string
 }
 
 export function FormField<T extends FieldValues>({
@@ -24,14 +28,17 @@ export function FormField<T extends FieldValues>({
   methods,
   isArabic,
   required,
-  rows
+  rows,
+  className,
+  labelClassName,
+  inputClassName
 }: FormFieldProps<T>) {
   const { register, formState: { errors } } = methods
   const error = errors[name]
 
   return (
-    <div className="flex flex-col space-y-2">
-      <Label className={isArabic ? 'text-right block' : ''}>
+    <div className={cn("flex flex-col space-y-2", className)}>
+      <Label className={cn(isArabic ? 'block' : '', labelClassName)}>
         {label} {required && <span className="text-red-500">*</span>}
       </Label>
       {type === 'textarea' ? (
@@ -39,14 +46,14 @@ export function FormField<T extends FieldValues>({
           {...register(name)}
           placeholder={placeholder}
           rows={rows}
-          className={isArabic ? 'text-right' : ''}
+          className={inputClassName}
         />
       ) : (
         <Input
           {...register(name)}
           type={type}
           placeholder={placeholder}
-          className={isArabic ? 'text-right' : ''}
+          className={inputClassName}
         />
       )}
       {error && (

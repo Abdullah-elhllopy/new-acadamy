@@ -2,6 +2,7 @@
 
 import { Button } from '../ui/button'
 import { ArticleCard, ArticleCardProps } from './article-card'
+import { motion } from 'framer-motion'
 
 interface ArticleAuthor {
   id: string
@@ -150,7 +151,13 @@ export function ArticlesSection() {
   return (
     <section className="bg-muted text-center py-20 px-4 md:px-20">
       <h2 className="text-4xl font-bold text-primary mb-10">اقرا من مجلتنا</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-10">
+      <motion.div 
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-10"
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
         {mockArticles.map((article) => (
           <ArticleCard
             key={article.id}
@@ -163,7 +170,7 @@ export function ArticlesSection() {
           // authorRole={article.author.role}
           />
         ))}
-      </div>
+      </motion.div>
       <Button className="bg-primary hover:bg-primary-hover text-white rounded-full px-8 py-6 text-base">
         جميع المدونات
       </Button>

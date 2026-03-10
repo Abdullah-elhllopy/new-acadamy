@@ -1,13 +1,13 @@
 'use client'
 
-import { useForm, UseFormReturn, FieldValues, SubmitHandler } from 'react-hook-form'
+import { useForm, UseFormReturn, FieldValues, SubmitHandler, DefaultValues } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ZodSchema } from 'zod'
 
 interface FormProps<T extends FieldValues> {
   schema: ZodSchema<T>
   onSubmit: SubmitHandler<T>
-  defaultValues?: Partial<T>
+  defaultValues?: DefaultValues<T>
   children: (methods: UseFormReturn<T>) => React.ReactNode
   className?: string
 }

@@ -30,8 +30,9 @@ export const beTrainerSchema = z.object({
   phone: z.string().min(10, 'Phone number is required'),
   jobTitle: z.string().min(2, 'Job title is required'),
   country: z.string().min(2, 'Country is required'),
-  educationField: z.string().optional(),
-  courseName: z.string().optional()
+  fieldName: z.string().optional(),
+  courseName: z.string().optional(),
+  certificateName: z.string().optional()
 })
 
 export const accountSettingsSchema = z.object({
