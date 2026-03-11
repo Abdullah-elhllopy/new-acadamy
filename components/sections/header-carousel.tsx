@@ -60,7 +60,7 @@ export function HeaderCarousel() {
 
   return (
     <>
-      <section className="relative h-[500px] md:h-[600px] bg-gradient-to-br from-primary/20 to-secondary/20 overflow-hidden">
+      <section className="relative h-125 md:h-150 bg-linear-to-br from-primary/20 to-secondary/20 overflow-hidden">
         {slides.map((slide, index) => (
           <div
             key={slide.id}
@@ -69,7 +69,7 @@ export function HeaderCarousel() {
             }`}
           >
             <div className="container mx-auto px-4 md:px-20 h-full flex items-center">
-              <div className={`w-full ${mounted && isArabic ? 'text-right' : 'text-left'}`}>
+              <div className={`w-full `}>
                 <div className="max-w-2xl ml-auto">
                   <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
                     {mounted ? (isArabic ? slide.titleAr : slide.titleEn) : slide.titleEn}
@@ -94,18 +94,18 @@ export function HeaderCarousel() {
           </div>
         ))}
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3">
+        <div className={ `absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`} >
           <button
             onClick={prevSlide}
             className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-100 transition-colors"
           >
-            <ChevronLeft className="w-4 h-4 text-[#001645]" />
+            <ChevronLeft className="w-4 h-4 text-foreground" />
           </button>
           {slides.map((_, index) => (
             <button
               key={index}
               className={`w-3 h-3 rounded-full transition-all ${
-                index === currentSlide ? 'bg-[#001645] w-8' : 'bg-white/60'
+                index === currentSlide ? 'bg-foreground w-8' : 'bg-white/60'
               }`}
               onClick={() => setCurrentSlide(index)}
             />
@@ -114,22 +114,22 @@ export function HeaderCarousel() {
             onClick={nextSlide}
             className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-100 transition-colors"
           >
-            <ChevronRight className="w-4 h-4 text-[#001645]" />
+            <ChevronRight className="w-4 h-4 text-foreground" />
           </button>
         </div>
       </section>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-md p-0">
-          <DialogTitle className="text-[28px] text-[#001645] text-center mb-6 font-bold pt-6">
+          <DialogTitle className="text-[28px] text-foreground text-center mb-6 font-bold pt-6">
             {mounted ? (isArabic ? 'اللغة و العملة' : 'Language & Currency') : 'Language & Currency'}
           </DialogTitle>
-          <button 
+          {/* <button 
             onClick={() => setIsModalOpen(false)}
             className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 z-10"
           >
             <X className="h-5 w-5" />
-          </button>
+          </button> */}
           <div className="p-6 pt-0">
             <div className="space-y-6">
               <RadioGroup value={selectedLang} onValueChange={setSelectedLang} className="grid grid-cols-2 gap-6">
@@ -143,7 +143,7 @@ export function HeaderCarousel() {
                 </div>
               </RadioGroup>
               
-              <hr className="border-[#dee2e6]" />
+              <hr className="border-border" />
               
               <RadioGroup value={selectedCurrency} onValueChange={setSelectedCurrency} className="space-y-4">
                 <div className="grid grid-cols-2 gap-6">
@@ -170,7 +170,7 @@ export function HeaderCarousel() {
               
               <Button 
                 onClick={() => setIsModalOpen(false)}
-                className="w-full h-14 rounded-full bg-[#17bc43] hover:bg-[#15a83a] text-white text-xl font-medium mt-2"
+                className="w-full h-14 rounded-full bg-success hover:bg-secondary-hover text-white text-xl font-medium mt-2"
               >
                 {mounted ? (isArabic ? 'تأكيد' : 'Confirm') : 'Confirm'}
               </Button>

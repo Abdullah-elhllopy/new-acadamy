@@ -28,7 +28,6 @@ export function RelatedCourses({
           <ProgramCard
             key={course.id}
             program={course}
-            session={course.sessions[0]}
             language={language}
           />
         ))}

@@ -13,119 +13,21 @@ import { Program, Session } from '@/shared/types'
 import Link from 'next/link'
 import { Breadcrumb } from '@/components/shared/breadcrumb'
 
-// Mock data
-export const mockPrograms: (Program & { sessions: Session[] })[] = [
-  {
-    id: '1',
-    titleEn: 'Leadership Development',
-    titleAr: 'تطوير المهارات القيادية',
-    descriptionEn: 'Comprehensive program for developing leadership skills and strategic thinking',
-    descriptionAr: 'برنامج شامل لتطوير المهارات القيادية والتفكير الاستراتيجي',
-    category: 'Leadership',
-    trainer: {
-      id: '1',
-      nameEn: 'Dr. Mohammed Ahmed',
-      nameAr: 'د. محمد أحمد',
-      rating: 4.8,
-      reviewCount: 124,
-    },
-    location: 'Riyadh',
-    price: 2999,
-    duration: 24,
-    capacity: 20,
-    objectives: ['Master leadership styles', 'Develop strategic thinking', 'Improve team dynamics'],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    sessions: [
-      {
-        id: 'ses1',
-        programId: '1',
-        startDate: new Date('2024-03-15'),
-        endDate: new Date('2024-03-17'),
-        time: '9:00 AM - 5:00 PM',
-        location: 'Riyadh Conference Center',
-        availableSeats: 8,
-        totalSeats: 20,
-        price: 2999,
-      },
-    ],
-    type: 'new',
-  },
-  {
-    id: '2',
-    titleEn: 'Digital Marketing Mastery',
-    titleAr: 'إتقان التسويق الرقمي',
-    descriptionEn: 'Learn modern digital marketing strategies and tools',
-    descriptionAr: 'تعلم استراتيجيات التسويق الرقمي والأدوات الحديثة',
-    category: 'Marketing',
-    trainer: {
-      id: '2',
-      nameEn: 'Fatima Al-Shehri',
-      nameAr: 'فاطمة الشهري',
-      rating: 4.9,
-      reviewCount: 87,
-    },
-    location: 'Jeddah',
-    price: 3499,
-    duration: 40,
-    capacity: 25,
-    objectives: ['Master SEO', 'Learn social media marketing', 'Create digital campaigns'],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    sessions: [
-      {
-        id: 'ses2',
-        programId: '2',
-        startDate: new Date('2024-03-22'),
-        endDate: new Date('2024-03-26'),
-        time: '10:00 AM - 4:00 PM',
-        location: 'Jeddah Business Hub',
-        availableSeats: 12,
-        totalSeats: 25,
-        price: 3499,
-      },
-    ],
-    type : 'mostWanted',
-  },
-  {
-    id: '3',
-    titleEn: 'Project Management Excellence',
-    titleAr: 'التميز في إدارة المشاريع',
-    descriptionEn: 'Master project management methodologies and best practices',
-    descriptionAr: 'إتقان منهجيات إدارة المشاريع وأفضل الممارسات',
-    category: 'Management',
-    trainer: {
-      id: '3',
-      nameEn: 'A. Salman Al-Dosari',
-      nameAr: 'أ. سلمان الدوسري',
-      rating: 4.7,
-      reviewCount: 156,
-    },
-    location: 'Dammam',
-    price: 2799,
-    duration: 32,
-    capacity: 15,
-    objectives: ['Learn PM methodologies', 'Master risk management', 'Improve stakeholder communication'],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    sessions: [
-      {
-        id: 'ses3',
-        programId: '3',
-        startDate: new Date('2024-03-29'),
-        endDate: new Date('2024-04-02'),
-        time: '8:00 AM - 4:00 PM',
-        location: 'Dammam Training Center',
-        availableSeats: 5,
-        totalSeats: 15,
-        price: 2799,
-      },
-    ],
-    type: 'new',
-  },
-]
+interface CoursesTemplateProps {
+  courseType: 'online' | 'in-person'
+  programs: (Program & { sessions: Session[] })[]
+  headerTitle: { en: string; ar: string }
+  headerDescription: { en: string; ar: string }
+  breadcrumbLabel: { en: string; ar: string }
+}
 
-export default function ProgramsPage() {
+export function CoursesTemplate({
+  courseType,
+  programs,
+  headerTitle,
+  headerDescription,
+  breadcrumbLabel,
+}: CoursesTemplateProps) {
   const { t, currentLang } = useTranslate('programs')
   const isArabic = currentLang.value === 'ar'
   const [searchTerm, setSearchTerm] = useState('')
@@ -148,23 +50,18 @@ export default function ProgramsPage() {
     { id: 'business', labelEn: 'Business', labelAr: 'الأعمال' },
   ]
 
-  // Filter programs based on search and filters
   const filteredPrograms = useMemo(() => {
-    return mockPrograms.filter((program) => {
+    return programs.filter((program) => {
       const title = isArabic ? program.titleAr : program.titleEn
       const searchMatch = title.toLowerCase().includes(searchTerm.toLowerCase())
       const categoryMatch = activeCategory === 'all' || program.category.toLowerCase() === activeCategory
       return searchMatch && categoryMatch
     })
-  }, [searchTerm, activeCategory, isArabic])
+  }, [searchTerm, activeCategory, isArabic, programs])
 
-  // Pagination
   const totalPages = Math.ceil(filteredPrograms.length / itemsPerPage)
   const startIndex = (currentPage - 1) * itemsPerPage
-  const paginatedPrograms = filteredPrograms.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  )
+  const paginatedPrograms = filteredPrograms.slice(startIndex, startIndex + itemsPerPage)
 
   const handleReset = () => {
     setSearchTerm('')
@@ -186,7 +83,7 @@ export default function ProgramsPage() {
             <Breadcrumb
               items={[
                 { label: isArabic ? 'الرئيسية' : 'Home', href: '/' },
-                { label: isArabic ? 'جميع الدورات' : 'All Courses' }
+                { label: isArabic ? breadcrumbLabel.ar : breadcrumbLabel.en }
               ]}
               isArabic={isArabic}
               className="text-white"
@@ -195,6 +92,18 @@ export default function ProgramsPage() {
               {isArabic ? 'التعليم' : 'Education'}
             </Button>
           </div>
+        </div>
+      </div>
+
+      {/* Header Section */}
+      <div className="bg-gradient-to-r from-hero-bg to-hero-hover text-white py-12">
+        <div className="container mx-auto px-4 md:px-20">
+          <h1 className="text-4xl font-bold mb-2">
+            {isArabic ? headerTitle.ar : headerTitle.en}
+          </h1>
+          <p className="text-lg opacity-90">
+            {isArabic ? headerDescription.ar : headerDescription.en}
+          </p>
         </div>
       </div>
 

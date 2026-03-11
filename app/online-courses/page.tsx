@@ -1,151 +1,136 @@
 'use client'
 
-import { useState } from 'react'
-import { useLanguage } from '@/shared/hooks/useLanguage'
-import { CourseCard } from '@/components/shared/course-card'
-import { FilterSidebar } from '@/components/shared/filter-sidebar'
-import { Input } from '@/components/ui/input'
-import { Search } from 'lucide-react'
+import { CoursesTemplate } from '@/components/courses-template'
+import { Program, Session } from '@/shared/types'
 
-const MOCK_ONLINE_COURSES = [
+const mockOnlineCourses: (Program & { sessions: Session[] })[] = [
   {
-    id: 1,
-    title: 'Data Analysis with Python',
+    id: '1',
+    titleEn: 'Data Analysis with Python',
     titleAr: 'تحليل البيانات باستخدام بايثون',
+    descriptionEn: 'Master data analysis using Python',
+    descriptionAr: 'إتقان تحليل البيانات باستخدام بايثون',
     category: 'Technology',
-    categoryAr: 'تقنية',
+    trainer: {
+      id: '1',
+      nameEn: 'Dr. Ahmed Hassan',
+      nameAr: 'د. أحمد حسن',
+      rating: 4.8,
+      reviewCount: 120,
+    },
+    location: 'Online',
     price: 2500,
-    duration: '8 weeks',
-    durationAr: '8 أسابيع',
-    students: 450,
-    rating: 4.8,
-    type: 'online' as const
+    duration: 8,
+    capacity: 50,
+    objectives: ['Learn Python basics', 'Master data analysis', 'Create visualizations'],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    sessions: [
+      {
+        id: 'ses1',
+        programId: '1',
+        startDate: new Date('2024-04-01'),
+        endDate: new Date('2024-05-26'),
+        time: '7:00 PM - 9:00 PM',
+        location: 'Online',
+        availableSeats: 30,
+        totalSeats: 50,
+        price: 2500,
+      },
+    ],
+    type: 'new',
   },
   {
-    id: 2,
-    title: 'Digital Marketing Mastery',
+    id: '2',
+    titleEn: 'Digital Marketing Mastery',
     titleAr: 'إتقان التسويق الرقمي',
+    descriptionEn: 'Learn modern digital marketing strategies',
+    descriptionAr: 'تعلم استراتيجيات التسويق الرقمي الحديثة',
     category: 'Marketing',
-    categoryAr: 'تسويق',
+    trainer: {
+      id: '2',
+      nameEn: 'Fatima Al-Shehri',
+      nameAr: 'فاطمة الشهري',
+      rating: 4.9,
+      reviewCount: 95,
+    },
+    location: 'Online',
     price: 3000,
-    duration: '6 weeks',
-    durationAr: '6 أسابيع',
-    students: 380,
-    rating: 4.9,
-    type: 'online' as const
+    duration: 6,
+    capacity: 40,
+    objectives: ['Master SEO', 'Learn social media marketing', 'Create campaigns'],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    sessions: [
+      {
+        id: 'ses2',
+        programId: '2',
+        startDate: new Date('2024-04-05'),
+        endDate: new Date('2024-05-17'),
+        time: '6:00 PM - 8:00 PM',
+        location: 'Online',
+        availableSeats: 25,
+        totalSeats: 40,
+        price: 3000,
+      },
+    ],
+    type: 'mostWanted',
   },
   {
-    id: 3,
-    title: 'Web Development Bootcamp',
+    id: '3',
+    titleEn: 'Web Development Bootcamp',
     titleAr: 'معسكر تطوير الويب',
+    descriptionEn: 'Complete web development course',
+    descriptionAr: 'دورة تطوير ويب شاملة',
     category: 'Technology',
-    categoryAr: 'تقنية',
+    trainer: {
+      id: '3',
+      nameEn: 'Mohammed Ali',
+      nameAr: 'محمد علي',
+      rating: 4.7,
+      reviewCount: 150,
+    },
+    location: 'Online',
     price: 4500,
-    duration: '12 weeks',
-    durationAr: '12 أسبوع',
-    students: 520,
-    rating: 4.7,
-    type: 'online' as const
+    duration: 12,
+    capacity: 60,
+    objectives: ['Learn HTML/CSS', 'Master JavaScript', 'Build projects'],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    sessions: [
+      {
+        id: 'ses3',
+        programId: '3',
+        startDate: new Date('2024-04-10'),
+        endDate: new Date('2024-06-28'),
+        time: '7:00 PM - 9:00 PM',
+        location: 'Online',
+        availableSeats: 40,
+        totalSeats: 60,
+        price: 4500,
+      },
+    ],
+    type: 'new',
   },
-  {
-    id: 4,
-    title: 'Business Communication',
-    titleAr: 'التواصل في بيئة العمل',
-    category: 'Business',
-    categoryAr: 'أعمال',
-    price: 1800,
-    duration: '4 weeks',
-    durationAr: '4 أسابيع',
-    students: 290,
-    rating: 4.6,
-    type: 'online' as const
-  }
 ]
 
-const CATEGORIES = ['Technology', 'Marketing', 'Business', 'Leadership']
-
 export default function OnlineCoursesPage() {
-  const { language } = useLanguage()
-  const isArabic = language === 'ar'
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [priceRange, setPriceRange] = useState([0, 10000])
-
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategories(prev =>
-      prev.includes(category) ? prev.filter(c => c !== category) : [...prev, category]
-    )
-  }
-
-  const filteredCourses = MOCK_ONLINE_COURSES.filter(course => {
-    const matchesSearch = (isArabic ? course.titleAr : course.title)
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
-    const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(course.category)
-    const matchesPrice = course.price >= priceRange[0] && course.price <= priceRange[1]
-    return matchesSearch && matchesCategory && matchesPrice
-  })
-
   return (
-    <>
-      <section className="bg-gradient-to-br from-primary/10 to-accent/10 py-16 md:py-24 border-b border-border">
-        <div className="container px-4 md:px-6">
-          <div className={`max-w-2xl ${isArabic ? 'text-right' : ''}`}>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              {isArabic ? 'الدورات الأونلاين' : 'Online Courses'}
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              {isArabic
-                ? 'تعلم في أي وقت ومن أي مكان مع دوراتنا التدريبية عبر الإنترنت'
-                : 'Learn anytime, anywhere with our online training courses'}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24">
-        <div className="container px-4 md:px-6">
-          <div className="mb-8">
-            <div className="relative max-w-md">
-              <Search className={`absolute ${isArabic ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5`} />
-              <Input
-                placeholder={isArabic ? 'ابحث عن دورة...' : 'Search for a course...'}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className={isArabic ? 'pr-10 text-right' : 'pl-10'}
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <div className="lg:col-span-1">
-              <FilterSidebar
-                language={language}
-                categories={CATEGORIES}
-                selectedCategories={selectedCategories}
-                onCategoryChange={handleCategoryChange}
-                priceRange={priceRange}
-                onPriceChange={setPriceRange}
-              />
-            </div>
-
-            <div className="lg:col-span-3">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {filteredCourses.map(course => (
-                  <CourseCard key={course.id} course={course} language={language} />
-                ))}
-              </div>
-              {filteredCourses.length === 0 && (
-                <div className="text-center py-16">
-                  <p className="text-muted-foreground">
-                    {isArabic ? 'لم يتم العثور على دورات' : 'No courses found'}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+    <CoursesTemplate
+      courseType="online"
+      programs={mockOnlineCourses}
+      headerTitle={{
+        en: 'Online Courses',
+        ar: 'الدورات الأونلاين',
+      }}
+      headerDescription={{
+        en: 'Learn anytime, anywhere with our online training courses',
+        ar: 'تعلم في أي وقت ومن أي مكان مع دوراتنا التدريبية عبر الإنترنت',
+      }}
+      breadcrumbLabel={{
+        en: 'Online Courses',
+        ar: 'الدورات الأونلاين',
+      }}
+    />
   )
 }

@@ -26,7 +26,11 @@ export interface Program {
   image?: string
   objectives: string[]
   createdAt: Date
-  updatedAt: Date
+  updatedAt: Date;
+  status?: 'upcoming' | 'in-progress' | 'completed'
+  progress?: number;
+  courseType?: string;
+  type ?: 'new' | 'mostWanted' | 'popular'
 }
 
 export interface Session {

@@ -234,7 +234,7 @@ export default function CourseDetailsPage({ params }: { params: { id: string } }
               months={mockCourse.numberOfMonths}
               location="عبر الإنترنت"
               isAuthenticated={currentUser}
-              onEnroll={() => router.push('/online-videos/1')}
+              onEnroll={() => router.push('/payment/1')}
               onLogin={() => router.push('/login')}
               onRequestProgram={() => router.push(`/apply-for-program/${mockCourse.id}`)}
               courseId={mockCourse.id}
