@@ -43,7 +43,7 @@ export function ProgramCard({ program, language }: ProgramCardProps) {
 
   return (
     <Link href={`/programs/${program.id}`}>
-      <Card className="overflow-hidden hover:shadow-xl gap-4 transition-all duration-300 cursor-pointer group py-0 pb-1">
+      <Card className="overflow-hidden hover:shadow-xl gap-4 transition-all duration-300 cursor-pointer group py-0 pb-3">
         {/* Image */}
         <div className="relative w-full h-52 from-slate-700 to-slate-900 overflow-hidden">
           {/* <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-10" /> */}
@@ -104,11 +104,11 @@ export function ProgramCard({ program, language }: ProgramCardProps) {
             <div className={`flex items-center gap-3 `}>
               <Avatar className="w-10 h-10">
                 <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
-                  {(isArabic ? program.trainer.nameAr : program.trainer.nameEn).split(' ').map(n => n[0]).join('')}
+                  {program.trainer ? (isArabic ? program.trainer.nameAr : program.trainer.nameEn).split(' ').map(n => n[0]).join('') : 'T'}
                 </AvatarFallback>
               </Avatar>
               <span className="text-sm font-medium text-slate-700">
-                {isArabic ? 'اسم المدرب' : 'Trainer Name'}
+                {program.trainer ? (isArabic ? program.trainer.nameAr : program.trainer.nameEn) : (isArabic ? 'اسم المدرب' : 'Trainer Name')}
               </span>
             </div>
             <div >

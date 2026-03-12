@@ -28,10 +28,10 @@ export function Breadcrumb({ items, isArabic, className = '' }: BreadcrumbProps)
               href={item.href}
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              {item.label}
+              <span suppressHydrationWarning>{item.label}</span>
             </Link>
           ) : (
-            <span className="text-foreground font-medium">{item.label}</span>
+            <span className="text-foreground font-medium" suppressHydrationWarning>{item.label}</span>
           )}
           {index < items.length - 1 && <Separator />}
         </div>

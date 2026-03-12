@@ -14,6 +14,7 @@ export const useLanguage = () => {
   return {
     language: currentLang.value as Language,
     isArabic: currentLang.value === 'ar',
+    isRTL : currentLang.value === 'ar',
     toggleLanguage,
   }
 }

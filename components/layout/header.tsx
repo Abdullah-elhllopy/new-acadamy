@@ -31,7 +31,7 @@ export function Header() {
           <nav className="hidden lg:flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 px-4 py-2 text-base font-medium text-foreground hover:text-primary transition-colors">
-                {t('aboutAcademy')}
+                <span suppressHydrationWarning>{t('aboutAcademy')}</span>
                 <ChevronDown className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
@@ -65,7 +65,7 @@ export function Header() {
 
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 px-4 py-2 text-base font-medium text-foreground hover:text-primary transition-colors">
-                {t('ourPrograms')}
+                <span suppressHydrationWarning>{t('ourPrograms')}</span>
                 <ChevronDown className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
@@ -84,7 +84,7 @@ export function Header() {
 
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 px-4 py-2 text-base font-medium text-foreground hover:text-primary transition-colors">
-                {t('knowledgeCenter')}
+                <span suppressHydrationWarning>{t('knowledgeCenter')}</span>
                 <ChevronDown className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
@@ -98,7 +98,7 @@ export function Header() {
 
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 px-4 py-2 text-base font-medium text-foreground hover:text-primary transition-colors">
-                {t('contactCenter')}
+                <span suppressHydrationWarning>{t('contactCenter')}</span>
                 <ChevronDown className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
@@ -130,7 +130,7 @@ export function Header() {
               asChild
             >
               <Link href="/login">
-                {t('login')}
+                <span suppressHydrationWarning>{t('login')}</span>
               </Link>
             </Button>
 
@@ -168,7 +168,7 @@ export function Header() {
                     asChild
                   >
                     <Link href="/login">
-                      {t('login')}
+                      <span suppressHydrationWarning>{t('login')}</span>
                     </Link>
                   </Button>
                 </div>

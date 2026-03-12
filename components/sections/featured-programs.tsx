@@ -1,66 +1,14 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import { useTranslate } from '@/locales/use-locales'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Clock, Users, MapPin, Star, ArrowRight, Calendar } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { mockPrograms } from '@/app/programs/page'
 import { ProgramCard } from '../cards/program-card'
 
 export function FeaturedPrograms() {
   const { t, currentLang } = useTranslate('programs')
-
-  // const programs = [
-  //   {
-  //     id: 1,
-  //     titleEn: 'Leadership Development',
-  //     titleAr: 'تطوير المهارات القيادية',
-  //     descriptionEn: 'Comprehensive program for developing leadership skills',
-  //     descriptionAr: 'برنامج شامل لتطوير المهارات القيادية',
-  //     category: currentLang.value === 'ar' ? 'القيادة' : 'Leadership',
-  //     trainer: currentLang.value === 'ar' ? 'د. محمد أحمد' : 'Dr. Mohammed Ahmed',
-  //     location: currentLang.value === 'ar' ? 'الرياض' : 'Riyadh',
-  //     duration: '24',
-  //     price: '2,999',
-  //     date: '2024-03-15',
-  //     image: '/placeholder.jpg',
-  //     type: 'new',
-  //   },
-  //   {
-  //     id: 2,
-  //     titleEn: 'Digital Marketing',
-  //     titleAr: 'التسويق الرقمي',
-  //     descriptionEn: 'Modern digital marketing strategies',
-  //     descriptionAr: 'استراتيجيات التسويق الرقمي',
-  //     category: currentLang.value === 'ar' ? 'التسويق' : 'Marketing',
-  //     trainer: currentLang.value === 'ar' ? 'فاطمة الشهري' : 'Fatima Al-Shehri',
-  //     location: currentLang.value === 'ar' ? 'جدة' : 'Jeddah',
-  //     duration: '40',
-  //     price: '3,499',
-  //     date: '2024-03-22',
-  //     image: '/placeholder.jpg',
-  //     type: 'mostWanted',
-  //   },
-  //   {
-  //     id: 3,
-  //     titleEn: 'Project Management',
-  //     titleAr: 'إدارة المشاريع',
-  //     descriptionEn: 'Master project management methodologies',
-  //     descriptionAr: 'إتقان منهجيات إدارة المشاريع',
-  //     category: currentLang.value === 'ar' ? 'الإدارة' : 'Management',
-  //     trainer: currentLang.value === 'ar' ? 'أ. سلمان الدوسري' : 'A. Salman Al-Dosari',
-  //     location: currentLang.value === 'ar' ? 'الدمام' : 'Dammam',
-  //     duration: '32',
-  //     price: '2,799',
-  //     date: '2024-03-29',
-  //     image: '/placeholder.jpg',
-  //     type: 'new',
-  //   },
-  // ]
 
   return (
     <section className="bg-white py-20 md:py-24">

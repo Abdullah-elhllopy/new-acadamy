@@ -7,7 +7,7 @@ import { FilterSidebar, FilterState } from '@/components/filters/filter-sidebar'
 import { EmptyState } from '@/components/states/empty-state'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination'
+import { Pagination } from '@/components/shared/pagination'
 import { Search } from 'lucide-react'
 import { Program, Session } from '@/shared/types'
 import Link from 'next/link'
@@ -275,56 +275,11 @@ export default function ProgramsPage() {
 
                   {/* Pagination */}
                   {totalPages > 1 && (
-                    <div className="flex justify-center mb-12">
-                      <Pagination>
-                        <PaginationContent>
-                          {currentPage > 1 && (
-                            <PaginationItem>
-                              <PaginationPrevious
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault()
-                                  setCurrentPage(currentPage - 1)
-                                }}
-                              />
-                            </PaginationItem>
-                          )}
-
-                          {[...Array(totalPages)].map((_, i) => {
-                            const pageNum = i + 1
-                            if (pageNum === 1 || pageNum === totalPages || Math.abs(pageNum - currentPage) <= 1) {
-                              return (
-                                <PaginationItem key={pageNum}>
-                                  <PaginationLink
-                                    href="#"
-                                    onClick={(e) => {
-                                      e.preventDefault()
-                                      setCurrentPage(pageNum)
-                                    }}
-                                    isActive={pageNum === currentPage}
-                                  >
-                                    {pageNum}
-                                  </PaginationLink>
-                                </PaginationItem>
-                              )
-                            }
-                            return null
-                          })}
-
-                          {currentPage < totalPages && (
-                            <PaginationItem>
-                              <PaginationNext
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault()
-                                  setCurrentPage(currentPage + 1)
-                                }}
-                              />
-                            </PaginationItem>
-                          )}
-                        </PaginationContent>
-                      </Pagination>
-                    </div>
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={setCurrentPage}
+                    />
                   )}
                 </>
               ) : (

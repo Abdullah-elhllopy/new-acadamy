@@ -27,11 +27,11 @@ export function CourseLectures({ lectures }: { lectures: LectureSection[] }) {
       <h2 className="text-4xl font-bold text-primary mb-10">محتويات هذه الدورة</h2>
       <Accordion type="multiple" className="space-y-4">
         {lectures.map((section) => (
-          <AccordionItem key={section.id} value={`section-${section.id}`} className="border border-primary bg-muted overflow-visible">
+          <AccordionItem key={section.id} value={`section-${section.id}`} className="border border-foreground rounded-sm  ">
             <AccordionTrigger className="px-4 py-4 hover:no-underline hover:bg-transparent font-bold text-primary text-base">
               {section.lecturename}
             </AccordionTrigger>
-            <AccordionContent className="px-0 pb-0">
+            <AccordionContent className="p-0">
               {section.lectures.map((lecture) => (
                 <div key={lecture.id} className="px-4 py-3 grid grid-cols-[5%_80%_10%] gap-5 items-center border-t border-border/50">
                   {lecture.type === 'video' ? (
@@ -46,6 +46,8 @@ export function CourseLectures({ lectures }: { lectures: LectureSection[] }) {
             </AccordionContent>
           </AccordionItem>
         ))}
+      <div className='h-1'/>
+
       </Accordion>
     </div>
   )

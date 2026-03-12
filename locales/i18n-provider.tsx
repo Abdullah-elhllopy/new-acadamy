@@ -12,6 +12,8 @@ import { I18LANG } from '@/shared/constants/constant';
 
 // ----------------------------------------------------------------------
 const fallbackLng = localStorage?.getItem(I18LANG) || 'ar' as LanguageValue | undefined;
+// const fallbackLng = typeof window === 'undefined' ?  'ar' : localStorage?.getItem(I18LANG) || 'ar' as LanguageValue | undefined;
+
 const init = {
   ...i18nOptions(fallbackLng),
   detection: {
