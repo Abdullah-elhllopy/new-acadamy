@@ -19,6 +19,7 @@ type CarouselProps = {
   plugins?: CarouselPlugin
   orientation?: 'horizontal' | 'vertical'
   setApi?: (api: CarouselApi) => void
+  children?: React.ReactNode | ((props: CarouselContextProps) => React.ReactNode)
 }
 
 type CarouselContextProps = {
@@ -50,7 +51,7 @@ function Carousel({
   className,
   children,
   ...props
-}: React.ComponentProps<'div'> & CarouselProps) {
+}: Omit<React.ComponentProps<'div'>, 'children'> & CarouselProps) {
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
@@ -104,20 +105,20 @@ function Carousel({
     }
   }, [api, onSelect])
 
+  const contextValue = {
+    carouselRef,
+    api: api,
+    opts,
+    orientation:
+      orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
+    scrollPrev,
+    scrollNext,
+    canScrollPrev,
+    canScrollNext,
+  }
+
   return (
-    <CarouselContext.Provider
-      value={{
-        carouselRef,
-        api: api,
-        opts,
-        orientation:
-          orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
-        scrollPrev,
-        scrollNext,
-        canScrollPrev,
-        canScrollNext,
-      }}
-    >
+    <CarouselContext.Provider value={contextValue}>
       <div
         onKeyDownCapture={handleKeyDown}
         className={cn('relative', className)}
@@ -126,7 +127,7 @@ function Carousel({
         data-slot="carousel"
         {...props}
       >
-        {children}
+        {typeof children === 'function' ? children(contextValue) : children}
       </div>
     </CarouselContext.Provider>
   )

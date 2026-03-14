@@ -1,7 +1,7 @@
 // components/templates/courses-template.tsx
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, SlidersHorizontal, X } from 'lucide-react'
 import { EmptyState } from '@/components/states/empty-state'
@@ -17,6 +17,7 @@ import { ProgramCard } from '../cards/program-card'
 import { Pagination } from '../shared/pagination'
 import { SubDepartmentNav } from '../shared/sub-department-nav'
 import Loader from '../shared/loader'
+import { Hero } from '../sections/hero'
 
 interface CoursesTemplateProps {
   type: 'presence' | 'online' | 'live'
@@ -81,25 +82,29 @@ export function CoursesTemplate({
   return (
     <div className="min-h-screen bg-background" >
       {/* Header Section */}
-      <section className="relative bg-muted py-12  overflow-hidden">
-        <div className="container  lg:px-8 xl:px-20 mx-auto px-4 flex flex-col gap-4 md:px-6 relative">
-          {showBreadcrumb && (
-            <div className={cn("mb-6")}>
-              <Breadcrumb items={breadcrumbs} />
-            </div>
-          )}
-
+      <Hero breadcrumbItems={breadcrumbs}>
+        <React.Fragment>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className={cn("max-w-2xl")}
           >
-            <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 font-sans" suppressHydrationWarning>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-3xl md:text-5xl font-bold text-foreground mb-4 font-sans"
+            >
               {isArabic ? title.ar : title.en}
-            </h1>
-            <p className="text-lg text-muted-foreground" suppressHydrationWarning>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-lg text-muted-foreground"
+            >
               {isArabic ? description.ar : description.en}
-            </p>
+            </motion.p>
           </motion.div>
 
 
@@ -124,13 +129,8 @@ export function CoursesTemplate({
               ))}
             </TabsList>
           </Tabs>
-
-        </div>
-      </section>
-
-      {/* Tabs Section */}
-
-
+        </React.Fragment>
+      </Hero>
       {/* Sub-Departments Navigation */}
       <AnimatePresence>
         {activeDepartment && subDepartments.length > 0 && (

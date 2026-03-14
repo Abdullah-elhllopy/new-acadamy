@@ -70,8 +70,13 @@ export function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuItem asChild>
-                  <Link href="/programs" className="w-full cursor-pointer">
+                  <Link href="/all-programs" className="w-full cursor-pointer">
                     {t('allPrograms')}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/programs" className="w-full cursor-pointer">
+                    {'البرامج التدريبية'}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>

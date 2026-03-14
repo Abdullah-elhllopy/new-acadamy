@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
+import { useLanguage } from '@/shared/hooks/useLanguage'
 
-interface BreadcrumbItem {
+export interface BreadcrumbItem {
   label: string
   href?: string
 }
@@ -15,8 +16,9 @@ interface BreadcrumbProps {
 }
 
 export function Breadcrumb({ items, isArabic, className = '' }: BreadcrumbProps) {
+  const { isRTL } = useLanguage()
   const Separator = () => (
-    <ChevronRight className={`w-4 h-4 text-muted-foreground ${isArabic ? 'rotate-180' : ''}`} />
+    <ChevronRight className={`w-4 h-4 text-muted-foreground ${isRTL ? 'rotate-180' : ''}`} />
   )
 
   return (
