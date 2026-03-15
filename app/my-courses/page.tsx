@@ -12,6 +12,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { Program } from '@/shared/types'
 import { ProgramCard } from '@/components/cards/program-card'
+import { Layout } from '@/layout/page-layout'
+import { Title, TitleContainer } from '@/components/shared/title'
+import { Hero } from '@/components/sections/hero'
 
 
 interface ProgramsData {
@@ -253,117 +256,6 @@ export default function MyCoursesPage() {
     )
   }
 
-  // const CourseCard = ({ course, type }: { course: Program; type: string }) => (
-  //   <motion.div
-  //     initial={{ opacity: 0, y: 20 }}
-  //     animate={{ opacity: 1, y: 0 }}
-  //     exit={{ opacity: 0, y: -20 }}
-  //     transition={{ duration: 0.3 }}
-  //   >
-  //     <Card className="group overflow-hidden pt-0 border-border-light hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1">
-  //       {/* Image Container - Matching old card design */}
-  //       <div className="relative h-48 overflow-hidden bg-muted">
-  //         <img
-  //           src={course.image}
-  //           alt={isArabic ? course.titleAr : course.titleEn}
-  //           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-  //         />
-  //         {/* Course Type Badge */}
-  //         <div className="absolute top-4 right-4">
-  //           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-white/90 text-primary shadow-sm backdrop-blur-sm">
-  //             {course.courseType}
-  //           </span>
-  //         </div>
-  //         {/* Status Badge */}
-  //         <div className="absolute top-4 left-4">
-  //           {getStatusBadge(course)}
-  //         </div>
-  //       </div>
-
-  //       <CardContent className="p-5 space-y-4">
-  //         {/* Title */}
-  //         <h3 className={cn(
-  //           "font-bold text-lg text-foreground line-clamp-2 min-h-14",
-  //           isArabic ? 'font-sans' : ''
-  //         )}>
-  //           {isArabic ? course.titleAr : course.titleEn}
-  //         </h3>
-
-  //         {/* Meta Info - Matching old design with icons */}
-  //         <div className="space-y-2 text-sm text-muted-foreground">
-  //           <div className="flex items-center gap-2">
-  //             <Calendar className="w-4 h-4 text-secondary" />
-  //             <span>{isArabic ? 'تبدأ في' : 'Starts'} {course.courseStartDate}</span>
-  //           </div>
-
-  //           <div className="flex items-center gap-2">
-  //             <Clock className="w-4 h-4 text-secondary" />
-  //             <span>
-  //               {course.courseNumberOfHours} {isArabic ? 'ساعة' : 'hours'} - {course.numberOfMonths} {isArabic ? 'شهر' : 'months'}
-  //             </span>
-  //           </div>
-
-  //           <div className="flex items-center gap-2">
-  //             <MapPin className="w-4 h-4 text-secondary" />
-  //             <span>{course.placeSub} - {course.place}</span>
-  //           </div>
-  //         </div>
-
-  //         {/* Progress Bar */}
-  //         <div className="space-y-2 pt-2">
-  //           <div className="flex justify-between text-sm font-medium">
-  //             <span className="text-muted-foreground">{isArabic ? 'التقدم' : 'Progress'}</span>
-  //             <span className="text-primary">{course.progress}%</span>
-  //           </div>
-  //           <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-  //             <motion.div
-  //               initial={{ width: 0 }}
-  //               animate={{ width: `${course.progress}%` }}
-  //               transition={{ duration: 0.8, delay: 0.2 }}
-  //               className={cn(
-  //                 "h-full rounded-full transition-all",
-  //                 course.progress === 100 ? "bg-secondary" : "bg-primary"
-  //               )}
-  //             />
-  //           </div>
-  //         </div>
-
-  //         <hr className="border-border-light" />
-
-  //         {/* Footer - Instructor & Price */}
-  //         <div className="flex items-center justify-between pt-2">
-  //           <div className="flex items-center gap-3">
-  //             <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-border-light">
-  //               <img
-  //                 src={course.instructorimage}
-  //                 alt={course.instructorname}
-  //                 className="w-full h-full object-cover"
-  //               />
-  //             </div>
-  //             <span className="text-sm font-medium text-foreground">
-  //               {course.instructorname}
-  //             </span>
-  //           </div>
-  //           <span className="text-lg font-bold text-primary">
-  //             {course.courseCost} {isArabic ? 'جنيه' : 'EGP'}
-  //           </span>
-  //         </div>
-
-  //         {/* Action Button */}
-  //         <Button
-  //           className="w-full mt-4 bg-primary hover:bg-primary-hover text-primary-foreground"
-  //           asChild
-  //         >
-  //           <Link href={`/courses/${course.courseId}`}>
-  //             {isArabic ? 'عرض التفاصيل' : 'View Details'}
-  //             <ArrowLeft className={cn("w-4 h-4", isArabic ? 'mr-2 rotate-180' : 'ml-2')} />
-  //           </Link>
-  //         </Button>
-  //       </CardContent>
-  //     </Card>
-  //   </motion.div>
-  // )
-
   const EmptyState = () => (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -424,28 +316,15 @@ export default function MyCoursesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background" >
+    <Layout>
       {/* Header Section - Matching old design */}
-      <section className="relative bg-muted py-16 md:py-16 overflow-hidden">
-        {/* <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-secondary/5" /> */}
-        <div className="container px-4 md:px-6 lg:px-8 xl:px-20 relative">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className={"max-w-2xl"}
-          >
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 font-sans">
-              {isArabic ? 'دوراتي' : 'My Courses'}
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              {isArabic
-                ? 'تابع تقدمك في الدورات التدريبية المسجل بها'
-                : 'Track your progress in enrolled training courses'}
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <Hero>
+        <TitleContainer title={isArabic ? 'دوراتي' : 'My Courses'} subtitle={isArabic
+          ? 'تابع تقدمك في الدورات التدريبية المسجل بها'
+          : 'Track your progress in enrolled training courses'}
+        />
+
+      </Hero>
 
       {/* Main Content */}
       <section className="py-8 md:py-10">
@@ -523,6 +402,6 @@ export default function MyCoursesPage() {
           </Tabs>
         </div>
       </section>
-    </div>
+    </Layout >
   )
 }

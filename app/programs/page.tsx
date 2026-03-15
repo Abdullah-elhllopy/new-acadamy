@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useTranslate } from '@/locales/use-locales'
 import { ProgramCard } from '@/components/cards/program-card'
 import { FilterSidebar, FilterState } from '@/components/filters/filter-sidebar'
@@ -10,8 +10,9 @@ import { Input } from '@/components/ui/input'
 import { Pagination } from '@/components/shared/pagination'
 import { Search } from 'lucide-react'
 import { Program, Session } from '@/shared/types'
-import Link from 'next/link'
 import { Breadcrumb } from '@/components/shared/breadcrumb'
+import { ContentLayout, Layout } from '@/layout/page-layout'
+import { BookProgramSection } from '../all-programs/_components/book-program-section'
 
 // Mock data
 export const mockPrograms: (Program & { sessions: Session[] })[] = [
@@ -85,7 +86,7 @@ export const mockPrograms: (Program & { sessions: Session[] })[] = [
         price: 3499,
       },
     ],
-    type : 'mostWanted',
+    type: 'mostWanted',
   },
   {
     id: '3',
@@ -178,7 +179,7 @@ export default function ProgramsPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <Layout>
       {/* Top Navigation Bar */}
       <div className="bg-[#3d4f6b] text-white">
         <div className="container mx-auto px-4 md:px-20">
@@ -209,11 +210,10 @@ export default function ProgramsPage() {
                   setActiveCategory(cat.id)
                   setCurrentPage(1)
                 }}
-                className={`px-6 py-2 rounded-full whitespace-nowrap transition-colors ${
-                  activeCategory === cat.id
+                className={`px-6 py-2 rounded-full whitespace-nowrap transition-colors ${activeCategory === cat.id
                     ? 'bg-white text-hero-bg'
                     : 'hover:bg-hero-hover'
-                }`}
+                  }`}
               >
                 {isArabic ? cat.labelAr : cat.labelEn}
               </button>
@@ -223,9 +223,9 @@ export default function ProgramsPage() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 py-12">
-        <div className="container mx-auto px-4 md:px-20">
-          <div className="flex flex-col lg:flex-row gap-8">
+      <ContentLayout>
+        <React.Fragment>
+          <section className="flex flex-col lg:flex-row gap-8">
             {/* Sidebar Filters */}
             <aside className="lg:w-64 shrink-0">
               <FilterSidebar
@@ -248,13 +248,13 @@ export default function ProgramsPage() {
                       setSearchTerm(e.target.value)
                       setCurrentPage(1)
                     }}
-                    className={`h-12 ${isArabic ? 'pr-11 text-right' : 'pl-11'}`}
+                    className={`h-12 ${isArabic ? 'pr-11 ' : 'pl-11'}`}
                   />
                 </div>
               </div>
 
               {/* Filter Label */}
-              <div className={`mb-6 ${isArabic ? 'text-right' : ''}`}>
+              <div className={`mb-6 `}>
                 <h2 className="text-xl font-bold text-foreground">
                   {isArabic ? 'التصنيف حسب' : 'Filter by'}
                 </h2>
@@ -290,26 +290,12 @@ export default function ProgramsPage() {
                 />
               )}
             </div>
-          </div>
+          </section>
 
           {/* CTA Section */}
-          <div className="bg-hero-bg text-white rounded-2xl p-12 text-center mt-12">
-            <h2 className="text-3xl font-bold mb-4">
-              {isArabic ? 'احجز برنامجك الخاص' : 'Book Your Custom Program'}
-            </h2>
-            <p className="text-lg mb-6 opacity-90">
-              {isArabic
-                ? 'هل تريد برنامج تدريبي مخصص لشركتك؟ نحن هنا لمساعدتك'
-                : 'Want a custom training program for your company? We are here to help'}
-            </p>
-            <Button asChild className="bg-white text-hero-bg hover:bg-hero-hover rounded-full px-8 py-6 text-lg">
-              <Link href="/contact">
-                {isArabic ? 'اتصل بنا' : 'Contact Us'}
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </main>
-    </div>
+          <BookProgramSection />
+        </React.Fragment>
+      </ContentLayout>
+    </Layout>
   )
 }

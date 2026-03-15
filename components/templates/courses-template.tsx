@@ -12,12 +12,13 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 import { useLanguage } from '@/shared/hooks/useLanguage'
 import { useCourses } from '@/shared/hooks/use-courses'
-import { Breadcrumb } from '../shared/breadcrumb'
 import { ProgramCard } from '../cards/program-card'
 import { Pagination } from '../shared/pagination'
 import { SubDepartmentNav } from '../shared/sub-department-nav'
 import Loader from '../shared/loader'
 import { Hero } from '../sections/hero'
+import { ContentLayout, Layout } from '@/layout/page-layout'
+import { TitleContainer } from '../shared/title'
 
 interface CoursesTemplateProps {
   type: 'presence' | 'online' | 'live'
@@ -80,38 +81,17 @@ export function CoursesTemplate({
   ]
 
   return (
-    <div className="min-h-screen bg-background" >
+    <Layout >
       {/* Header Section */}
       <Hero breadcrumbItems={breadcrumbs}>
         <React.Fragment>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={cn("max-w-2xl")}
-          >
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-3xl md:text-5xl font-bold text-foreground mb-4 font-sans"
-            >
-              {isArabic ? title.ar : title.en}
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-lg text-muted-foreground"
-            >
-              {isArabic ? description.ar : description.en}
-            </motion.p>
-          </motion.div>
+          <TitleContainer title={isArabic ? title.ar : title.en} subtitle={isArabic ? description.ar : description.en}/>
 
 
           <Tabs
             value={activeDepartment || 'all'}
             onValueChange={handleTabChange}
-            className="w-full"
+            className="w-full mt-5"
           >
             <TabsList className="w-full justify-start overflow-x-auto no-scrollbar bg-transparent  h-auto p-0">
               <TabsTrigger value="all" className="rounded-full bg-background max-w-fit">
@@ -149,7 +129,7 @@ export function CoursesTemplate({
       </AnimatePresence>
 
       {/* Main Content */}
-      <main className="container mx-auto lg:px-8 xl:px-20 px-4 md:px-6 py-8 md:py-12">
+      <ContentLayout>
         {/* Search & Filter Bar */}
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
           <div className="relative flex-1">
@@ -234,7 +214,7 @@ export function CoursesTemplate({
           <EmptyState title={'مسح البحث'} description={''}            // type={searchQuery ? 'no-results' : 'no-courses'}
           />
         )}
-      </main>
-    </div>
+      </ContentLayout>
+    </Layout>
   )
 }

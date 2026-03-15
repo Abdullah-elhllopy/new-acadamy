@@ -1,56 +1,122 @@
+// app/[locale]/images-center/[id]/page.tsx
 'use client'
 
-import { useLanguage } from '@/shared/hooks/useLanguage'
-import { Card } from '@/components/ui/card'
+import { useParams } from 'next/navigation'
+import { GalleryLayout } from '../_components/gallery-layout'
+import { GalleryGrid } from '../_components/gallery-grid'
+import { GallerySkeleton } from '../_components/gallery-skeleton'
+import { EmptyState } from '@/components/states/empty-state'
+import { useGalleryDetail } from '../_hooks/use-gallery'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, ArrowRight, Image as ImageIcon } from 'lucide-react'
+import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useLanguage } from '@/shared/hooks/useLanguage'
+import { GalleryLightbox } from '@/components/shared/lightbox'
 
-const MOCK_IMAGES = Array.from({ length: 12 }, (_, i) => ({
-  id: i + 1,
-  title: `Image ${i + 1}`,
-  titleAr: `صورة ${i + 1}`
-}))
-
-export default function ImageGalleryPage({ params }: { params: { id: string } }) {
+export default function ImageGroupDetailPage() {
+  const params = useParams()
+  const groupId = params.id as string
   const { language } = useLanguage()
   const isArabic = language === 'ar'
 
+  const {
+    group,
+    loading,
+    error,
+    lightboxIndex,
+    isLightboxOpen,
+    openLightbox,
+    closeLightbox
+  } = useGalleryDetail(groupId)
+
+  const breadcrumbs = [
+    { label: 'Image Center', labelAr: 'مركز الصور', href: '/images-center' },
+    {
+      label: group?.name || 'Gallery',
+      labelAr: group?.nameAr || 'المعرض'
+    }
+  ]
+
+  if (loading) {
+    return (
+      <GalleryLayout
+        title="Loading..."
+        titleAr="جاري التحميل..."
+        breadcrumbs={breadcrumbs}
+      >
+        <GallerySkeleton count={12} variant="grid" />
+      </GalleryLayout>
+    )
+  }
+
+  if (error || !group) {
+    return (
+      <GalleryLayout
+        title="Not Found"
+        titleAr="غير موجود"
+        breadcrumbs={breadcrumbs}
+      >
+        <EmptyState
+          // type="no-results"
+          title={isArabic ? 'المجموعة غير موجودة' : 'Group not found'}
+          description={isArabic ? 'الرجاء التحقق من الرابط' : 'Please check the URL'}
+          action={{
+            label: isArabic ? 'العودة لمركز الصور' : 'Back to Image Center',
+            href: '/images-center'
+          }}
+        />
+      </GalleryLayout>
+    )
+  }
+
   return (
     <>
-      <section className="bg-gradient-to-br from-primary/10 to-accent/10 py-16 md:py-24 border-b border-border">
-        <div className="container px-4 md:px-6">
-          <div className="flex items-center gap-4 mb-4">
-            <Button variant="ghost" size="icon" asChild>
-              <Link href="/images-center">
-                {isArabic ? <ArrowRight className="w-5 h-5" /> : <ArrowLeft className="w-5 h-5" />}
-              </Link>
-            </Button>
-            <div className={isArabic ? 'text-right flex-1' : 'flex-1'}>
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-2">
-                {isArabic ? 'معرض الصور' : 'Image Gallery'}
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                {isArabic ? 'تدريب القيادة 2024' : 'Leadership Training 2024'}
-              </p>
-            </div>
-          </div>
+      <GalleryLayout
+        title={group.name}
+        titleAr={group.nameAr}
+        breadcrumbs={breadcrumbs}
+      >
+        {/* Back Button */}
+        <div className="mb-8">
+          <Button
+            variant="outline"
+            asChild
+            className="rounded-full"
+          >
+            <Link href="/images-center">
+              {isArabic ? 'العودة للمعارض' : 'Back to Galleries'}
+              <ChevronLeft className={'arrow-left'} />
+            </Link>
+          </Button>
         </div>
-      </section>
 
-      <section className="py-16 md:py-24">
-        <div className="container px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {MOCK_IMAGES.map((image) => (
-              <Card key={image.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
-                <div className="aspect-square bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-                  <ImageIcon className="w-12 h-12 text-primary" />
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+        {/* Image Count */}
+        <p className="text-muted-foreground mb-6">
+          {group.images.length} {isArabic ? 'صورة' : 'images'}
+        </p>
+
+        {/* Gallery Grid */}
+        {group.images.length > 0 ? (
+          <GalleryGrid
+            images={group.images}
+            onImageClick={openLightbox}
+          />
+        ) : (
+          <EmptyState
+            // type="no-courses"
+            title={isArabic ? 'لا توجد صور' : 'No images'}
+            description={isArabic ? 'هذه المجموعة فارغة' : 'This group is empty'}
+          />
+        )}
+      </GalleryLayout>
+
+      {/* Lightbox */}
+      <GalleryLightbox
+        images={group.images}
+        index={lightboxIndex}
+        isOpen={isLightboxOpen}
+        onClose={closeLightbox}
+      />
     </>
   )
 }

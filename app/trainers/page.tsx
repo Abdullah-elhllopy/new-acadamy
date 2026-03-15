@@ -8,6 +8,9 @@ import { motion } from 'framer-motion'
 import { Facebook, Linkedin, Twitter } from 'lucide-react'
 import Image from 'next/image'
 import TeamMember from '@/components/shared/TeamMember'
+import { Layout } from '@/layout/page-layout'
+import { Hero } from '@/components/sections/hero'
+import { Title } from '@/components/shared/title'
 
 const MOCK_TRAINERS = [
   {
@@ -63,22 +66,14 @@ export default function TrainersPage() {
   }, [])
 
   return (
-    <div className="text-start">
-      <motion.div
-        className="h-50 bg-muted px-10 py-10 md:px-20"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <Breadcrumb
-          items={[
-            { label: 'الصفحة الرئيسية', href: '/' },
-            { label: 'المدربين' }
-          ]}
-          isArabic={true}
-        />
-        <h1 className="text-[48px] font-sans font-bold text-primary mb-7.5 mt-7.5 max-md:text-4xl max-sm:text-4xl">المدربين</h1>
-      </motion.div>
+    <Layout>
+      <Hero breadcrumbItems={[
+        { label: 'الصفحة الرئيسية', href: '/' },
+        { label: 'المدربين' }
+      ]}>
+        <Title title='المدربين' />
+
+      </Hero>
 
       <div className="px-10 py-20 md:px-20 max-sm:px-2.5">
         <motion.section
@@ -92,6 +87,6 @@ export default function TrainersPage() {
           ))}
         </motion.section>
       </div>
-    </div>
+    </Layout>
   )
 }

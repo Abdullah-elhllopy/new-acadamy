@@ -16,6 +16,7 @@ import { Separator } from '@/components/ui/separator'
 import { Badge } from '@/components/ui/badge'
 import { toast } from 'sonner'
 import { CheckCircle2, ArrowRight, ArrowLeft } from 'lucide-react'
+import { Layout } from '@/layout/page-layout'
 
 type BookingStep = 'personal' | 'payment' | 'confirmation'
 
@@ -98,7 +99,7 @@ export default function BookingPage({ params }: { params: { sessionId: string } 
 
   return (
     // <ProtectedRoute>
-      <div className="min-h-screen flex flex-col bg-background">
+      <Layout>
 
         <main className="flex-1 py-12 md:py-16">
           <div className="container px-4 md:px-6 max-w-2xl">
@@ -359,7 +360,7 @@ export default function BookingPage({ params }: { params: { sessionId: string } 
             </Card>
           </div>
         </main>
-      </div>
+      </Layout>
     // </ProtectedRoute>
   )
 }
