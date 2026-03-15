@@ -1,6 +1,6 @@
 'use client'
 
-import { UseFormReturn, FieldValues, Path } from 'react-hook-form'
+import {  FieldValues, Path, useFormContext } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
@@ -9,10 +9,8 @@ import { cn } from '@/lib/utils'
 interface FormFieldProps<T extends FieldValues> {
   name: Path<T>
   label: string
-  type?: 'text' | 'email' | 'password' | 'tel' | 'textarea'
+  type?: 'text' | 'email' | 'password' | 'tel' | 'textarea' | 'date'
   placeholder?: string
-  methods: UseFormReturn<T>
-  isArabic?: boolean
   required?: boolean
   rows?: number
   className?: string
@@ -25,20 +23,18 @@ export function FormField<T extends FieldValues>({
   label,
   type = 'text',
   placeholder,
-  methods,
-  isArabic,
   required,
   rows,
   className,
   labelClassName,
   inputClassName
 }: FormFieldProps<T>) {
-  const { register, formState: { errors } } = methods
-  const error = errors[name]
+  const { register, formState: { errors } } = useFormContext()
+  const error = errors[name]?.message as string
 
   return (
     <div className={cn("flex flex-col space-y-2", className)}>
-      <Label className={cn(isArabic ? 'block' : '', labelClassName)}>
+      <Label className={cn(labelClassName)}>
         {label} {required && <span className="text-red-500">*</span>}
       </Label>
       {type === 'textarea' ? (
@@ -46,18 +42,27 @@ export function FormField<T extends FieldValues>({
           {...register(name)}
           placeholder={placeholder}
           rows={rows}
-          className={inputClassName}
+          className={cn(
+            "h-11 border-border focus:border-primary focus:ring-primary",
+            error && "border-destructive focus:border-destructive",
+            inputClassName
+          )}
         />
       ) : (
         <Input
           {...register(name)}
           type={type}
           placeholder={placeholder}
-          className={inputClassName}
+          className={cn(
+            "h-11 border-border focus:border-primary focus:ring-primary",
+            error && "border-destructive focus:border-destructive",
+            inputClassName
+          )}
         />
       )}
       {error && (
-        <p className="text-sm text-red-500 mt-1">{error.message as string}</p>
+        <p className="text-sm text-destructive">{error}</p>
+
       )}
     </div>
   )

@@ -2,14 +2,13 @@
 'use client'
 import { motion } from 'framer-motion'
 import { PROGRAM_SECTIONS } from '@/data/programs-data'
-import { cn } from '@/lib/utils'
 import { useLanguage } from '@/shared/hooks/useLanguage'
 import { GlobalSearch } from './_components/global-search'
 import { ProgramSection } from './_components/program-section'
 import { BookProgramSection } from './_components/book-program-section'
 import { Hero } from '@/components/sections/hero'
 import { ContentLayout, Layout } from '@/layout/page-layout'
-import { Title, TitleContainer } from '@/components/shared/title'
+import {  TitleContainer } from '@/components/shared/title'
 
 export default function AllProgramsPage() {
     const { language, } = useLanguage()

@@ -1,12 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useLanguage } from '@/shared/hooks/useLanguage'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { PageHeader } from '@/components/shared/page-header'
-import { Form } from '@/components/shared/form'
-import { FormField } from '@/components/shared/form-field'
+import { Form, FormField } from '@/components/forms'
 import { Mail, Phone, MapPin, Clock, Facebook, Linkedin, Twitter, Instagram } from 'lucide-react'
 import { toast } from 'sonner'
 import { contactSchema, ContactFormData } from '@/lib/validations'
@@ -28,11 +29,15 @@ export default function ContactPage() {
   const { language } = useLanguage()
   const isArabic = language === 'ar'
   const [loading, setLoading] = useState(false)
+  const methods = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema)
+  })
 
   const handleSubmit = async (data: ContactFormData) => {
     setLoading(true)
     setTimeout(() => {
       toast.success(isArabic ? 'تم إرسال رسالتك بنجاح' : 'Message sent successfully')
+      methods.reset()
       setLoading(false)
     }, 1000)
   }
@@ -52,53 +57,39 @@ export default function ContactPage() {
               <h2 className={`text-2xl font-bold mb-6 `}>
                 {isArabic ? 'أرسل لنا رسالة' : 'Send us a message'}
               </h2>
-              <Form schema={contactSchema} onSubmit={handleSubmit} className="space-y-4">
-                {(methods) => (
-                  <>
-                    <FormField
-                      name="name"
-                      label={isArabic ? 'الاسم بالكامل' : 'Full Name'}
-                      methods={methods}
-                      isArabic={isArabic}
-                      required
-                    />
-                    <FormField
-                      name="email"
-                      label={isArabic ? 'البريد الإلكتروني' : 'Email'}
-                      type="email"
-                      methods={methods}
-                      isArabic={isArabic}
-                      required
-                    />
-                    <FormField
-                      name="phone"
-                      label={isArabic ? 'رقم الهاتف' : 'Phone Number'}
-                      type="tel"
-                      methods={methods}
-                      isArabic={isArabic}
-                      required
-                    />
-                    <FormField
-                      name="subject"
-                      label={isArabic ? 'الموضوع' : 'Subject'}
-                      methods={methods}
-                      isArabic={isArabic}
-                      required
-                    />
-                    <FormField
-                      name="message"
-                      label={isArabic ? 'رسالتك' : 'Your Message'}
-                      type="textarea"
-                      rows={6}
-                      methods={methods}
-                      isArabic={isArabic}
-                      required
-                    />
-                    <Button type="submit" disabled={loading} className="w-full">
-                      {loading ? (isArabic ? 'جاري الإرسال...' : 'Sending...') : (isArabic ? 'إرسال' : 'Send')}
-                    </Button>
-                  </>
-                )}
+              <Form methods={methods} onSubmit={methods.handleSubmit(handleSubmit)} className="space-y-4">
+                <FormField
+                  name="name"
+                  label={isArabic ? 'الاسم بالكامل' : 'Full Name'}
+                  required
+                />
+                <FormField
+                  name="email"
+                  label={isArabic ? 'البريد الإلكتروني' : 'Email'}
+                  type="email"
+                  required
+                />
+                <FormField
+                  name="phone"
+                  label={isArabic ? 'رقم الهاتف' : 'Phone Number'}
+                  type="tel"
+                  required
+                />
+                <FormField
+                  name="subject"
+                  label={isArabic ? 'الموضوع' : 'Subject'}
+                  required
+                />
+                <FormField
+                  name="message"
+                  label={isArabic ? 'رسالتك' : 'Your Message'}
+                  type="textarea"
+                  rows={6}
+                  required
+                />
+                <Button type="submit" disabled={loading} className="w-full">
+                  {loading ? (isArabic ? 'جاري الإرسال...' : 'Sending...') : (isArabic ? 'إرسال' : 'Send')}
+                </Button>
               </Form>
             </div>
 
@@ -110,7 +101,7 @@ export default function ContactPage() {
               <Card>
                 <CardContent className="pt-6">
                   <div className={`flex items-start gap-4  `}>
-                    <Mail className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                    <Mail className="w-6 h-6 text-primary shrink-0 mt-1" />
                     <div >
                       <p className="font-semibold mb-1">{isArabic ? 'البريد الإلكتروني' : 'Email'}</p>
                       <a href={`mailto:${MOCK_CONTACT_DATA.email}`} className="text-muted-foreground hover:text-primary">
@@ -124,7 +115,7 @@ export default function ContactPage() {
               <Card>
                 <CardContent className="pt-6">
                   <div className={`flex items-start gap-4  `}>
-                    <Phone className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                    <Phone className="w-6 h-6 text-primary shrink-0 mt-1" />
                     <div >
                       <p className="font-semibold mb-1">{isArabic ? 'الهاتف' : 'Phone'}</p>
                       <a href={`tel:${MOCK_CONTACT_DATA.phone}`} className="text-muted-foreground hover:text-primary">
@@ -138,7 +129,7 @@ export default function ContactPage() {
               <Card>
                 <CardContent className="pt-6">
                   <div className={`flex items-start gap-4  `}>
-                    <MapPin className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                    <MapPin className="w-6 h-6 text-primary shrink-0 mt-1" />
                     <div >
                       <p className="font-semibold mb-1">{isArabic ? 'العنوان' : 'Address'}</p>
                       <p className="text-muted-foreground">{MOCK_CONTACT_DATA.address}</p>
@@ -150,7 +141,7 @@ export default function ContactPage() {
               <Card>
                 <CardContent className="pt-6">
                   <div className={`flex items-start gap-4  `}>
-                    <Clock className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                    <Clock className="w-6 h-6 text-primary shrink-0 mt-1" />
                     <div >
                       <p className="font-semibold mb-1">{isArabic ? 'ساعات العمل' : 'Working Hours'}</p>
                       <p className="text-muted-foreground">{MOCK_CONTACT_DATA.workingHours}</p>

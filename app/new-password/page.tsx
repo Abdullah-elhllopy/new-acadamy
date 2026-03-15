@@ -1,11 +1,12 @@
 'use client'
 
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useLanguage } from '@/shared/hooks/useLanguage'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Form } from '@/components/shared/form'
-import { FormField } from '@/components/shared/form-field'
+import { Form, FormField } from '@/components/forms'
 import { Lock } from 'lucide-react'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
@@ -16,6 +17,9 @@ export default function NewPasswordPage() {
   const isArabic = language === 'ar'
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const methods = useForm<NewPasswordData>({
+    resolver: zodResolver(newPasswordSchema)
+  })
 
   const handleSubmit = async (data: NewPasswordData) => {
     setLoading(true)
@@ -45,30 +49,22 @@ export default function NewPasswordPage() {
           </p>
         </CardHeader>
         <CardContent>
-          <Form schema={newPasswordSchema} onSubmit={handleSubmit} className="space-y-4">
-            {(methods) => (
-              <>
-                <FormField
-                  name="newPassword"
-                  label={isArabic ? 'كلمة المرور الجديدة' : 'New Password'}
-                  type="password"
-                  methods={methods}
-                  isArabic={isArabic}
-                  required
-                />
-                <FormField
-                  name="confirmPassword"
-                  label={isArabic ? 'تأكيد كلمة المرور' : 'Confirm Password'}
-                  type="password"
-                  methods={methods}
-                  isArabic={isArabic}
-                  required
-                />
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? (isArabic ? 'جاري التحديث...' : 'Updating...') : (isArabic ? 'تحديث كلمة المرور' : 'Update Password')}
-                </Button>
-              </>
-            )}
+          <Form methods={methods} onSubmit={methods.handleSubmit(handleSubmit)} className="space-y-4">
+            <FormField
+              name="newPassword"
+              label={isArabic ? 'كلمة المرور الجديدة' : 'New Password'}
+              type="password"
+              required
+            />
+            <FormField
+              name="confirmPassword"
+              label={isArabic ? 'تأكيد كلمة المرور' : 'Confirm Password'}
+              type="password"
+              required
+            />
+            <Button type="submit" disabled={loading} className="w-full">
+              {loading ? (isArabic ? 'جاري التحديث...' : 'Updating...') : (isArabic ? 'تحديث كلمة المرور' : 'Update Password')}
+            </Button>
           </Form>
         </CardContent>
       </Card>

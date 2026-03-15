@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useLanguage } from '@/shared/hooks/useLanguage'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -8,8 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { PageHeader } from '@/components/shared/page-header'
-import { Form } from '@/components/shared/form'
-import { FormField } from '@/components/shared/form-field'
+import { Form, FormField } from '@/components/forms'
 import { User, Lock, Bell, CreditCard } from 'lucide-react'
 import { toast } from 'sonner'
 import { accountSettingsSchema, passwordChangeSchema, AccountSettingsData, PasswordChangeData } from '@/lib/validations'
@@ -18,6 +19,18 @@ export default function UserSettingsPage() {
   const { language } = useLanguage()
   const isArabic = language === 'ar'
   const [loading, setLoading] = useState(false)
+  const accountMethods = useForm<AccountSettingsData>({
+    resolver: zodResolver(accountSettingsSchema),
+    defaultValues: {
+      fullName: 'Ahmed Al-Saud',
+      email: 'ahmed@example.com',
+      phone: '+966 50 123 4567',
+      country: 'Saudi Arabia'
+    }
+  })
+  const passwordMethods = useForm<PasswordChangeData>({
+    resolver: zodResolver(passwordChangeSchema)
+  })
 
   const [notifications, setNotifications] = useState({
     emailNotifications: true,
@@ -88,28 +101,14 @@ export default function UserSettingsPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <Form 
-                    schema={accountSettingsSchema} 
-                    onSubmit={handleAccountUpdate}
-                    defaultValues={{
-                      fullName: 'Ahmed Al-Saud',
-                      email: 'ahmed@example.com',
-                      phone: '+966 50 123 4567',
-                      country: 'Saudi Arabia'
-                    }}
-                    className="space-y-4"
-                  >
-                    {(methods) => (
-                      <>
-                        <FormField name="fullName" label={isArabic ? 'الاسم الكامل' : 'Full Name'} methods={methods} isArabic={isArabic} />
-                        <FormField name="email" label={isArabic ? 'البريد الإلكتروني' : 'Email'} type="email" methods={methods} isArabic={isArabic} />
-                        <FormField name="phone" label={isArabic ? 'رقم الهاتف' : 'Phone'} type="tel" methods={methods} isArabic={isArabic} />
-                        <FormField name="country" label={isArabic ? 'الدولة' : 'Country'} methods={methods} isArabic={isArabic} />
-                        <Button type="submit" disabled={loading}>
-                          {loading ? (isArabic ? 'جاري الحفظ...' : 'Saving...') : (isArabic ? 'حفظ التغييرات' : 'Save Changes')}
-                        </Button>
-                      </>
-                    )}
+                  <Form methods={accountMethods} onSubmit={accountMethods.handleSubmit(handleAccountUpdate)} className="space-y-4">
+                    <FormField name="fullName" label={isArabic ? 'الاسم الكامل' : 'Full Name'} />
+                    <FormField name="email" label={isArabic ? 'البريد الإلكتروني' : 'Email'} type="email" />
+                    <FormField name="phone" label={isArabic ? 'رقم الهاتف' : 'Phone'} type="tel" />
+                    <FormField name="country" label={isArabic ? 'الدولة' : 'Country'} />
+                    <Button type="submit" disabled={loading}>
+                      {loading ? (isArabic ? 'جاري الحفظ...' : 'Saving...') : (isArabic ? 'حفظ التغييرات' : 'Save Changes')}
+                    </Button>
                   </Form>
                 </CardContent>
               </Card>
@@ -123,17 +122,13 @@ export default function UserSettingsPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <Form schema={passwordChangeSchema} onSubmit={handlePasswordUpdate} className="space-y-4">
-                    {(methods) => (
-                      <>
-                        <FormField name="currentPassword" label={isArabic ? 'كلمة المرور الحالية' : 'Current Password'} type="password" methods={methods} isArabic={isArabic} required />
-                        <FormField name="newPassword" label={isArabic ? 'كلمة المرور الجديدة' : 'New Password'} type="password" methods={methods} isArabic={isArabic} required />
-                        <FormField name="confirmPassword" label={isArabic ? 'تأكيد كلمة المرور' : 'Confirm Password'} type="password" methods={methods} isArabic={isArabic} required />
-                        <Button type="submit" disabled={loading}>
-                          {loading ? (isArabic ? 'جاري التحديث...' : 'Updating...') : (isArabic ? 'تحديث كلمة المرور' : 'Update Password')}
-                        </Button>
-                      </>
-                    )}
+                  <Form methods={passwordMethods} onSubmit={passwordMethods.handleSubmit(handlePasswordUpdate)} className="space-y-4">
+                    <FormField name="currentPassword" label={isArabic ? 'كلمة المرور الحالية' : 'Current Password'} type="password" required />
+                    <FormField name="newPassword" label={isArabic ? 'كلمة المرور الجديدة' : 'New Password'} type="password" required />
+                    <FormField name="confirmPassword" label={isArabic ? 'تأكيد كلمة المرور' : 'Confirm Password'} type="password" required />
+                    <Button type="submit" disabled={loading}>
+                      {loading ? (isArabic ? 'جاري التحديث...' : 'Updating...') : (isArabic ? 'تحديث كلمة المرور' : 'Update Password')}
+                    </Button>
                   </Form>
                 </CardContent>
               </Card>

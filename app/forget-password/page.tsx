@@ -1,11 +1,12 @@
 'use client'
 
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useLanguage } from '@/shared/hooks/useLanguage'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Form } from '@/components/shared/form'
-import { FormField } from '@/components/shared/form-field'
+import { Form, FormField } from '@/components/forms'
 import { Mail } from 'lucide-react'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
@@ -16,6 +17,9 @@ export default function ForgetPasswordPage() {
   const isArabic = language === 'ar'
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const methods = useForm<ForgetPasswordData>({
+    resolver: zodResolver(forgetPasswordSchema)
+  })
 
   const handleSubmit = async (data: ForgetPasswordData) => {
     setLoading(true)
@@ -45,22 +49,16 @@ export default function ForgetPasswordPage() {
           </p>
         </CardHeader>
         <CardContent>
-          <Form schema={forgetPasswordSchema} onSubmit={handleSubmit} className="space-y-4">
-            {(methods) => (
-              <>
-                <FormField
-                  name="email"
-                  label={isArabic ? 'البريد الإلكتروني' : 'Email'}
-                  type="email"
-                  methods={methods}
-                  isArabic={isArabic}
-                  required
-                />
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? (isArabic ? 'جاري الإرسال...' : 'Sending...') : (isArabic ? 'إرسال الرابط' : 'Send Link')}
-                </Button>
-              </>
-            )}
+          <Form methods={methods} onSubmit={methods.handleSubmit(handleSubmit)} className="space-y-4">
+            <FormField
+              name="email"
+              label={isArabic ? 'البريد الإلكتروني' : 'Email'}
+              type="email"
+              required
+            />
+            <Button type="submit" disabled={loading} className="w-full">
+              {loading ? (isArabic ? 'جاري الإرسال...' : 'Sending...') : (isArabic ? 'إرسال الرابط' : 'Send Link')}
+            </Button>
           </Form>
         </CardContent>
       </Card>

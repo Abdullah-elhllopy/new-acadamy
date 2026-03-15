@@ -32,7 +32,7 @@ export default function PaymentPage({ params }: { params: { id: string } }) {
     //   setCourse(response.data)
     // }
     // fetchCourse()
-  }, [params.id])
+  }, [])
 
   return (
     <Layout>

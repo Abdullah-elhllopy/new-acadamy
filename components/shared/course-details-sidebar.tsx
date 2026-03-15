@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Calendar, Clock, MapPin } from 'lucide-react'
+import Link from 'next/link'
 
 interface CourseDetailsSidebarProps {
   price: number
@@ -36,16 +37,16 @@ export function CourseDetailsSidebar({
         <h2 className="text-4xl font-bold text-primary text-center mb-8">
           {price} {currency}
         </h2>
-        
+
         {isAuthenticated ? (
-          <Button 
+          <Button
             onClick={onEnroll}
             className="w-full bg-secondary hover:bg-secondary-hover text-white h-14 text-base font-bold rounded-full mb-5"
           >
             اذهب الي الكورس
           </Button>
         ) : (
-          <Button 
+          <Button
             onClick={onLogin}
             className="w-full bg-secondary hover:bg-secondary-hover text-white h-14 text-base font-bold rounded-full mb-5"
           >
@@ -79,12 +80,14 @@ export function CourseDetailsSidebar({
           اختر الدورة التدريبية المناسبة لكم من بين العديد من الدورات<br />
           التدريبية في مختلف المجالات.
         </p>
-        <Button 
-          onClick={onRequestProgram}
-          className="w-full border-2 border-primary text-primary bg-transparent hover:bg-primary hover:text-white h-14 text-base font-bold rounded-full transition-base"
-        >
-          اطلب البرنامج
-        </Button>
+        <Link href={`/apply-for-program/leadership-masterclass`} className="w-full">
+          <Button
+            // onClick={onRequestProgram}
+            className="w-full border-2 border-primary text-primary bg-transparent hover:bg-primary hover:text-white h-14 text-base font-bold rounded-full transition-base"
+          >
+            اطلب البرنامج
+          </Button>
+        </Link>
       </CardContent>
     </Card>
   )

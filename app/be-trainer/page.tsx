@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Breadcrumb } from '@/components/shared/breadcrumb'
-import { Form } from '@/components/shared/form'
-import { FormField } from '@/components/shared/form-field'
+import { Form , FormField } from '@/components/forms'
+
 import { motion } from 'framer-motion'
 import { X } from 'lucide-react'
 import { toast } from 'sonner'
