@@ -1,12 +1,8 @@
 // app/[locale]/apply/team/[courseId]/page.tsx
 'use client'
-
-import { useParams } from 'next/navigation'
 import { TeamApplicationForm } from './_components/team-application-form'
 import { EmptyState } from '@/components/states/empty-state'
 import { useCourseDetails } from './_hooks/use-team-application'
-
-import { cn } from '@/lib/utils'
 import { useLanguage } from '@/shared/hooks/useLanguage'
 import { GallerySkeleton } from '@/app/images-center/_components/gallery-skeleton'
 import { ContentLayout, Layout } from '@/layout/page-layout'
@@ -15,7 +11,7 @@ import { Title } from '@/components/shared/title'
 import { CourseDetailsCard } from '@/app/payment/[id]/_components'
 
 export default function TeamApplicationPage() {
-    const params = useParams()
+    // const params = useParams()
     const { language } = useLanguage();
     const isArabic = language === 'ar';
 
@@ -59,14 +55,11 @@ export default function TeamApplicationPage() {
 
             {/* Main Content */}
             <ContentLayout>
-                <section className="grid grid-cols-1 lg:grid-cols-[44%_10%_45%] gap-8">
-                    {/* Form - Takes 7 columns on large screens */}
-                    <div className="lg:col-span-7 order-2 lg:order-1">
-                        <TeamApplicationForm
-                            courseId={course.id}
-                            courseName={isArabic ? course.nameAr : course.name}
-                        />
-                    </div>
+                <section className="grid grid-cols-1 lg:grid-cols-[44%_10%_45%] gap-2">
+                    <TeamApplicationForm
+                        courseId={course.id}
+                        courseName={isArabic ? course.nameAr : course.name}
+                    />
                     <div />
                     <CourseDetailsCard course={{
                         // courseId: 1,

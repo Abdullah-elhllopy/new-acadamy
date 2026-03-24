@@ -3,9 +3,10 @@
 import { motion } from 'framer-motion'
 import { Breadcrumb, BreadcrumbItem } from '@/components/shared/breadcrumb'
 import { cn } from '@/lib/utils'
+import { Title } from '../shared/title'
 
 
-export function Hero({ breadcrumbItems, className, children }: { breadcrumbItems?: BreadcrumbItem[], className?: string, children: React.ReactNode }) {
+export function Hero({ breadcrumbItems, title, className, children }: { breadcrumbItems?: BreadcrumbItem[], title?: string, className?: string, children?: React.ReactNode }) {
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -14,6 +15,7 @@ export function Hero({ breadcrumbItems, className, children }: { breadcrumbItems
     >
 
       {breadcrumbItems && <Breadcrumb items={breadcrumbItems} />}
+      {title && <Title title={title} />}
       {children}
 
     </motion.section>
