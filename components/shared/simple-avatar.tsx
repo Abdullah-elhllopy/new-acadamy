@@ -18,7 +18,7 @@ export function SimpleAvatar({ src, alt, className }: SimpleAvatarProps) {
   return (
     <AvatarRoot className={cn('bg-primary/10', className)}>
       <AvatarImage src={src} alt={alt} />
-      <AvatarFallback className="bg-primary/10 text-primary font-bold">
+      <AvatarFallback className="bg-primary/10 text-primary font-semibold">
         {initials}
       </AvatarFallback>
     </AvatarRoot>

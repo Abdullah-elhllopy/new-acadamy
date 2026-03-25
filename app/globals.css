@@ -203,7 +203,9 @@
 /* RTL Support - Using tailwindcss-rtl plugin */
 [dir="rtl"] {
   direction: rtl;
-
+  .rotate-arrow{
+    transform: rotate(180deg) !important;
+  }
 }
 
 [dir="ltr"] {

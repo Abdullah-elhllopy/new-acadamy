@@ -1,9 +1,9 @@
 'use client'
 
 import { useLanguage } from '@/shared/hooks/useLanguage'
-import { Card, CardContent } from '@/components/ui/card'
+import Partner from '@/components/shared/Partner'
 
-const MOCK_PARTNERS = [
+export const MOCK_PARTNERS = [
   { id: 1, name: 'Saudi Aramco', nameAr: 'أرامكو السعودية' },
   { id: 2, name: 'SABIC', nameAr: 'سابك' },
   { id: 3, name: 'STC', nameAr: 'الاتصالات السعودية' },
@@ -19,14 +19,12 @@ const MOCK_PARTNERS = [
 ]
 
 export default function OurPartnersPage() {
-  const { language } = useLanguage()
-  const isArabic = language === 'ar'
-
+  const { isArabic } = useLanguage()
   return (
     <>
-      <section className="bg-gradient-to-br from-primary/10 to-accent/10 py-16 md:py-24 border-b border-border">
+      <section className="bg-linear-to-br from-primary/10 to-accent/10 py-16 md:py-24 border-b border-border">
         <div className="container px-4 md:px-6">
-          <div className={`max-w-2xl ${isArabic ? 'text-right' : ''}`}>
+          <div className={`max-w-2xl `}>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
               {isArabic ? 'شركاؤنا' : 'Our Partners'}
             </h1>
@@ -43,22 +41,7 @@ export default function OurPartnersPage() {
         <div className="container px-4 md:px-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {MOCK_PARTNERS.map((partner) => (
-              <Card key={partner.id} className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-8">
-                  <div className="flex items-center justify-center h-24">
-                    <div className="text-center">
-                      <div className="w-16 h-16 mx-auto mb-3 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <span className="text-2xl font-bold text-primary">
-                          {(isArabic ? partner.nameAr : partner.name).charAt(0)}
-                        </span>
-                      </div>
-                      <p className="font-semibold text-sm text-foreground">
-                        {isArabic ? partner.nameAr : partner.name}
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <Partner key={partner.id} name={isArabic ? partner.nameAr : partner.name} />
             ))}
           </div>
         </div>
@@ -66,7 +49,7 @@ export default function OurPartnersPage() {
 
       <section className="bg-muted py-16">
         <div className="container px-4 md:px-6">
-          <div className={`text-center max-w-3xl mx-auto ${isArabic ? 'text-right' : ''}`}>
+          <div className={`text-center max-w-3xl mx-auto `}>
             <h2 className="text-3xl font-bold mb-4">
               {isArabic ? 'هل تريد أن تصبح شريكاً؟' : 'Want to become a partner?'}
             </h2>

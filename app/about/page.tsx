@@ -100,7 +100,7 @@ export default function AboutUsPage() {
       </Hero>
 
       <ContentLayout className='flex flex-col items-center gap-12'>
-        <motion.div
+        <motion.section
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -116,8 +116,8 @@ export default function AboutUsPage() {
           )}>
             {isArabic ? data.descriptionAr : data.description}
           </p>
-        </motion.div>
-        <motion.div
+        </motion.section>
+        <motion.section
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -159,12 +159,12 @@ export default function AboutUsPage() {
               {isArabic ? data.missionAr : data.mission}
             </p>
           </motion.div>
-        </motion.div>
+        </motion.section>
       </ContentLayout>
       {/* Our Values */}
       <ContentLayout className="py-12 bg-muted">
 
-        <motion.div
+        <motion.section
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -175,7 +175,7 @@ export default function AboutUsPage() {
           )}>
             {isArabic ? 'قيمنا' : 'Our Values'}
           </h3>
-        </motion.div>
+        </motion.section>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
           {data.values.map((value, index) => (
@@ -186,7 +186,7 @@ export default function AboutUsPage() {
       </ContentLayout>
       <ContentLayout className="py-12">
 
-        <motion.div
+        <motion.section
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -197,8 +197,8 @@ export default function AboutUsPage() {
           )}>
             {'الاحصاءات'}
           </h3>
-        </motion.div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        </motion.section>
+        <section className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {[
             { valueEn: '15+', valueAr: '15+', labelEn: 'Years of Experience', labelAr: 'سنة خبرة' },
             { valueEn: '100+', valueAr: '100+', labelEn: 'Corporate Clients', labelAr: 'عميل مؤسسي' },
@@ -214,7 +214,7 @@ export default function AboutUsPage() {
               </p>
             </div>
           ))}
-        </div>
+        </section>
       </ContentLayout>
     </Layout>
   )

@@ -14,8 +14,8 @@ interface Instructor {
 }
 const TeamMember = ({ trainer }: { trainer: Instructor }) => {
     return (
-        <Card key={trainer.instructorid} className=" py-0 rounded-t-[15px] border-0 shadow-none">
-            <div className="relative  shadow-sm    h-52 bg-muted">
+        <Card key={trainer.instructorid} className=" pt-0 pb-4 rounded-t-[15px]  border-0 shadow-none">
+            <div className="relative  shadow-none    h-52 bg-muted">
                 <Image src={trainer.image} alt={trainer.name} fill className="object-cover rounded-t-[15px]" />
             </div>
             <CardContent>

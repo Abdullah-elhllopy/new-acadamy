@@ -4,8 +4,11 @@ import { useLanguage } from '@/shared/hooks/useLanguage'
 import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Quote } from 'lucide-react'
+import { ContentLayout, Layout } from '@/layout/page-layout'
+import { Hero } from '@/components/sections/hero'
+import { TitleContainer } from '@/components/shared/title'
 
-const MOCK_CUSTOMERS = [
+export const MOCK_CUSTOMERS = [
   {
     id: 1,
     name: 'Ministry of Education',
@@ -63,28 +66,18 @@ const MOCK_CUSTOMERS = [
 ]
 
 export default function OurCustomersPage() {
-  const { language } = useLanguage()
-  const isArabic = language === 'ar'
+  const { isArabic } = useLanguage()
 
   return (
-    <>
-      <section className="bg-gradient-to-br from-primary/10 to-accent/10 py-16 md:py-24 border-b border-border">
-        <div className="container px-4 md:px-6">
-          <div className={`max-w-2xl ${isArabic ? 'text-right' : ''}`}>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              {isArabic ? 'عملاؤنا' : 'Our Customers'}
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              {isArabic
-                ? 'نخدم مجموعة متنوعة من المؤسسات الحكومية والشركات والمنظمات'
-                : 'We serve a diverse range of government institutions, corporations, and organizations'}
-            </p>
-          </div>
-        </div>
-      </section>
+    <Layout>
+      <Hero  >
+        <TitleContainer title={isArabic ? 'عملاؤنا' : 'Our Customers'} subtitle={isArabic
+          ? 'نخدم مجموعة متنوعة من المؤسسات الحكومية والشركات والمنظمات'
+          : 'We serve a diverse range of government institutions, corporations, and organizations'} />
+      </Hero>
+      <ContentLayout className='flex flex-col gap-5'>
+        <section>
 
-      <section className="py-16 md:py-24">
-        <div className="container px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {MOCK_CUSTOMERS.map((customer) => (
               <Card key={customer.id} className="hover:shadow-lg transition-shadow">
@@ -96,7 +89,7 @@ export default function OurCustomersPage() {
                           {(isArabic ? customer.nameAr : customer.name).charAt(0)}
                         </AvatarFallback>
                       </Avatar>
-                      <div className={isArabic ? 'text-right flex-1' : 'flex-1'}>
+                      <div className={'flex-1'}>
                         <h3 className="font-bold text-lg text-foreground mb-1">
                           {isArabic ? customer.nameAr : customer.name}
                         </h3>
@@ -105,8 +98,8 @@ export default function OurCustomersPage() {
                         </p>
                       </div>
                     </div>
-                    <div className={`relative ${isArabic ? 'text-right' : ''}`}>
-                      <Quote className={`w-8 h-8 text-primary/20 absolute ${isArabic ? 'right-0' : 'left-0'} -top-2`} />
+                    <div className={`relative `}>
+                      <Quote className={`w-8 h-8 text-primary/20 absolute -top-2`} />
                       <p className="text-sm text-muted-foreground pt-6 italic">
                         "{isArabic ? customer.testimonialAr : customer.testimonial}"
                       </p>
@@ -116,11 +109,10 @@ export default function OurCustomersPage() {
               </Card>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="bg-primary text-primary-foreground py-16">
-        <div className="container px-4 md:px-6">
+        <section  className="bg-primary text-primary-foreground py-16" >
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
               <p className="text-4xl font-bold mb-2">150+</p>
@@ -139,8 +131,9 @@ export default function OurCustomersPage() {
               <p className="text-sm opacity-90">{isArabic ? 'رضا العملاء' : 'Satisfaction Rate'}</p>
             </div>
           </div>
-        </div>
-      </section>
-    </>
+        </section>
+      </ContentLayout>
+
+    </Layout>
   )
 }

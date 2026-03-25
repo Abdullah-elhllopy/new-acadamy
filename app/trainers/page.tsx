@@ -12,7 +12,7 @@ import { Layout } from '@/layout/page-layout'
 import { Hero } from '@/components/sections/hero'
 import { Title } from '@/components/shared/title'
 
-const MOCK_TRAINERS = [
+export const MOCK_TRAINERS = [
   {
     instructorid: 1,
     name: 'د. أحمد السعود',
