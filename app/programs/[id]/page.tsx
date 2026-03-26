@@ -2,18 +2,16 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-
-
-import { CourseReviews } from '@/components/shared/course-reviews'
-import { CourseDetailsHero } from '@/components/shared/course-details-hero'
-import { CourseDetailsSidebar } from '@/components/shared/course-details-sidebar'
-import { WhatYouWillLearn } from '@/components/shared/what-you-will-learn'
-import { CourseLectures } from '@/components/shared/course-lectures'
-import { CourseTrainers } from '@/components/shared/course-trainers'
-import { RelatedCourses } from '@/components/shared/related-courses'
-import { ArticlesSection } from '@/components/shared/articles-section'
+import { CourseReviews } from './_components/course-reviews'
+import { CourseDetailsHero } from './_components/course-details-hero'
+import { CourseDetailsSidebar } from './_components/course-details-sidebar'
+import { WhatYouWillLearn } from './_components/what-you-will-learn'
+import { CourseLectures } from './_components/course-lectures'
+import { CourseTrainers } from './_components/course-trainers'
+import { RelatedCourses } from './_components/related-courses'
 import { SimpleAvatar } from '@/components/shared/simple-avatar'
 import { motion } from 'framer-motion'
+import { ArticlesSection } from '@/components/sections/home/articles-section'
 
 const mockCourse = {
   id: '1',

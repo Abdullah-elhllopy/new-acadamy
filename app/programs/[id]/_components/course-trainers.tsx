@@ -1,6 +1,6 @@
 'use client'
 
-import { SimpleAvatar } from './simple-avatar'
+import { SimpleAvatar } from '../../../../components/shared/simple-avatar'
 
 interface Trainer {
   instructorid: number

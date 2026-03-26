@@ -5,7 +5,7 @@ import { useTranslate } from '@/locales/use-locales'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { mockPrograms } from '@/app/programs/page'
-import { ProgramCard } from '../cards/program-card'
+import { ProgramCard } from '../../cards/program-card'
 
 export function FeaturedPrograms() {
   const { t, currentLang } = useTranslate('programs')

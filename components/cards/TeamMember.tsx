@@ -1,4 +1,3 @@
-import React from 'react'
 import { Card, CardContent } from '../ui/card'
 import Link from 'next/link'
 import { Facebook, Linkedin, Twitter } from 'lucide-react'

@@ -1,7 +1,7 @@
 'use client'
 
 import { useLanguage } from '@/shared/hooks/useLanguage'
-import Partner from '@/components/shared/Partner'
+import Partner from '@/components/cards/Partner'
 
 export const MOCK_PARTNERS = [
   { id: 1, name: 'Saudi Aramco', nameAr: 'أرامكو السعودية' },

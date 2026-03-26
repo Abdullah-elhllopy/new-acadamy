@@ -2,7 +2,7 @@
 
 import { MOCK_TRAINERS } from '@/app/trainers/page'
 import { motion } from 'framer-motion'
-import TeamMember from '../shared/TeamMember'
+import TeamMember from '../../cards/TeamMember'
 import { ContentLayout } from '@/layout/page-layout'
 
 export function TrainersSection() {

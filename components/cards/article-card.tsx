@@ -3,9 +3,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Separator } from '@/components/ui/separator'
-import { SimpleAvatar } from './simple-avatar'
+import { SimpleAvatar } from '@/components/shared/simple-avatar'
+
 
 interface ArticleAuthor {
   id: string

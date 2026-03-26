@@ -2,7 +2,7 @@
 
 import { MOCK_PARTNERS } from '@/app/our-partners/page'
 import { useLanguage } from '@/shared/hooks/useLanguage'
-import Partner from '../shared/Partner'
+import Partner from '../../cards/Partner'
 
 export function OurPartners() {
   const { isArabic } = useLanguage()

@@ -3,9 +3,8 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, Building2 } from 'lucide-react'
+import {  Building2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 import { useLanguage } from '@/shared/hooks/useLanguage'
 
 export function BookProgramSection() {

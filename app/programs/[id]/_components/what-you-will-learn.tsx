@@ -1,7 +1,4 @@
 'use client'
-
-import { Check } from 'lucide-react'
-
 export function WhatYouWillLearn({ objectives }: { objectives: string[] }) {
   return (
     <div>

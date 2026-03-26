@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Star } from 'lucide-react'
-import { SimpleAvatar } from './simple-avatar'
+import { SimpleAvatar } from '../../../../components/shared/simple-avatar'
 
 interface Review {
   id: number

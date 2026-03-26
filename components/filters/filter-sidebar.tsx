@@ -37,9 +37,7 @@ const LOCATIONS = [
 ]
 
 export function FilterSidebar({ filters, onChange, onReset }: FilterSidebarProps) {
-  const { language } = useLanguage()
-  const isArabic = language === 'ar'
-
+  const { isArabic } = useLanguage()
   const handleCategoryChange = (categoryId: string, checked: boolean) => {
     const newCategories = checked
       ? [...filters.categories, categoryId]

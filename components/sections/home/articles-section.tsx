@@ -1,30 +1,11 @@
 'use client'
 
-import { Button } from '../ui/button'
-import { ArticleCard, ArticleCardProps } from './article-card'
+
+import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
+import { ArticleCardProps ,ArticleCard} from '../../cards/article-card';
 
-interface ArticleAuthor {
-  id: string
-  name: string
-  nameAr: string
-  role: string
-  roleAr: string
-  avatar?: string
-}
 
-interface Article {
-  id: string
-  title: string
-  titleAr: string
-  category: string
-  categoryAr: string
-  description: string
-  descriptionAr: string
-  image: string
-  author: ArticleAuthor
-  href?: string
-}
 const mockArticles: ArticleCardProps[] = [
   {
     id: "1",

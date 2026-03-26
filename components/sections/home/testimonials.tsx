@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { ContentLayout } from '@/layout/page-layout'
-import { SimpleAvatar } from '../shared/simple-avatar'
+import { SimpleAvatar } from '../../shared/simple-avatar'
 
 export function Testimonials() {
   const { isArabic } = useLanguage()
