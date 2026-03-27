@@ -72,6 +72,10 @@ export const endpoints = {
       create: '/api/Request/Create-Be-Trainer-Request',
       updateStatus: '/api/Request/Update-Be-Trainer-Request-Status',
     },
+    userTraining: {
+      getByCourseId: (courseId: string) => `/api/user/Get-by-CourseId/${courseId}`,
+      removeUserFromCourse: '/api/Course/Remove-User-From-Course',
+    },
     contact: {
       getAll: '/api/ContactUs/All-Messages',
       getById: (id: string) => `/api/ContactUs/get-Message/${id}`,

@@ -45,6 +45,18 @@ export interface EmailSubscription {
   createdAt?: string;
 }
 
+export interface UserTrainingRequest {
+  userId: string;
+  userName: string;
+  userEmail: string;
+  userPhone: string;
+  courseId: string;
+  courseName: string;
+  country?: string;
+  numberofPersones?: number;
+  createdAt?: string;
+}
+
 class RequestService {
   async getAllTrainingRequests(): Promise<TrainingRequest[]> {
     return apiClient.get<TrainingRequest[]>(endpoints.requests.training.getAll);
@@ -96,6 +108,14 @@ class RequestService {
 
   async createEmailSubscription(email: string): Promise<EmailSubscription> {
     return apiClient.post<EmailSubscription>(endpoints.requests.emailSubscription.create, { email });
+  }
+
+  async getUserTrainingRequestsByCourse(courseId: string): Promise<UserTrainingRequest[]> {
+    return apiClient.get<UserTrainingRequest[]>(endpoints.requests.userTraining.getByCourseId(courseId));
+  }
+
+  async removeUserFromCourse(courseId: string, userId: string): Promise<void> {
+    return apiClient.post<void>(endpoints.requests.userTraining.removeUserFromCourse, { courseId, userId });
   }
 }
 

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { requestService, TrainingRequest, BeTrainerRequest, ContactMessage } from '@/services/api';
+import { requestService, TrainingRequest, BeTrainerRequest, ContactMessage, UserTrainingRequest } from '@/services/api';
 import { toast } from 'sonner';
 
 export const REQUEST_KEYS = {
@@ -18,6 +18,9 @@ export const REQUEST_KEYS = {
   },
   emailSubscription: {
     lists: () => [...REQUEST_KEYS.all, 'email-subscription', 'list'] as const,
+  },
+  userTraining: {
+    byCourse: (courseId: string) => [...REQUEST_KEYS.all, 'user-training', 'course', courseId] as const,
   },
 };
 
@@ -161,6 +164,30 @@ export function useCreateEmailSubscription() {
     },
     onError: (error: Error) => {
       toast.error(error.message || 'Failed to subscribe');
+    },
+  });
+}
+
+export function useUserTrainingRequestsByCourse(courseId: string) {
+  return useQuery({
+    queryKey: REQUEST_KEYS.userTraining.byCourse(courseId),
+    queryFn: () => requestService.getUserTrainingRequestsByCourse(courseId),
+    enabled: !!courseId,
+  });
+}
+
+export function useRemoveUserFromCourse() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ courseId, userId }: { courseId: string; userId: string }) =>
+      requestService.removeUserFromCourse(courseId, userId),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: REQUEST_KEYS.userTraining.byCourse(variables.courseId) });
+      toast.success('User removed from course successfully');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Failed to remove user from course');
     },
   });
 }
