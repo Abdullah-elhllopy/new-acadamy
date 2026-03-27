@@ -4,14 +4,17 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
 import { useCourses, useDeleteCourse } from '@/hooks/api'
-import { PageHeaderWithActions } from '@/components/dashboard/page-header-with-actions'
+import { ContentLayout } from '@/layout/page-layout'
+import { Hero } from '@/components/sections/hero'
 import { DataTable, tableActions, type DataTableColumn } from '@/components/dashboard/data-table'
 import { ConfirmDeleteDialog } from '@/components/dashboard/confirm-delete-dialog'
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 import type { Course } from '@/services/api'
 
-export default function DashboardPage() {
+export default function CoursesPage() {
   const router = useRouter()
   const { data: courses, isLoading } = useCourses()
   const deleteCourse = useDeleteCourse()
@@ -60,6 +63,10 @@ export default function DashboardPage() {
       accessorKey: 'courseNumberOfHours',
     },
     {
+      header: 'Start Date',
+      cell: (course) => new Date(course.courseStartDate).toLocaleDateString(),
+    },
+    {
       header: 'Status',
       cell: (course) => {
         if (course.now) return <StatusBadge status="active" label="Now" />
@@ -73,33 +80,40 @@ export default function DashboardPage() {
 
   return (
     <>
-      <PageHeaderWithActions
-        title="Courses"
-        description="Manage all training courses"
-        action={{
-          label: 'Add Course',
-          href: '/dashboard/courses/add',
-          icon: <Plus className="mr-2 h-4 w-4" />,
-        }}
-      />
-
-      <DataTable
-        data={courses || []}
-        columns={columns}
-        isLoading={isLoading}
-        actions={[
-          tableActions.edit(handleEdit),
-          tableActions.delete(handleDeleteClick),
+      <Hero
+        breadcrumbItems={[
+          { label: 'Dashboard', href: '/dashboard' },
+          { label: 'Courses', href: '/dashboard/courses' },
         ]}
-        emptyState={{
-          title: 'No courses found',
-          description: 'Get started by creating your first course',
-          action: {
-            label: 'Add Course',
-            href: '/dashboard/courses/add',
-          },
-        }}
-      />
+        title="All Courses"
+      >
+        <Button asChild>
+          <Link href="/dashboard/courses/add">
+            <Plus className="mr-2 h-4 w-4" />
+            Add Course
+          </Link>
+        </Button>
+      </Hero>
+
+      <ContentLayout>
+        <DataTable
+          data={courses || []}
+          columns={columns}
+          isLoading={isLoading}
+          actions={[
+            tableActions.edit(handleEdit),
+            tableActions.delete(handleDeleteClick),
+          ]}
+          emptyState={{
+            title: 'No courses found',
+            description: 'Get started by creating your first course',
+            action: {
+              label: 'Add Course',
+              href: '/dashboard/courses/add',
+            },
+          }}
+        />
+      </ContentLayout>
 
       <ConfirmDeleteDialog
         open={deleteDialogOpen}

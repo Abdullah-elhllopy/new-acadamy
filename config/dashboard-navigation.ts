@@ -1,0 +1,164 @@
+import { 
+  Home, 
+  Video, 
+  Info, 
+  Layers, 
+  Lightbulb, 
+  MessageSquare, 
+  Users,
+  BookOpen,
+  Presentation,
+  Image as ImageIcon,
+  type LucideIcon 
+} from 'lucide-react'
+
+export interface NavItem {
+  label: string
+  labelAr: string
+  href: string
+  icon?: LucideIcon
+}
+
+export interface NavSection {
+  id: string
+  label: string
+  labelAr: string
+  icon: LucideIcon
+  items: NavItem[]
+}
+
+export const dashboardNavigation: NavSection[] = [
+  {
+    id: 'programs',
+    label: 'Our Programs',
+    labelAr: 'برامجنا',
+    icon: Video,
+    items: [
+      { 
+        label: 'Courses', 
+        labelAr: 'الدورات', 
+        href: '/dashboard/courses',
+        icon: BookOpen 
+      },
+      { 
+        label: 'Lectures', 
+        labelAr: 'المحاضرات', 
+        href: '/dashboard/lectures',
+        icon: Presentation 
+      },
+      { 
+        label: 'Sliders', 
+        labelAr: 'سلايدر', 
+        href: '/dashboard/sliders',
+        icon: ImageIcon 
+      },
+    ],
+  },
+  {
+    id: 'about',
+    label: 'About Academy',
+    labelAr: 'عن الأكاديمية',
+    icon: Info,
+    items: [
+      { 
+        label: 'About Us', 
+        labelAr: 'عن الشركة', 
+        href: '/dashboard/about' 
+      },
+      { 
+        label: 'Trainers', 
+        labelAr: 'المدربين', 
+        href: '/dashboard/trainers' 
+      },
+      { 
+        label: 'Partners', 
+        labelAr: 'شركائنا', 
+        href: '/dashboard/partners' 
+      },
+      { 
+        label: 'Team', 
+        labelAr: 'فريقنا', 
+        href: '/dashboard/team' 
+      },
+    ],
+  },
+  {
+    id: 'departments',
+    label: 'Departments',
+    labelAr: 'الأقسام',
+    icon: Layers,
+    items: [
+      { 
+        label: 'Main Departments', 
+        labelAr: 'الأقسام الرئيسية', 
+        href: '/dashboard/departments/main' 
+      },
+    ],
+  },
+  {
+    id: 'knowledge',
+    label: 'Knowledge Center',
+    labelAr: 'مركز المعرفة',
+    icon: Lightbulb,
+    items: [
+      { 
+        label: 'Images Center', 
+        labelAr: 'مركز الصور', 
+        href: '/dashboard/images-center' 
+      },
+    ],
+  },
+  {
+    id: 'communication',
+    label: 'Communication Center',
+    labelAr: 'مركز التواصل',
+    icon: MessageSquare,
+    items: [
+      { 
+        label: 'Contact Messages', 
+        labelAr: 'رسائل للتواصل', 
+        href: '/dashboard/requests/contact' 
+      },
+      { 
+        label: 'Training Requests', 
+        labelAr: 'طلبات التدريب', 
+        href: '/dashboard/requests/training' 
+      },
+      { 
+        label: 'User Training Requests', 
+        labelAr: 'طلبات التدريب لمستخدم', 
+        href: '/dashboard/requests/user-training' 
+      },
+      { 
+        label: 'Be Trainer Requests', 
+        labelAr: 'طلبات الالتحاق كمدرب', 
+        href: '/dashboard/requests/be-trainer' 
+      },
+      { 
+        label: 'Email Subscriptions', 
+        labelAr: 'القائمة البريدية', 
+        href: '/dashboard/requests/email-subscriptions' 
+      },
+    ],
+  },
+  {
+    id: 'users',
+    label: 'Users',
+    labelAr: 'المستخدمين',
+    icon: Users,
+    items: [
+      { 
+        label: 'All Users', 
+        labelAr: 'المستخدمين', 
+        href: '/dashboard/users' 
+      },
+    ],
+  },
+]
+
+export const dashboardHomeLink = {
+  label: 'Dashboard',
+  labelAr: 'لوحة المعلومات',
+  href: '/dashboard',
+  icon: Home,
+}

@@ -58,3 +58,27 @@ export type NewPasswordData = z.infer<typeof newPasswordSchema>
 export type BeTrainerData = z.infer<typeof beTrainerSchema>
 export type AccountSettingsData = z.infer<typeof accountSettingsSchema>
 export type PasswordChangeData = z.infer<typeof passwordChangeSchema>
+
+export const courseSchema = z.object({
+  courseName: z.string().min(2, 'Course name is required'),
+  courseDescription: z.string().min(10, 'Description must be at least 10 characters'),
+  courseStartDate: z.string().min(1, 'Start date is required'),
+  place: z.string().min(2, 'Place is required'),
+  placeSub: z.string().optional(),
+  courseType: z.string().min(2, 'Course type is required'),
+  courseCost: z.string().min(1, 'Cost is required'),
+  courseNumberOfHours: z.string().min(1, 'Number of hours is required'),
+  language: z.string().optional(),
+  numberOfWeeks: z.string().optional(),
+  numberOfMonths: z.string().optional(),
+  courseContent: z.string().optional(),
+  now: z.boolean().optional(),
+  soon: z.boolean().optional(),
+  recommended: z.boolean().optional(),
+  mostSelling: z.boolean().optional(),
+  image: z.any().optional(),
+  video: z.any().optional(),
+  pdf: z.any().optional(),
+})
+
+export type CourseFormData = z.infer<typeof courseSchema>
