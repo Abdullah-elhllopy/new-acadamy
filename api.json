@@ -1,0 +1,4687 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "You api title",
+        "version": "v1"
+    },
+    "paths": {
+        "/api/AboutUs/About-Us": {
+            "get": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/AboutUs/Add-About-Us": {
+            "post": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "AboutUs",
+                                    "Email",
+                                    "Imagefile",
+                                    "Name",
+                                    "PdfFile"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "Id": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Phone": {
+                                        "type": "string"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "AboutUs": {
+                                        "type": "string",
+                                        "format": "multiline"
+                                    },
+                                    "Pdf": {
+                                        "type": "string"
+                                    },
+                                    "PdfFile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Name": {
+                                        "type": "string"
+                                    },
+                                    "Image": {
+                                        "type": "string"
+                                    },
+                                    "Imagefile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Facebook": {
+                                        "type": "string"
+                                    },
+                                    "Twitter": {
+                                        "type": "string"
+                                    },
+                                    "Linkedin": {
+                                        "type": "string"
+                                    },
+                                    "Link": {
+                                        "type": "string"
+                                    },
+                                    "Instgram": {
+                                        "type": "string"
+                                    },
+                                    "OurVision": {
+                                        "type": "string"
+                                    },
+                                    "OurMessage": {
+                                        "type": "string"
+                                    },
+                                    "WorkingFrom": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "WorkingTo": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "Address": {
+                                        "type": "string"
+                                    },
+                                    "WorkingHours": {
+                                        "type": "string"
+                                    },
+                                    "OurValues": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/Value"
+                                        }
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "Id": {
+                                    "style": "form"
+                                },
+                                "Phone": {
+                                    "style": "form"
+                                },
+                                "Email": {
+                                    "style": "form"
+                                },
+                                "AboutUs": {
+                                    "style": "form"
+                                },
+                                "Pdf": {
+                                    "style": "form"
+                                },
+                                "PdfFile": {
+                                    "style": "form"
+                                },
+                                "Name": {
+                                    "style": "form"
+                                },
+                                "Image": {
+                                    "style": "form"
+                                },
+                                "Imagefile": {
+                                    "style": "form"
+                                },
+                                "Facebook": {
+                                    "style": "form"
+                                },
+                                "Twitter": {
+                                    "style": "form"
+                                },
+                                "Linkedin": {
+                                    "style": "form"
+                                },
+                                "Link": {
+                                    "style": "form"
+                                },
+                                "Instgram": {
+                                    "style": "form"
+                                },
+                                "OurVision": {
+                                    "style": "form"
+                                },
+                                "OurMessage": {
+                                    "style": "form"
+                                },
+                                "WorkingFrom": {
+                                    "style": "form"
+                                },
+                                "WorkingTo": {
+                                    "style": "form"
+                                },
+                                "Address": {
+                                    "style": "form"
+                                },
+                                "WorkingHours": {
+                                    "style": "form"
+                                },
+                                "OurValues": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/AboutUs/Add-OneValue": {
+            "post": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "Title": {
+                                        "type": "string"
+                                    },
+                                    "Description": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "Title": {
+                                    "style": "form"
+                                },
+                                "Description": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/AboutUs/Update-About-Us": {
+            "post": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "AboutUs",
+                                    "Email",
+                                    "Imagefile",
+                                    "Name",
+                                    "PdfFile"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "Id": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Phone": {
+                                        "type": "string"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "AboutUs": {
+                                        "type": "string",
+                                        "format": "multiline"
+                                    },
+                                    "Pdf": {
+                                        "type": "string"
+                                    },
+                                    "PdfFile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Name": {
+                                        "type": "string"
+                                    },
+                                    "Image": {
+                                        "type": "string"
+                                    },
+                                    "Imagefile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Facebook": {
+                                        "type": "string"
+                                    },
+                                    "Twitter": {
+                                        "type": "string"
+                                    },
+                                    "Linkedin": {
+                                        "type": "string"
+                                    },
+                                    "Link": {
+                                        "type": "string"
+                                    },
+                                    "Instgram": {
+                                        "type": "string"
+                                    },
+                                    "OurVision": {
+                                        "type": "string"
+                                    },
+                                    "OurMessage": {
+                                        "type": "string"
+                                    },
+                                    "WorkingFrom": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "WorkingTo": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "Address": {
+                                        "type": "string"
+                                    },
+                                    "WorkingHours": {
+                                        "type": "string"
+                                    },
+                                    "OurValues": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/Value"
+                                        }
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "Id": {
+                                    "style": "form"
+                                },
+                                "Phone": {
+                                    "style": "form"
+                                },
+                                "Email": {
+                                    "style": "form"
+                                },
+                                "AboutUs": {
+                                    "style": "form"
+                                },
+                                "Pdf": {
+                                    "style": "form"
+                                },
+                                "PdfFile": {
+                                    "style": "form"
+                                },
+                                "Name": {
+                                    "style": "form"
+                                },
+                                "Image": {
+                                    "style": "form"
+                                },
+                                "Imagefile": {
+                                    "style": "form"
+                                },
+                                "Facebook": {
+                                    "style": "form"
+                                },
+                                "Twitter": {
+                                    "style": "form"
+                                },
+                                "Linkedin": {
+                                    "style": "form"
+                                },
+                                "Link": {
+                                    "style": "form"
+                                },
+                                "Instgram": {
+                                    "style": "form"
+                                },
+                                "OurVision": {
+                                    "style": "form"
+                                },
+                                "OurMessage": {
+                                    "style": "form"
+                                },
+                                "WorkingFrom": {
+                                    "style": "form"
+                                },
+                                "WorkingTo": {
+                                    "style": "form"
+                                },
+                                "Address": {
+                                    "style": "form"
+                                },
+                                "WorkingHours": {
+                                    "style": "form"
+                                },
+                                "OurValues": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/All-Courses": {
+            "get": {
+                "tags": [
+                    "Course"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/get-Course/{id}": {
+            "get": {
+                "tags": [
+                    "Course"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Find-Course/{name}": {
+            "get": {
+                "tags": [
+                    "Course"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Filter-Courses-by-name": {
+            "get": {
+                "tags": [
+                    "Course"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Filter-Courses-by-category": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/filter"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/filter"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/filter"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Filter-Courses-by-bool": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/filterbool"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/filterbool"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/filterbool"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Create-Course": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "CourseCost",
+                                    "CourseDescripTion",
+                                    "CourseName",
+                                    "CourseNumberOfHours",
+                                    "CourseStartDate",
+                                    "Coursetype",
+                                    "Place"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "CourseId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "CourseName": {
+                                        "type": "string"
+                                    },
+                                    "CourseDescripTion": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "CourseStartDate": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "NumberOfWeeks": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "default": 0
+                                    },
+                                    "NumberOfMonths": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "default": 0
+                                    },
+                                    "Place": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "PlaceSub": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "Coursetype": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "Language": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "Video": {
+                                        "type": "string"
+                                    },
+                                    "Image": {
+                                        "type": "string"
+                                    },
+                                    "Coursepdf": {
+                                        "type": "string"
+                                    },
+                                    "InstitutionID": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "CourseCost": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "default": 0
+                                    },
+                                    "CourseNumberOfHours": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "default": 0
+                                    },
+                                    "InstructorIDs": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        }
+                                    },
+                                    "CourseContent": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "MainDebId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "SubDebId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Now": {
+                                        "type": "boolean"
+                                    },
+                                    "MostSellenig": {
+                                        "type": "boolean"
+                                    },
+                                    "Recommended": {
+                                        "type": "boolean"
+                                    },
+                                    "Soon": {
+                                        "type": "boolean"
+                                    },
+                                    "img": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "vid": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "pdf": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Created": {
+                                        "type": "boolean"
+                                    },
+                                    "WWWLText": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "CourseId": {
+                                    "style": "form"
+                                },
+                                "CourseName": {
+                                    "style": "form"
+                                },
+                                "CourseDescripTion": {
+                                    "style": "form"
+                                },
+                                "CourseStartDate": {
+                                    "style": "form"
+                                },
+                                "NumberOfWeeks": {
+                                    "style": "form"
+                                },
+                                "NumberOfMonths": {
+                                    "style": "form"
+                                },
+                                "Place": {
+                                    "style": "form"
+                                },
+                                "PlaceSub": {
+                                    "style": "form"
+                                },
+                                "Coursetype": {
+                                    "style": "form"
+                                },
+                                "Language": {
+                                    "style": "form"
+                                },
+                                "Video": {
+                                    "style": "form"
+                                },
+                                "Image": {
+                                    "style": "form"
+                                },
+                                "Coursepdf": {
+                                    "style": "form"
+                                },
+                                "InstitutionID": {
+                                    "style": "form"
+                                },
+                                "CourseCost": {
+                                    "style": "form"
+                                },
+                                "CourseNumberOfHours": {
+                                    "style": "form"
+                                },
+                                "InstructorIDs": {
+                                    "style": "form"
+                                },
+                                "CourseContent": {
+                                    "style": "form"
+                                },
+                                "MainDebId": {
+                                    "style": "form"
+                                },
+                                "SubDebId": {
+                                    "style": "form"
+                                },
+                                "Now": {
+                                    "style": "form"
+                                },
+                                "MostSellenig": {
+                                    "style": "form"
+                                },
+                                "Recommended": {
+                                    "style": "form"
+                                },
+                                "Soon": {
+                                    "style": "form"
+                                },
+                                "img": {
+                                    "style": "form"
+                                },
+                                "vid": {
+                                    "style": "form"
+                                },
+                                "pdf": {
+                                    "style": "form"
+                                },
+                                "Created": {
+                                    "style": "form"
+                                },
+                                "WWWLText": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Add-WWWL": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "Courseid",
+                                    "Wwwlcontent"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "Wwwlid": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Wwwlcontent": {
+                                        "type": "string"
+                                    },
+                                    "Courseid": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "Wwwlid": {
+                                    "style": "form"
+                                },
+                                "Wwwlcontent": {
+                                    "style": "form"
+                                },
+                                "Courseid": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Update-Course": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "parameters": [
+                    {
+                        "name": "CourseId",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "CourseCost",
+                                    "CourseDescripTion",
+                                    "CourseName",
+                                    "CourseNumberOfHours",
+                                    "CourseStartDate",
+                                    "Coursetype",
+                                    "Place"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "CourseId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "CourseName": {
+                                        "type": "string"
+                                    },
+                                    "CourseDescripTion": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "CourseStartDate": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "NumberOfWeeks": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "default": 0
+                                    },
+                                    "NumberOfMonths": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "default": 0
+                                    },
+                                    "Place": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "PlaceSub": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "Coursetype": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "Language": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "Video": {
+                                        "type": "string"
+                                    },
+                                    "Image": {
+                                        "type": "string"
+                                    },
+                                    "Coursepdf": {
+                                        "type": "string"
+                                    },
+                                    "InstitutionID": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "CourseCost": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "default": 0
+                                    },
+                                    "CourseNumberOfHours": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "default": 0
+                                    },
+                                    "InstructorIDs": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        }
+                                    },
+                                    "CourseContent": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "MainDebId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "SubDebId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Now": {
+                                        "type": "boolean"
+                                    },
+                                    "MostSellenig": {
+                                        "type": "boolean"
+                                    },
+                                    "Recommended": {
+                                        "type": "boolean"
+                                    },
+                                    "Soon": {
+                                        "type": "boolean"
+                                    },
+                                    "img": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "vid": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "pdf": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Created": {
+                                        "type": "boolean"
+                                    },
+                                    "WWWLText": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "CourseId": {
+                                    "style": "form"
+                                },
+                                "CourseName": {
+                                    "style": "form"
+                                },
+                                "CourseDescripTion": {
+                                    "style": "form"
+                                },
+                                "CourseStartDate": {
+                                    "style": "form"
+                                },
+                                "NumberOfWeeks": {
+                                    "style": "form"
+                                },
+                                "NumberOfMonths": {
+                                    "style": "form"
+                                },
+                                "Place": {
+                                    "style": "form"
+                                },
+                                "PlaceSub": {
+                                    "style": "form"
+                                },
+                                "Coursetype": {
+                                    "style": "form"
+                                },
+                                "Language": {
+                                    "style": "form"
+                                },
+                                "Video": {
+                                    "style": "form"
+                                },
+                                "Image": {
+                                    "style": "form"
+                                },
+                                "Coursepdf": {
+                                    "style": "form"
+                                },
+                                "InstitutionID": {
+                                    "style": "form"
+                                },
+                                "CourseCost": {
+                                    "style": "form"
+                                },
+                                "CourseNumberOfHours": {
+                                    "style": "form"
+                                },
+                                "InstructorIDs": {
+                                    "style": "form"
+                                },
+                                "CourseContent": {
+                                    "style": "form"
+                                },
+                                "MainDebId": {
+                                    "style": "form"
+                                },
+                                "SubDebId": {
+                                    "style": "form"
+                                },
+                                "Now": {
+                                    "style": "form"
+                                },
+                                "MostSellenig": {
+                                    "style": "form"
+                                },
+                                "Recommended": {
+                                    "style": "form"
+                                },
+                                "Soon": {
+                                    "style": "form"
+                                },
+                                "img": {
+                                    "style": "form"
+                                },
+                                "vid": {
+                                    "style": "form"
+                                },
+                                "pdf": {
+                                    "style": "form"
+                                },
+                                "Created": {
+                                    "style": "form"
+                                },
+                                "WWWLText": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/GetbymainAndsub": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/vm"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/vm"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/vm"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/GetCoursesByUserId/{UserId}": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "parameters": [
+                    {
+                        "name": "UserId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/GetCoursesByUserId-online-watching/{UserId}": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "parameters": [
+                    {
+                        "name": "UserId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/GetCoursesByUserId-online-Coming/{UserId}": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "parameters": [
+                    {
+                        "name": "UserId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/GetCoursesByUserId-online-watched/{UserId}": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "parameters": [
+                    {
+                        "name": "UserId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/GetCoursesByUserId-presence-Coming/{UserId}": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "parameters": [
+                    {
+                        "name": "UserId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/GetCoursesByUserId-presence-watched/{UserId}": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "parameters": [
+                    {
+                        "name": "UserId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Delete-Course/{id}": {
+            "get": {
+                "tags": [
+                    "Course"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Add-Courses-To-User": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/usercourseVM"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/usercourseVM"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/usercourseVM"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Remove-User-From-Course": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RemoveUserCourse"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RemoveUserCourse"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RemoveUserCourse"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Add-Lectures-To-Course": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Lecturescourse"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Lecturescourse"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Lecturescourse"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Remove-Lecture-from-Course": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/remove"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/remove"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/remove"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Add-Instructors-To-Course": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InstructorCourse"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InstructorCourse"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InstructorCourse"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Reserve-Course": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "parameters": [
+                    {
+                        "name": "StripeEmail",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "StripeToken",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Amount",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "UserId",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "CourseId",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Image/Get-Images-by-GroupId/{GroupId}": {
+            "get": {
+                "tags": [
+                    "Image"
+                ],
+                "parameters": [
+                    {
+                        "name": "GroupId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Image/All-Images": {
+            "get": {
+                "tags": [
+                    "Image"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Image/Get-Image/{id}": {
+            "get": {
+                "tags": [
+                    "Image"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Image/Add-Image": {
+            "post": {
+                "tags": [
+                    "Image"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "Text"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "ImageId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "ImageSrc": {
+                                        "type": "string"
+                                    },
+                                    "Text": {
+                                        "type": "string"
+                                    },
+                                    "ImageFile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "ImageGroupId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "ImageId": {
+                                    "style": "form"
+                                },
+                                "ImageSrc": {
+                                    "style": "form"
+                                },
+                                "Text": {
+                                    "style": "form"
+                                },
+                                "ImageFile": {
+                                    "style": "form"
+                                },
+                                "ImageGroupId": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Image/Edit-Image{id}": {
+            "post": {
+                "tags": [
+                    "Image"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "Text"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "ImageId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "ImageSrc": {
+                                        "type": "string"
+                                    },
+                                    "Text": {
+                                        "type": "string"
+                                    },
+                                    "ImageFile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "ImageGroupId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "ImageId": {
+                                    "style": "form"
+                                },
+                                "ImageSrc": {
+                                    "style": "form"
+                                },
+                                "Text": {
+                                    "style": "form"
+                                },
+                                "ImageFile": {
+                                    "style": "form"
+                                },
+                                "ImageGroupId": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Image/Delete-Image{id}": {
+            "get": {
+                "tags": [
+                    "Image"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/ImageGroup/Get-Groups-by-GroupName/{Name}": {
+            "get": {
+                "tags": [
+                    "ImageGroup"
+                ],
+                "parameters": [
+                    {
+                        "name": "Name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/ImageGroup/All-ImageGroup": {
+            "get": {
+                "tags": [
+                    "ImageGroup"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/ImageGroup/Get-Image/{id}": {
+            "get": {
+                "tags": [
+                    "ImageGroup"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/ImageGroup/Add-ImageGroup": {
+            "post": {
+                "tags": [
+                    "ImageGroup"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "GroupName": {
+                                        "type": "string"
+                                    },
+                                    "GroupImage": {
+                                        "type": "string"
+                                    },
+                                    "ImageFile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "GroupName": {
+                                    "style": "form"
+                                },
+                                "GroupImage": {
+                                    "style": "form"
+                                },
+                                "ImageFile": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/ImageGroup/Edit-ImageGroup/{id}": {
+            "post": {
+                "tags": [
+                    "ImageGroup"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "GroupName": {
+                                        "type": "string"
+                                    },
+                                    "GroupImage": {
+                                        "type": "string"
+                                    },
+                                    "ImageFile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "GroupName": {
+                                    "style": "form"
+                                },
+                                "GroupImage": {
+                                    "style": "form"
+                                },
+                                "ImageFile": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/ImageGroup/Delete-ImageGroup/{id}": {
+            "get": {
+                "tags": [
+                    "ImageGroup"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Instructor/All-Instructors": {
+            "get": {
+                "tags": [
+                    "Instructor"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Instructor/get-Instructor/{id}": {
+            "get": {
+                "tags": [
+                    "Instructor"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Instructor/Find-Instructor/{name}": {
+            "get": {
+                "tags": [
+                    "Instructor"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Instructor/Create-Instructor": {
+            "post": {
+                "tags": [
+                    "Instructor"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "Job",
+                                    "Name"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "Name": {
+                                        "type": "string"
+                                    },
+                                    "Job": {
+                                        "type": "string"
+                                    },
+                                    "About": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string"
+                                    },
+                                    "Linkedin": {
+                                        "type": "string"
+                                    },
+                                    "Facbook": {
+                                        "type": "string"
+                                    },
+                                    "Instgram": {
+                                        "type": "string"
+                                    },
+                                    "Twitter": {
+                                        "type": "string"
+                                    },
+                                    "Imagefile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Pdf": {
+                                        "type": "string"
+                                    },
+                                    "Pdffile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "Name": {
+                                    "style": "form"
+                                },
+                                "Job": {
+                                    "style": "form"
+                                },
+                                "About": {
+                                    "style": "form"
+                                },
+                                "image": {
+                                    "style": "form"
+                                },
+                                "Linkedin": {
+                                    "style": "form"
+                                },
+                                "Facbook": {
+                                    "style": "form"
+                                },
+                                "Instgram": {
+                                    "style": "form"
+                                },
+                                "Twitter": {
+                                    "style": "form"
+                                },
+                                "Imagefile": {
+                                    "style": "form"
+                                },
+                                "Pdf": {
+                                    "style": "form"
+                                },
+                                "Pdffile": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Instructor/Delete-Instructor/{id}": {
+            "get": {
+                "tags": [
+                    "Instructor"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Lecture/All-Lectures": {
+            "get": {
+                "tags": [
+                    "Lecture"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Lecture/get-Lecture/{id}": {
+            "get": {
+                "tags": [
+                    "Lecture"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Lecture/Create-Lecture": {
+            "post": {
+                "tags": [
+                    "Lecture"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "CourseId",
+                                    "Description",
+                                    "LectureIndex",
+                                    "Name"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "LectureId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Name": {
+                                        "type": "string"
+                                    },
+                                    "Description": {
+                                        "type": "string"
+                                    },
+                                    "CourseId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "LectureIndex": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    },
+                                    "Duration": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "Link": {
+                                        "type": "string"
+                                    },
+                                    "Video": {
+                                        "type": "string"
+                                    },
+                                    "Videofile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "LectureId": {
+                                    "style": "form"
+                                },
+                                "Name": {
+                                    "style": "form"
+                                },
+                                "Description": {
+                                    "style": "form"
+                                },
+                                "CourseId": {
+                                    "style": "form"
+                                },
+                                "LectureIndex": {
+                                    "style": "form"
+                                },
+                                "Duration": {
+                                    "style": "form"
+                                },
+                                "Link": {
+                                    "style": "form"
+                                },
+                                "Video": {
+                                    "style": "form"
+                                },
+                                "Videofile": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Lecture/Delete-Lecture/{id}": {
+            "get": {
+                "tags": [
+                    "Lecture"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/login/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginVM"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginVM"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginVM"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/MainDepartment/All-Departments": {
+            "get": {
+                "tags": [
+                    "MainDepartment"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/MainDepartment/get-Department/{id}": {
+            "get": {
+                "tags": [
+                    "MainDepartment"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/MainDepartment/Find-Department/{name}": {
+            "get": {
+                "tags": [
+                    "MainDepartment"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/MainDepartment/Create-Department": {
+            "post": {
+                "tags": [
+                    "MainDepartment"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MainDepartmentVM"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MainDepartmentVM"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MainDepartmentVM"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/MainDepartment/Delete-Department/{id}": {
+            "get": {
+                "tags": [
+                    "MainDepartment"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Member/Search-Members/{name}": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Member/All-Members": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Member/Get-Member/{id}": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Member/Add-Member": {
+            "post": {
+                "tags": [
+                    "Member"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "Email",
+                                    "Job",
+                                    "Name"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "Id": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Name": {
+                                        "type": "string"
+                                    },
+                                    "Job": {
+                                        "type": "string"
+                                    },
+                                    "Phone": {
+                                        "type": "string"
+                                    },
+                                    "Imagefile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Image": {
+                                        "type": "string"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "Facebook": {
+                                        "type": "string"
+                                    },
+                                    "Twitter": {
+                                        "type": "string"
+                                    },
+                                    "LinkedIn": {
+                                        "type": "string"
+                                    },
+                                    "About": {
+                                        "type": "string"
+                                    },
+                                    "PdfFile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Pdf": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "Id": {
+                                    "style": "form"
+                                },
+                                "Name": {
+                                    "style": "form"
+                                },
+                                "Job": {
+                                    "style": "form"
+                                },
+                                "Phone": {
+                                    "style": "form"
+                                },
+                                "Imagefile": {
+                                    "style": "form"
+                                },
+                                "Image": {
+                                    "style": "form"
+                                },
+                                "Email": {
+                                    "style": "form"
+                                },
+                                "Facebook": {
+                                    "style": "form"
+                                },
+                                "Twitter": {
+                                    "style": "form"
+                                },
+                                "LinkedIn": {
+                                    "style": "form"
+                                },
+                                "About": {
+                                    "style": "form"
+                                },
+                                "PdfFile": {
+                                    "style": "form"
+                                },
+                                "Pdf": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Member/Edit-member/{id}": {
+            "post": {
+                "tags": [
+                    "Member"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "Email",
+                                    "Job",
+                                    "Name"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "Id": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Name": {
+                                        "type": "string"
+                                    },
+                                    "Job": {
+                                        "type": "string"
+                                    },
+                                    "Phone": {
+                                        "type": "string"
+                                    },
+                                    "Imagefile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Image": {
+                                        "type": "string"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "Facebook": {
+                                        "type": "string"
+                                    },
+                                    "Twitter": {
+                                        "type": "string"
+                                    },
+                                    "LinkedIn": {
+                                        "type": "string"
+                                    },
+                                    "About": {
+                                        "type": "string"
+                                    },
+                                    "PdfFile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Pdf": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "Id": {
+                                    "style": "form"
+                                },
+                                "Name": {
+                                    "style": "form"
+                                },
+                                "Job": {
+                                    "style": "form"
+                                },
+                                "Phone": {
+                                    "style": "form"
+                                },
+                                "Imagefile": {
+                                    "style": "form"
+                                },
+                                "Image": {
+                                    "style": "form"
+                                },
+                                "Email": {
+                                    "style": "form"
+                                },
+                                "Facebook": {
+                                    "style": "form"
+                                },
+                                "Twitter": {
+                                    "style": "form"
+                                },
+                                "LinkedIn": {
+                                    "style": "form"
+                                },
+                                "About": {
+                                    "style": "form"
+                                },
+                                "PdfFile": {
+                                    "style": "form"
+                                },
+                                "Pdf": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Member/Delete-Member/{id}": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Message/Search-Messages/{subject}": {
+            "get": {
+                "tags": [
+                    "Message"
+                ],
+                "parameters": [
+                    {
+                        "name": "subject",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Message/All-Messages": {
+            "get": {
+                "tags": [
+                    "Message"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Message/Get-Message/{id}": {
+            "get": {
+                "tags": [
+                    "Message"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Message/Add-Message": {
+            "post": {
+                "tags": [
+                    "Message"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ContactUsVM"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ContactUsVM"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ContactUsVM"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Message/Delete-Message{id}": {
+            "get": {
+                "tags": [
+                    "Message"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Package/All-Packages": {
+            "get": {
+                "tags": [
+                    "Package"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Package/Create-Package": {
+            "post": {
+                "tags": [
+                    "Package"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "Name",
+                                    "Price"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "PackageId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Name": {
+                                        "type": "string"
+                                    },
+                                    "Description": {
+                                        "type": "string"
+                                    },
+                                    "Price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "Type": {
+                                        "type": "string"
+                                    },
+                                    "CoursesIds": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        }
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "PackageId": {
+                                    "style": "form"
+                                },
+                                "Name": {
+                                    "style": "form"
+                                },
+                                "Description": {
+                                    "style": "form"
+                                },
+                                "Price": {
+                                    "style": "form"
+                                },
+                                "Type": {
+                                    "style": "form"
+                                },
+                                "CoursesIds": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Package/Edit-Package/{id}": {
+            "post": {
+                "tags": [
+                    "Package"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "Name",
+                                    "Price"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "PackageId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Name": {
+                                        "type": "string"
+                                    },
+                                    "Description": {
+                                        "type": "string"
+                                    },
+                                    "Price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "Type": {
+                                        "type": "string"
+                                    },
+                                    "CoursesIds": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        }
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "PackageId": {
+                                    "style": "form"
+                                },
+                                "Name": {
+                                    "style": "form"
+                                },
+                                "Description": {
+                                    "style": "form"
+                                },
+                                "Price": {
+                                    "style": "form"
+                                },
+                                "Type": {
+                                    "style": "form"
+                                },
+                                "CoursesIds": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Package/Delete-Package/{id}": {
+            "get": {
+                "tags": [
+                    "Package"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Partner/Search-Partners/{name}": {
+            "get": {
+                "tags": [
+                    "Partner"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Partner/All-Partners": {
+            "get": {
+                "tags": [
+                    "Partner"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Partner/Get-Partner/{id}": {
+            "get": {
+                "tags": [
+                    "Partner"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Partner/Add-Partner": {
+            "post": {
+                "tags": [
+                    "Partner"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "Email",
+                                    "Link",
+                                    "Name"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "Id": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Name": {
+                                        "type": "string"
+                                    },
+                                    "Imagefile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Image": {
+                                        "type": "string"
+                                    },
+                                    "Description": {
+                                        "type": "string"
+                                    },
+                                    "Phone": {
+                                        "type": "string"
+                                    },
+                                    "Link": {
+                                        "type": "string"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "Prief": {
+                                        "type": "string"
+                                    },
+                                    "About": {
+                                        "type": "string"
+                                    },
+                                    "PdfFile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Pdf": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "Id": {
+                                    "style": "form"
+                                },
+                                "Name": {
+                                    "style": "form"
+                                },
+                                "Imagefile": {
+                                    "style": "form"
+                                },
+                                "Image": {
+                                    "style": "form"
+                                },
+                                "Description": {
+                                    "style": "form"
+                                },
+                                "Phone": {
+                                    "style": "form"
+                                },
+                                "Link": {
+                                    "style": "form"
+                                },
+                                "Email": {
+                                    "style": "form"
+                                },
+                                "Prief": {
+                                    "style": "form"
+                                },
+                                "About": {
+                                    "style": "form"
+                                },
+                                "PdfFile": {
+                                    "style": "form"
+                                },
+                                "Pdf": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Partner/Edit-Partner/{id}": {
+            "post": {
+                "tags": [
+                    "Partner"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "Email",
+                                    "Link",
+                                    "Name"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "Id": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Name": {
+                                        "type": "string"
+                                    },
+                                    "Imagefile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Image": {
+                                        "type": "string"
+                                    },
+                                    "Description": {
+                                        "type": "string"
+                                    },
+                                    "Phone": {
+                                        "type": "string"
+                                    },
+                                    "Link": {
+                                        "type": "string"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "Prief": {
+                                        "type": "string"
+                                    },
+                                    "About": {
+                                        "type": "string"
+                                    },
+                                    "PdfFile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Pdf": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "Id": {
+                                    "style": "form"
+                                },
+                                "Name": {
+                                    "style": "form"
+                                },
+                                "Imagefile": {
+                                    "style": "form"
+                                },
+                                "Image": {
+                                    "style": "form"
+                                },
+                                "Description": {
+                                    "style": "form"
+                                },
+                                "Phone": {
+                                    "style": "form"
+                                },
+                                "Link": {
+                                    "style": "form"
+                                },
+                                "Email": {
+                                    "style": "form"
+                                },
+                                "Prief": {
+                                    "style": "form"
+                                },
+                                "About": {
+                                    "style": "form"
+                                },
+                                "PdfFile": {
+                                    "style": "form"
+                                },
+                                "Pdf": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Partner/Delete-Partner/{id}": {
+            "get": {
+                "tags": [
+                    "Partner"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Slider/Search-Slides/{Title}": {
+            "get": {
+                "tags": [
+                    "Slider"
+                ],
+                "parameters": [
+                    {
+                        "name": "Title",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Slider/All-Slides": {
+            "get": {
+                "tags": [
+                    "Slider"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Slider/Get-Slide/{id}": {
+            "get": {
+                "tags": [
+                    "Slider"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Slider/Add-Slide": {
+            "post": {
+                "tags": [
+                    "Slider"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "ImageFile",
+                                    "Title"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "Id": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    },
+                                    "Title": {
+                                        "type": "string"
+                                    },
+                                    "Description": {
+                                        "type": "string"
+                                    },
+                                    "ImageFile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Image": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "Id": {
+                                    "style": "form"
+                                },
+                                "Title": {
+                                    "style": "form"
+                                },
+                                "Description": {
+                                    "style": "form"
+                                },
+                                "ImageFile": {
+                                    "style": "form"
+                                },
+                                "Image": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Slider/Edit-Slide/{id}": {
+            "post": {
+                "tags": [
+                    "Slider"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "ImageFile",
+                                    "Title"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "Id": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    },
+                                    "Title": {
+                                        "type": "string"
+                                    },
+                                    "Description": {
+                                        "type": "string"
+                                    },
+                                    "ImageFile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "Image": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "Id": {
+                                    "style": "form"
+                                },
+                                "Title": {
+                                    "style": "form"
+                                },
+                                "Description": {
+                                    "style": "form"
+                                },
+                                "ImageFile": {
+                                    "style": "form"
+                                },
+                                "Image": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Slider/Delete-Slide/{id}": {
+            "get": {
+                "tags": [
+                    "Slider"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/SubDepartment/All-Sub-Departments": {
+            "get": {
+                "tags": [
+                    "SubDepartment"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/SubDepartment/Get-By-Main-Deb/{Id}": {
+            "get": {
+                "tags": [
+                    "SubDepartment"
+                ],
+                "parameters": [
+                    {
+                        "name": "Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/SubDepartment/get-Sub-Department/{id}": {
+            "get": {
+                "tags": [
+                    "SubDepartment"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/SubDepartment/Find-Sub-Department/{name}": {
+            "get": {
+                "tags": [
+                    "SubDepartment"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/SubDepartment/Create-Sub-Department": {
+            "post": {
+                "tags": [
+                    "SubDepartment"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MainDepartmentVM"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MainDepartmentVM"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MainDepartmentVM"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/SubDepartment/Delete-Sub-Department/{id}": {
+            "get": {
+                "tags": [
+                    "SubDepartment"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Subscribe/Get-all": {
+            "get": {
+                "tags": [
+                    "Subscribe"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Subscribe/Delete-Subscribe/{id}": {
+            "get": {
+                "tags": [
+                    "Subscribe"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Subscribe/Check-Mail": {
+            "get": {
+                "tags": [
+                    "Subscribe"
+                ],
+                "parameters": [
+                    {
+                        "name": "mail",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Training/Get-Trainings-by-UserId/{UserId}": {
+            "get": {
+                "tags": [
+                    "Training"
+                ],
+                "parameters": [
+                    {
+                        "name": "UserId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Training/All-Trainings": {
+            "get": {
+                "tags": [
+                    "Training"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Training/Get-Training/{id}": {
+            "get": {
+                "tags": [
+                    "Training"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Training/Add-Training": {
+            "post": {
+                "tags": [
+                    "Training"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "CourseId",
+                                    "Email",
+                                    "Name",
+                                    "TraineesNumber"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "TrainingId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Name": {
+                                        "type": "string"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "PhoneNumber": {
+                                        "type": "string"
+                                    },
+                                    "WorkInstitution": {
+                                        "type": "string"
+                                    },
+                                    "JobDescription": {
+                                        "type": "string"
+                                    },
+                                    "SuggestedDate": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "Language": {
+                                        "type": "string"
+                                    },
+                                    "TraineesNumber": {
+                                        "type": "string"
+                                    },
+                                    "Details": {
+                                        "type": "string"
+                                    },
+                                    "CourseId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "InstructorId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "UserId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "TrainingId": {
+                                    "style": "form"
+                                },
+                                "Name": {
+                                    "style": "form"
+                                },
+                                "Email": {
+                                    "style": "form"
+                                },
+                                "PhoneNumber": {
+                                    "style": "form"
+                                },
+                                "WorkInstitution": {
+                                    "style": "form"
+                                },
+                                "JobDescription": {
+                                    "style": "form"
+                                },
+                                "SuggestedDate": {
+                                    "style": "form"
+                                },
+                                "Language": {
+                                    "style": "form"
+                                },
+                                "TraineesNumber": {
+                                    "style": "form"
+                                },
+                                "Details": {
+                                    "style": "form"
+                                },
+                                "CourseId": {
+                                    "style": "form"
+                                },
+                                "InstructorId": {
+                                    "style": "form"
+                                },
+                                "UserId": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Training/Edit-Training/{id}": {
+            "post": {
+                "tags": [
+                    "Training"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "CourseId",
+                                    "Email",
+                                    "Name",
+                                    "TraineesNumber"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "TrainingId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Name": {
+                                        "type": "string"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "PhoneNumber": {
+                                        "type": "string"
+                                    },
+                                    "WorkInstitution": {
+                                        "type": "string"
+                                    },
+                                    "JobDescription": {
+                                        "type": "string"
+                                    },
+                                    "SuggestedDate": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "Language": {
+                                        "type": "string"
+                                    },
+                                    "TraineesNumber": {
+                                        "type": "string"
+                                    },
+                                    "Details": {
+                                        "type": "string"
+                                    },
+                                    "CourseId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "InstructorId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "UserId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "TrainingId": {
+                                    "style": "form"
+                                },
+                                "Name": {
+                                    "style": "form"
+                                },
+                                "Email": {
+                                    "style": "form"
+                                },
+                                "PhoneNumber": {
+                                    "style": "form"
+                                },
+                                "WorkInstitution": {
+                                    "style": "form"
+                                },
+                                "JobDescription": {
+                                    "style": "form"
+                                },
+                                "SuggestedDate": {
+                                    "style": "form"
+                                },
+                                "Language": {
+                                    "style": "form"
+                                },
+                                "TraineesNumber": {
+                                    "style": "form"
+                                },
+                                "Details": {
+                                    "style": "form"
+                                },
+                                "CourseId": {
+                                    "style": "form"
+                                },
+                                "InstructorId": {
+                                    "style": "form"
+                                },
+                                "UserId": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Training/Delete-Training/{id}": {
+            "get": {
+                "tags": [
+                    "Training"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/user/GetAllUsers": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserVM"
+                                    }
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserVM"
+                                    }
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserVM"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/Edit-User": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/user/Check-Mail": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "mail",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/user/Get-by-CourseId/{CourseId}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "CourseId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/user/Register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserVM"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserVM"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserVM"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/user/Forget-Password": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "email": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/user/Check-Code": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "code",
+                                    "email"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "code": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "email": {
+                                    "style": "form"
+                                },
+                                "code": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/user/Reset-Password": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "Password"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "Password": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "email": {
+                                    "style": "form"
+                                },
+                                "Password": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/user/Update-Password": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "Email",
+                                    "NewPassword",
+                                    "OldPassword",
+                                    "UserId"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "UserId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "OldPassword": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "NewPassword": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "UserId": {
+                                    "style": "form"
+                                },
+                                "Email": {
+                                    "style": "form"
+                                },
+                                "OldPassword": {
+                                    "style": "form"
+                                },
+                                "NewPassword": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/user/Delete-user{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/WeatherForecast": {
+            "get": {
+                "tags": [
+                    "WeatherForecast"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/WeatherForecast"
+                                    }
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/WeatherForecast"
+                                    }
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/WeatherForecast"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ContactUsVM": {
+                "required": [
+                    "email",
+                    "fullName",
+                    "message",
+                    "phone",
+                    "subject"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "fullName": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "message": {
+                        "type": "string",
+                        "format": "multiline"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "filter": {
+                "type": "object",
+                "properties": {
+                    "maindepartmentid": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "subdepartmentid": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "instructorids": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "nullable": true
+                    },
+                    "places": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "dates": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "lang": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "filterbool": {
+                "type": "object",
+                "properties": {
+                    "now": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "mostSellenig": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "recommended": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "soon": {
+                        "type": "boolean",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "InstructorCourse": {
+                "type": "object",
+                "properties": {
+                    "instructorsIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "nullable": true
+                    },
+                    "courseId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Lecturescourse": {
+                "type": "object",
+                "properties": {
+                    "lecturesIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "nullable": true
+                    },
+                    "courseId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "LoginVM": {
+                "required": [
+                    "emailAddress",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "emailAddress": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "MainDepartmentVM": {
+                "type": "object",
+                "properties": {
+                    "departmentID": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "remove": {
+                "required": [
+                    "courseId",
+                    "lectureId"
+                ],
+                "type": "object",
+                "properties": {
+                    "courseId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "lectureId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "RemoveUserCourse": {
+                "required": [
+                    "courseId",
+                    "userId"
+                ],
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "courseId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "usercourseVM": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "courseId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "numberofPersones": {
+                        "type": "integer",
+                        "format": "int32",
+                        "nullable": true
+                    },
+                    "workPlace": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "country": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phoneNumber": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "UserVM": {
+                "required": [
+                    "userEmail",
+                    "userFullName"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "userFullName": {
+                        "type": "string"
+                    },
+                    "userEmail": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "userPassword": {
+                        "type": "string",
+                        "format": "password",
+                        "nullable": true
+                    },
+                    "userConfirmPassword": {
+                        "type": "string",
+                        "format": "password",
+                        "nullable": true
+                    },
+                    "type": {
+                        "type": "string",
+                        "default": "0",
+                        "nullable": true
+                    },
+                    "userPhone": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "tempPassword": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Value": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "vm": {
+                "type": "object",
+                "properties": {
+                    "mainDepartmentId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "subDepartmentId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "WeatherForecast": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "temperatureC": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "temperatureF": {
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true
+                    },
+                    "summary": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "securitySchemes": {
+            "Bearer": {
+                "type": "apiKey",
+                "description": "JWT Authorization header using the Bearer scheme. \\r\\n\\r\\n \r\n                      Enter 'Bearer' [space] and then your token in the text input below.\r\n                      \\r\\n\\r\\nExample: 'Bearer 12345abcdef'",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        {
+            "Bearer": []
+        }
+    ]
+}

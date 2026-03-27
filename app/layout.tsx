@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/footer'
 import { ErrorBoundary } from '@/components/error-boundary'
 import { LocalizationProvider } from '@/locales/localization-provider'
 import { InitLangScript } from '@/locales/init-lang-script'
+import { ReactQueryProvider } from '@/components/providers/react-query-provider'
 import './globals.css'
 import { I18nProvider } from '@/locales'
 
@@ -40,19 +41,21 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased" suppressHydrationWarning>
         <ErrorBoundary>
-          <I18nProvider>
-            <LocalizationProvider>
-              <div className="min-h-screen flex flex-col">
-                <Header />
-                <main className="flex-1">
-                  {children}
-                </main>
-                <Footer />
-              </div>
-              <Toaster />
-              <Analytics />
-            </LocalizationProvider>
-          </I18nProvider>
+          <ReactQueryProvider>
+            <I18nProvider>
+              <LocalizationProvider>
+                <div className="min-h-screen flex flex-col">
+                  <Header />
+                  <main className="flex-1">
+                    {children}
+                  </main>
+                  <Footer />
+                </div>
+                <Toaster />
+                <Analytics />
+              </LocalizationProvider>
+            </I18nProvider>
+          </ReactQueryProvider>
         </ErrorBoundary>
       </body>
     </html>

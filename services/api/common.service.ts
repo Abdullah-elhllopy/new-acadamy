@@ -1,0 +1,156 @@
+import { apiClient } from './client';
+import { endpoints } from './config';
+
+export interface Partner {
+  partnerId?: string;
+  partnerName: string;
+  partnerLogo?: string;
+  partnerWebsite?: string;
+  isActive?: boolean;
+}
+
+export interface TeamMember {
+  teamId?: string;
+  memberName: string;
+  memberPosition: string;
+  memberImage?: string;
+  memberBio?: string;
+  linkedin?: string;
+  email?: string;
+  isActive?: boolean;
+}
+
+export interface Slider {
+  sliderId?: string;
+  sliderTitle?: string;
+  sliderDescription?: string;
+  sliderImage: string;
+  sliderLink?: string;
+  order?: number;
+  isActive?: boolean;
+}
+
+export interface ImageGroup {
+  groupId?: string;
+  groupName: string;
+  groupDescription?: string;
+  groupCover?: string;
+  createdAt?: string;
+}
+
+export interface Image {
+  imageId?: string;
+  imagePath: string;
+  imageTitle?: string;
+  groupId: string;
+  createdAt?: string;
+}
+
+class PartnerService {
+  async getAll(): Promise<Partner[]> {
+    return apiClient.get<Partner[]>(endpoints.partners.getAll);
+  }
+
+  async getById(id: string): Promise<Partner> {
+    return apiClient.get<Partner>(endpoints.partners.getById(id));
+  }
+
+  async create(formData: FormData): Promise<Partner> {
+    return apiClient.postFormData<Partner>(endpoints.partners.create, formData);
+  }
+
+  async update(formData: FormData): Promise<Partner> {
+    return apiClient.postFormData<Partner>(endpoints.partners.update, formData);
+  }
+
+  async delete(id: string): Promise<void> {
+    return apiClient.delete<void>(endpoints.partners.delete(id));
+  }
+}
+
+class TeamService {
+  async getAll(): Promise<TeamMember[]> {
+    return apiClient.get<TeamMember[]>(endpoints.team.getAll);
+  }
+
+  async getById(id: string): Promise<TeamMember> {
+    return apiClient.get<TeamMember>(endpoints.team.getById(id));
+  }
+
+  async create(formData: FormData): Promise<TeamMember> {
+    return apiClient.postFormData<TeamMember>(endpoints.team.create, formData);
+  }
+
+  async update(formData: FormData): Promise<TeamMember> {
+    return apiClient.postFormData<TeamMember>(endpoints.team.update, formData);
+  }
+
+  async delete(id: string): Promise<void> {
+    return apiClient.delete<void>(endpoints.team.delete(id));
+  }
+}
+
+class SliderService {
+  async getAll(): Promise<Slider[]> {
+    return apiClient.get<Slider[]>(endpoints.sliders.getAll);
+  }
+
+  async getById(id: string): Promise<Slider> {
+    return apiClient.get<Slider>(endpoints.sliders.getById(id));
+  }
+
+  async create(formData: FormData): Promise<Slider> {
+    return apiClient.postFormData<Slider>(endpoints.sliders.create, formData);
+  }
+
+  async update(formData: FormData): Promise<Slider> {
+    return apiClient.postFormData<Slider>(endpoints.sliders.update, formData);
+  }
+
+  async delete(id: string): Promise<void> {
+    return apiClient.delete<void>(endpoints.sliders.delete(id));
+  }
+}
+
+class ImagesCenterService {
+  async getAllGroups(): Promise<ImageGroup[]> {
+    return apiClient.get<ImageGroup[]>(endpoints.imagesCenter.groups.getAll);
+  }
+
+  async getGroupById(id: string): Promise<ImageGroup> {
+    return apiClient.get<ImageGroup>(endpoints.imagesCenter.groups.getById(id));
+  }
+
+  async createGroup(formData: FormData): Promise<ImageGroup> {
+    return apiClient.postFormData<ImageGroup>(endpoints.imagesCenter.groups.create, formData);
+  }
+
+  async updateGroup(formData: FormData): Promise<ImageGroup> {
+    return apiClient.postFormData<ImageGroup>(endpoints.imagesCenter.groups.update, formData);
+  }
+
+  async deleteGroup(id: string): Promise<void> {
+    return apiClient.delete<void>(endpoints.imagesCenter.groups.delete(id));
+  }
+
+  async getAllImages(): Promise<Image[]> {
+    return apiClient.get<Image[]>(endpoints.imagesCenter.images.getAll);
+  }
+
+  async getImagesByGroupId(groupId: string): Promise<Image[]> {
+    return apiClient.get<Image[]>(endpoints.imagesCenter.images.getByGroupId(groupId));
+  }
+
+  async createImage(formData: FormData): Promise<Image> {
+    return apiClient.postFormData<Image>(endpoints.imagesCenter.images.create, formData);
+  }
+
+  async deleteImage(id: string): Promise<void> {
+    return apiClient.delete<void>(endpoints.imagesCenter.images.delete(id));
+  }
+}
+
+export const partnerService = new PartnerService();
+export const teamService = new TeamService();
+export const sliderService = new SliderService();
+export const imagesCenterService = new ImagesCenterService();

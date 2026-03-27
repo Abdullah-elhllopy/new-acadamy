@@ -12,8 +12,8 @@ import { CourseDetailsCard } from '@/app/payment/[id]/_components'
 
 export default function TeamApplicationPage() {
     // const params = useParams()
-    const { language } = useLanguage();
-    const isArabic = language === 'ar';
+    const { isArabic } = useLanguage();
+
 
     const { course, loading, error } = useCourseDetails('leadership-masterclass')
 
