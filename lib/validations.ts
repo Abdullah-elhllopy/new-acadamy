@@ -82,3 +82,20 @@ export const courseSchema = z.object({
 })
 
 export type CourseFormData = z.infer<typeof courseSchema>
+
+export const trainerSchema = z.object({
+  instructorName: z.string().min(2, 'Trainer name is required'),
+  instructorBio: z.string().min(10, 'Bio must be at least 10 characters'),
+  instructorEmail: z.string().email('Invalid email address').optional().or(z.literal('')),
+  instructorPhone: z.string().optional(),
+  specialization: z.string().optional(),
+  experience: z.string().optional(),
+  linkedin: z.string().optional(),
+  facebook: z.string().optional(),
+  twitter: z.string().optional(),
+  isActive: z.boolean().optional(),
+  image: z.any().optional(),
+  cv: z.any().optional(),
+})
+
+export type TrainerFormData = z.infer<typeof trainerSchema>
