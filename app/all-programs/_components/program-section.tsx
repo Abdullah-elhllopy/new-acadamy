@@ -10,6 +10,7 @@ import { EmptyState } from '@/components/states/empty-state'
 import { ProgramCard } from '@/components/cards/program-card'
 import { mockPrograms } from '@/app/programs/page'
 import { ContentLayout } from '@/layout/page-layout'
+import { useLanguage } from '@/shared/hooks/useLanguage'
 
 interface ProgramSectionProps {
     section: ProgramSectionType
@@ -18,7 +19,8 @@ interface ProgramSectionProps {
 }
 
 export function ProgramSection({ section, index, className }: ProgramSectionProps) {
-    const hasBackground = section.id === 'special-packages' // if we add it later
+    const { isRTL } = useLanguage()
+    const hasBackground = section.id === 'special-packages'
 
     return (
         <motion.section
@@ -60,9 +62,10 @@ export function ProgramSection({ section, index, className }: ProgramSectionProp
                     </div>
                 )
             ) : (
-                <EmptyState title={section.emptyMessage?.ar || ''} description={''}                        // type="no-courses"
-                // title={section.emptyMessage?.ar}
-                // description={isArabic ? 'سيتم إضافة دورات قريباً' : 'Courses will be added soon'}
+                <EmptyState 
+                    title={section.emptyMessage?.ar || ''} 
+                    description={''}
+                    language={'ar'}
                 />
             )}
         </motion.section>

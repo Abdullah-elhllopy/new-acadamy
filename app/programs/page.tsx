@@ -1,6 +1,7 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useTranslate } from '@/locales/use-locales'
 import { ProgramCard } from '@/components/cards/program-card'
 import { FilterSidebar, FilterState } from '@/components/filters/filter-sidebar'
@@ -8,11 +9,12 @@ import { EmptyState } from '@/components/states/empty-state'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Pagination } from '@/components/shared/pagination'
-import { Search } from 'lucide-react'
+import { Search, X, Menu } from 'lucide-react'
 import { Program, Session } from '@/shared/types'
 import { Breadcrumb } from '@/components/shared/breadcrumb'
 import { ContentLayout, Layout } from '@/layout/page-layout'
 import { BookProgramSection } from '../all-programs/_components/book-program-section'
+import { useLanguage } from '@/shared/hooks/useLanguage'
 
 // Mock data
 export const mockPrograms: (Program & { sessions: Session[] })[] = [
@@ -127,18 +129,82 @@ export const mockPrograms: (Program & { sessions: Session[] })[] = [
 ]
 
 export default function ProgramsPage() {
-  const { t, currentLang } = useTranslate('programs')
-  const isArabic = currentLang.value === 'ar'
+  const { isArabic } = useLanguage()
+  const { t } = useTranslate('programs')
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [searchTerm, setSearchTerm] = useState('')
   const [filters, setFilters] = useState<FilterState>({
     categories: [],
     priceRange: [0, 10000],
     locations: [],
     trainers: [],
+    fields: [],
+    tracks: [],
+    courseTypes: [],
+    languages: [],
+    dates: [],
   })
   const [activeCategory, setActiveCategory] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false)
   const itemsPerPage = 9
+
+  // Initialize filters from URL
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams)
+    const newFilters: FilterState = {
+      categories: params.get('category')?.split(',').filter(Boolean) || [],
+      priceRange: [0, 10000],
+      locations: params.get('location')?.split(',').filter(Boolean) || [],
+      trainers: params.get('instructor')?.split(',').filter(Boolean) || [],
+      fields: params.get('field')?.split(',').filter(Boolean) || [],
+      tracks: params.get('track')?.split(',').filter(Boolean) || [],
+      courseTypes: params.get('courseType')?.split(',').filter(Boolean) || [],
+      languages: params.get('language')?.split(',').filter(Boolean) || [],
+      dates: params.get('date')?.split(',').filter(Boolean) || [],
+    }
+    if (params.get('minPrice') && params.get('maxPrice')) {
+      newFilters.priceRange = [parseInt(params.get('minPrice')!), parseInt(params.get('maxPrice')!)]
+    }
+    setFilters(newFilters)
+  }, [])
+
+  // Update URL when filters change
+  const updateURL = (newFilters: FilterState) => {
+    const params = new URLSearchParams()
+    if (newFilters.categories.length) params.set('category', newFilters.categories.join(','))
+    if (newFilters.locations.length) params.set('location', newFilters.locations.join(','))
+    if (newFilters.trainers.length) params.set('instructor', newFilters.trainers.join(','))
+    if (newFilters.fields.length) params.set('field', newFilters.fields.join(','))
+    if (newFilters.tracks.length) params.set('track', newFilters.tracks.join(','))
+    if (newFilters.courseTypes.length) params.set('courseType', newFilters.courseTypes.join(','))
+    if (newFilters.languages.length) params.set('language', newFilters.languages.join(','))
+    if (newFilters.dates.length) params.set('date', newFilters.dates.join(','))
+    if (newFilters.priceRange[0] > 0 || newFilters.priceRange[1] < 10000) {
+      params.set('minPrice', newFilters.priceRange[0].toString())
+      params.set('maxPrice', newFilters.priceRange[1].toString())
+    }
+    router.push(`?${params.toString()}`)
+  }
+
+  const handleFilterChange = (newFilters: FilterState) => {
+    setFilters(newFilters)
+    updateURL(newFilters)
+    setCurrentPage(1)
+  }
+
+  const removeFilter = (type: 'category' | 'location' | 'instructor' | 'field' | 'track' | 'courseType' | 'language', value: string) => {
+    const newFilters = { ...filters }
+    if (type === 'category') newFilters.categories = newFilters.categories.filter(c => c !== value)
+    if (type === 'location') newFilters.locations = newFilters.locations.filter(l => l !== value)
+    if (type === 'instructor') newFilters.trainers = newFilters.trainers.filter(t => t !== value)
+    if (type === 'field') newFilters.fields = newFilters.fields.filter(f => f !== value)
+    if (type === 'track') newFilters.tracks = newFilters.tracks.filter(t => t !== value)
+    if (type === 'courseType') newFilters.courseTypes = newFilters.courseTypes.filter(ct => ct !== value)
+    if (type === 'language') newFilters.languages = newFilters.languages.filter(l => l !== value)
+    handleFilterChange(newFilters)
+  }
 
   const categories = [
     { id: 'all', labelEn: 'All', labelAr: 'الكل' },
@@ -155,9 +221,16 @@ export default function ProgramsPage() {
       const title = isArabic ? program.titleAr : program.titleEn
       const searchMatch = title.toLowerCase().includes(searchTerm.toLowerCase())
       const categoryMatch = activeCategory === 'all' || program.category.toLowerCase() === activeCategory
-      return searchMatch && categoryMatch
+      
+      // Advanced filters
+      const categoryFilterMatch = filters.categories.length === 0 || filters.categories.some(cat => program.category.toLowerCase() === cat.toLowerCase())
+      const locationFilterMatch = filters.locations.length === 0 || filters.locations.some(loc => program.location.toLowerCase() === loc.toLowerCase())
+      const trainerFilterMatch = filters.trainers.length === 0 || filters.trainers.some(trainer => program.trainer.nameEn.toLowerCase().includes(trainer.toLowerCase()))
+      const priceFilterMatch = program.price >= filters.priceRange[0] && program.price <= filters.priceRange[1]
+      
+      return searchMatch && categoryMatch && categoryFilterMatch && locationFilterMatch && trainerFilterMatch && priceFilterMatch
     })
-  }, [searchTerm, activeCategory, isArabic])
+  }, [searchTerm, activeCategory, isArabic, filters])
 
   // Pagination
   const totalPages = Math.ceil(filteredPrograms.length / itemsPerPage)
@@ -169,14 +242,23 @@ export default function ProgramsPage() {
 
   const handleReset = () => {
     setSearchTerm('')
-    setFilters({
+    const resetFilters: FilterState = {
       categories: [],
       priceRange: [0, 10000],
       locations: [],
       trainers: [],
-    })
+      fields: [],
+      tracks: [],
+      courseTypes: [],
+      languages: [],
+      dates: [],
+    }
+    setFilters(resetFilters)
+    router.push('?')
     setCurrentPage(1)
   }
+
+  const activeFilterCount = filters.categories.length + filters.locations.length + filters.trainers.length + filters.fields.length + filters.tracks.length + filters.courseTypes.length + filters.languages.length
 
   return (
     <Layout>
@@ -186,14 +268,14 @@ export default function ProgramsPage() {
           <div className="flex items-center justify-between h-16">
             <Breadcrumb
               items={[
-                { label: isArabic ? 'الرئيسية' : 'Home', href: '/' },
-                { label: isArabic ? 'جميع الدورات' : 'All Courses' }
+                { label: t('home'), href: '/' },
+                { label: t('allCourses') }
               ]}
               isArabic={isArabic}
               className="text-white"
             />
             <Button className="bg-hero-bg hover:bg-hero-hover rounded-full px-6">
-              {isArabic ? 'التعليم' : 'Education'}
+              {t('education')}
             </Button>
           </div>
         </div>
@@ -211,8 +293,8 @@ export default function ProgramsPage() {
                   setCurrentPage(1)
                 }}
                 className={`px-6 py-2 rounded-full whitespace-nowrap transition-colors ${activeCategory === cat.id
-                    ? 'bg-white text-hero-bg'
-                    : 'hover:bg-hero-hover'
+                  ? 'bg-white text-hero-bg'
+                  : 'hover:bg-hero-hover'
                   }`}
               >
                 {isArabic ? cat.labelAr : cat.labelEn}
@@ -225,12 +307,96 @@ export default function ProgramsPage() {
       {/* Main Content */}
       <ContentLayout>
         <React.Fragment>
+          {/* Active Filters Bar */}
+          {activeFilterCount > 0 && (
+            <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-sm font-medium text-gray-700">
+                  {t('activeFilters')}
+                </span>
+                {filters.fields.map(field => (
+                  <div key={`field-${field}`} className="flex items-center gap-2 bg-white px-3 py-1 rounded-full border border-gray-200">
+                    <span className="text-sm">{field}</span>
+                    <button onClick={() => removeFilter('field', field)} className="text-gray-400 hover:text-gray-600">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+                {filters.tracks.map(track => (
+                  <div key={`track-${track}`} className="flex items-center gap-2 bg-white px-3 py-1 rounded-full border border-gray-200">
+                    <span className="text-sm">{track}</span>
+                    <button onClick={() => removeFilter('track', track)} className="text-gray-400 hover:text-gray-600">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+                {filters.categories.map(cat => (
+                  <div key={`cat-${cat}`} className="flex items-center gap-2 bg-white px-3 py-1 rounded-full border border-gray-200">
+                    <span className="text-sm">{cat}</span>
+                    <button onClick={() => removeFilter('category', cat)} className="text-gray-400 hover:text-gray-600">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+                {filters.locations.map(loc => (
+                  <div key={`loc-${loc}`} className="flex items-center gap-2 bg-white px-3 py-1 rounded-full border border-gray-200">
+                    <span className="text-sm">{loc}</span>
+                    <button onClick={() => removeFilter('location', loc)} className="text-gray-400 hover:text-gray-600">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+                {filters.courseTypes.map(courseType => (
+                  <div key={`courseType-${courseType}`} className="flex items-center gap-2 bg-white px-3 py-1 rounded-full border border-gray-200">
+                    <span className="text-sm">{courseType}</span>
+                    <button onClick={() => removeFilter('courseType', courseType)} className="text-gray-400 hover:text-gray-600">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+                {filters.languages.map(language => (
+                  <div key={`language-${language}`} className="flex items-center gap-2 bg-white px-3 py-1 rounded-full border border-gray-200">
+                    <span className="text-sm">{language}</span>
+                    <button onClick={() => removeFilter('language', language)} className="text-gray-400 hover:text-gray-600">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+                {filters.trainers.map(trainer => (
+                  <div key={`trainer-${trainer}`} className="flex items-center gap-2 bg-white px-3 py-1 rounded-full border border-gray-200">
+                    <span className="text-sm">{trainer}</span>
+                    <button onClick={() => removeFilter('instructor', trainer)} className="text-gray-400 hover:text-gray-600">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+                <button onClick={handleReset} className="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                  {t('clearAll')}
+                </button>
+              </div>
+            </div>
+          )}
+
           <section className="flex flex-col lg:flex-row gap-8">
+            {/* Mobile Filter Toggle */}
+            <div className="lg:hidden mb-4">
+              <Button
+                onClick={() => setMobileDrawerOpen(!mobileDrawerOpen)}
+                variant="outline"
+                className="w-full flex items-center justify-center gap-2"
+              >
+                <Menu className="w-4 h-4" />
+                {t('filters')}
+              </Button>
+            </div>
+
             {/* Sidebar Filters */}
-            <aside className="lg:w-64 shrink-0">
+            <aside className={`lg:w-64 shrink-0 ${
+              mobileDrawerOpen ? 'block' : 'hidden lg:block'
+            }`}>
               <FilterSidebar
                 filters={filters}
-                onChange={setFilters}
+                onChange={handleFilterChange}
                 onReset={handleReset}
               />
             </aside>
@@ -242,7 +408,7 @@ export default function ProgramsPage() {
                 <div className="relative">
                   <Search className={`w-5 h-5 absolute top-3.5 text-muted-foreground ${isArabic ? 'right-3' : 'left-3'}`} />
                   <Input
-                    placeholder={isArabic ? 'ابحث عن دورة...' : 'Search for a course...'}
+                    placeholder={t('searchCourse')}
                     value={searchTerm}
                     onChange={(e) => {
                       setSearchTerm(e.target.value)
@@ -254,9 +420,9 @@ export default function ProgramsPage() {
               </div>
 
               {/* Filter Label */}
-              <div className={`mb-6 `}>
+              <div className="mb-6">
                 <h2 className="text-xl font-bold text-foreground">
-                  {isArabic ? 'التصنيف حسب' : 'Filter by'}
+                  {t('filterBy')}
                 </h2>
               </div>
 
@@ -268,7 +434,7 @@ export default function ProgramsPage() {
                       <ProgramCard
                         key={program.id}
                         program={program}
-                        language={currentLang.value as 'en' | 'ar'}
+                        language={ 'ar'}
                       />
                     ))}
                   </div>
@@ -286,7 +452,7 @@ export default function ProgramsPage() {
                 <EmptyState
                   title={isArabic ? 'لم يتم العثور على دورات' : 'No programs found'}
                   description={isArabic ? 'جرب تغيير معايير البحث' : 'Try changing your search criteria'}
-                  language={currentLang.value as 'en' | 'ar'}
+                  language={'ar'}
                 />
               )}
             </div>

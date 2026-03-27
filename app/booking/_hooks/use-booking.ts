@@ -27,7 +27,7 @@ export function useBooking(courseId: string): UseBookingReturn {
     const [step, setStep] = useState(1)
     const [selectedSession, setSelectedSession] = useState<CourseSession | null>(null)
 
-    const course = DUMMY_BOOKING_COURSES[courseId] || null
+    const course = DUMMY_BOOKING_COURSES['leadership-masterclass'] || null
 
     const selectSession = useCallback((session: CourseSession) => {
         setSelectedSession(session)

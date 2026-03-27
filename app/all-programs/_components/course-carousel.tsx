@@ -69,7 +69,7 @@ export function CourseCarousel({ courses, className }: CourseCarouselProps) {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.1 }}
                                 >
-                                    <ProgramCard   program={course} language={'ar'} />
+                                    <ProgramCard program={course} language={'ar'} />
                                 </motion.div>
                             </CarouselItem>
                         ))}

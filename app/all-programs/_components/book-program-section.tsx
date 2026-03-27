@@ -3,13 +3,14 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import {  Building2 } from 'lucide-react'
+import { Building2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLanguage } from '@/shared/hooks/useLanguage'
+import { useTranslate } from '@/locales/use-locales'
 
 export function BookProgramSection() {
     const { language } = useLanguage()
-    const isArabic = language === 'ar'
+    const { t } = useTranslate('programs')
 
     return (
         <motion.section
@@ -23,19 +24,16 @@ export function BookProgramSection() {
             </div>
 
             <h2 className="text-3xl font-bold mb-4">
-                {isArabic ? 'احجز برنامجك الخاص' : 'Book Your Custom Program'}
+                {t('bookCustomProgram')}
             </h2>
             <p className="text-lg mb-6 opacity-90">
-                {isArabic
-                    ? 'هل تريد برنامج تدريبي مخصص لشركتك؟ نحن هنا لمساعدتك'
-                    : 'Want a custom training program for your company? We are here to help'}
+                {t('customProgramDescription')}
             </p>
             <Button asChild className="bg-white text-hero-bg hover:bg-hero-hover rounded-full px-8 py-6 text-lg">
                 <Link href="/contact">
-                    {isArabic ? 'اتصل بنا' : 'Contact Us'}
+                    {t('contactUs')}
                 </Link>
             </Button>
-            {/* </div> */}
         </motion.section>
     )
 }

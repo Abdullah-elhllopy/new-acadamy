@@ -10,7 +10,8 @@ interface CourseDetailsHeroProps {
   courseName: string
   description: string
   videoUrl?: string
-  pdfUrl?: string
+  pdfUrl?: string;
+  handleOpenCLick?: () => void;
 }
 
 export function CourseDetailsHero({
@@ -18,7 +19,8 @@ export function CourseDetailsHero({
   courseName,
   description,
   videoUrl,
-  pdfUrl
+  pdfUrl,
+  handleOpenCLick
 }: CourseDetailsHeroProps) {
   return (
     <section className="bg-hero-bg text-white py-10 px-4 md:px-20 mb-20">
@@ -42,7 +44,7 @@ export function CourseDetailsHero({
           <h1 className="text-4xl font-bold mb-5">{courseName}</h1>
           <p className="text-white mb-8 leading-relaxed">{description}</p>
           {pdfUrl && (
-            <Button className="bg-white text-primary hover:bg-white/90 rounded-full h-auto py-3 px-6">
+            <Button onClick={handleOpenCLick} className="bg-white text-primary hover:bg-white/90 rounded-full h-auto py-3 px-6">
               <span className="font-bold">تحميل بيانات الدورة</span>
               <Download className="w-5 h-5 mr-2 text-secondary" />
             </Button>
@@ -51,7 +53,7 @@ export function CourseDetailsHero({
         <div />
         <div>
           {videoUrl && (
-            <div className="relative w-full h-[300px] md:h-[350px] bg-slate-800 rounded-lg overflow-hidden">
+            <div className="relative w-full h-75 md:h-87.5 bg-slate-800 rounded-lg overflow-hidden">
               <video controls className="w-full h-full object-cover">
                 <source src={videoUrl} type="video/mp4" />
                 هذا المتصفح لا يدعم هذا النوع من الفيديوهات

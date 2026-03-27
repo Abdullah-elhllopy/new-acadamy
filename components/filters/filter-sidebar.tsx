@@ -13,6 +13,11 @@ export interface FilterState {
   priceRange: [number, number]
   locations: string[]
   trainers: string[]
+  fields: string[]
+  tracks: string[]
+  courseTypes: string[]
+  languages: string[]
+  dates: string[]
 }
 
 interface FilterSidebarProps {
@@ -20,6 +25,19 @@ interface FilterSidebarProps {
   onChange: (filters: FilterState) => void
   onReset?: () => void
 }
+
+const FIELDS = [
+  { id: 'it', labelEn: 'IT', labelAr: 'تكنولوجيا المعلومات' },
+  { id: 'business', labelEn: 'Business', labelAr: 'الأعمال' },
+  { id: 'hr', labelEn: 'HR', labelAr: 'الموارد البشرية' },
+  { id: 'finance', labelEn: 'Finance', labelAr: 'المالية' },
+]
+
+const TRACKS = [
+  { id: 'beginner', labelEn: 'Beginner', labelAr: 'مبتدئ' },
+  { id: 'intermediate', labelEn: 'Intermediate', labelAr: 'متوسط' },
+  { id: 'advanced', labelEn: 'Advanced', labelAr: 'متقدم' },
+]
 
 const CATEGORIES = [
   { id: 'leadership', labelEn: 'Leadership', labelAr: 'القيادة' },
@@ -36,34 +54,94 @@ const LOCATIONS = [
   { id: 'online', labelEn: 'Online', labelAr: 'أونلاين' },
 ]
 
+const COURSE_TYPES = [
+  { id: 'workshop', labelEn: 'Workshop', labelAr: 'ورشة عمل' },
+  { id: 'seminar', labelEn: 'Seminar', labelAr: 'ندوة' },
+  { id: 'course', labelEn: 'Course', labelAr: 'دورة' },
+  { id: 'certification', labelEn: 'Certification', labelAr: 'شهادة' },
+]
+
+const LANGUAGES = [
+  { id: 'ar', labelEn: 'Arabic', labelAr: 'العربية' },
+  { id: 'en', labelEn: 'English', labelAr: 'الإنجليزية' },
+  { id: 'fr', labelEn: 'French', labelAr: 'الفرنسية' },
+]
+
+const INSTRUCTORS = [
+  { id: 'mohammed', labelEn: 'Dr. Mohammed Ahmed', labelAr: 'د. محمد أحمد' },
+  { id: 'fatima', labelEn: 'Fatima Al-Shehri', labelAr: 'فاطمة الشهري' },
+  { id: 'salman', labelEn: 'A. Salman Al-Dosari', labelAr: 'أ. سلمان الدوسري' },
+]
+
 export function FilterSidebar({ filters, onChange, onReset }: FilterSidebarProps) {
   const { isArabic } = useLanguage()
-  const handleCategoryChange = (categoryId: string, checked: boolean) => {
-    const newCategories = checked
-      ? [...filters.categories, categoryId]
-      : filters.categories.filter((c) => c !== categoryId)
-    onChange({ ...filters, categories: newCategories })
-  }
 
-  const handleLocationChange = (locationId: string, checked: boolean) => {
-    const newLocations = checked
-      ? [...filters.locations, locationId]
-      : filters.locations.filter((l) => l !== locationId)
-    onChange({ ...filters, locations: newLocations })
+  const handleCheckboxChange = (
+    filterType: 'categories' | 'fields' | 'tracks' | 'locations' | 'courseTypes' | 'languages' | 'trainers' | 'dates',
+    value: string,
+    checked: boolean
+  ) => {
+    const currentArray = filters[filterType] as string[]
+    const newArray = checked
+      ? [...currentArray, value]
+      : currentArray.filter((item) => item !== value)
+    onChange({ ...filters, [filterType]: newArray })
   }
 
   const handlePriceChange = (value: number[]) => {
     onChange({ ...filters, priceRange: [value[0], value[1]] as [number, number] })
   }
 
+  const renderFilterSection = (
+    title: string,
+    filterType: 'categories' | 'fields' | 'tracks' | 'locations' | 'courseTypes' | 'languages' | 'trainers' | 'dates',
+    options: Array<{ id: string; labelEn: string; labelAr: string }>
+  ) => (
+    <>
+      <div>
+        <Label className="font-semibold text-foreground mb-3 block">
+          {title}
+        </Label>
+        <div className="space-y-2">
+          {options.map((option) => (
+            <div key={option.id} className="flex items-center space-x-2">
+              <Checkbox
+                id={`${filterType}-${option.id}`}
+                checked={(filters[filterType] as string[]).includes(option.id)}
+                onCheckedChange={(checked) =>
+                  handleCheckboxChange(filterType, option.id, checked as boolean)
+                }
+              />
+              <Label
+                htmlFor={`${filterType}-${option.id}`}
+                className="font-normal cursor-pointer"
+              >
+                {isArabic ? option.labelAr : option.labelEn}
+              </Label>
+            </div>
+          ))}
+        </div>
+      </div>
+      <Separator />
+    </>
+  )
+
+  const hasActiveFilters = filters.categories.length > 0 || 
+    filters.locations.length > 0 || 
+    filters.fields.length > 0 || 
+    filters.tracks.length > 0 || 
+    filters.courseTypes.length > 0 || 
+    filters.languages.length > 0 || 
+    filters.trainers.length > 0
+
   return (
-    <div className="space-y-6 p-6 bg-card rounded-lg border border-border">
+    <div className="space-y-6 p-6 bg-card rounded-lg border border-border overflow-y-auto max-h-[calc(100vh-200px)]">
       {/* Header */}
-      <div className={`flex items-center justify-between  `}>
+      <div className="flex items-center justify-between">
         <h3 className="font-semibold text-foreground">
-          {isArabic ? 'المرشحات' : 'Filters'}
+          {isArabic ? 'المرشحات المتقدمة' : 'Advanced Filters'}
         </h3>
-        {(filters.categories.length > 0 || filters.locations.length > 0) && (
+        {hasActiveFilters && (
           <Button
             variant="ghost"
             size="sm"
@@ -75,39 +153,57 @@ export function FilterSidebar({ filters, onChange, onReset }: FilterSidebarProps
         )}
       </div>
 
-      {/* Categories */}
-      <div >
-        <Label className="font-semibold text-foreground mb-3 block">
-          {isArabic ? 'الفئات' : 'Categories'}
-        </Label>
-        <div className="space-y-2">
-          {CATEGORIES.map((category) => (
-            <div
-              key={category.id}
-              className={`flex items-center space-x-2 `}
-            >
-              <Checkbox
-                id={category.id}
-                checked={filters.categories.includes(category.id)}
-                onCheckedChange={(checked) =>
-                  handleCategoryChange(category.id, checked as boolean)
-                }
-              />
-              <Label
-                htmlFor={category.id}
-                className="font-normal cursor-pointer"
-              >
-                {isArabic ? category.labelAr : category.labelEn}
-              </Label>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* Fields */}
+      {renderFilterSection(
+        isArabic ? 'المجال' : 'Field',
+        'fields',
+        FIELDS
+      )}
 
-      <Separator />
+      {/* Tracks */}
+      {renderFilterSection(
+        isArabic ? 'المسار' : 'Track',
+        'tracks',
+        TRACKS
+      )}
+
+      {/* Categories */}
+      {renderFilterSection(
+        isArabic ? 'الفئة' : 'Category',
+        'categories',
+        CATEGORIES
+      )}
+
+      {/* Locations */}
+      {renderFilterSection(
+        isArabic ? 'المكان' : 'Location',
+        'locations',
+        LOCATIONS
+      )}
+
+      {/* Course Types */}
+      {renderFilterSection(
+        isArabic ? 'نوع الدورة' : 'Course Type',
+        'courseTypes',
+        COURSE_TYPES
+      )}
+
+      {/* Languages */}
+      {renderFilterSection(
+        isArabic ? 'اللغة' : 'Language',
+        'languages',
+        LANGUAGES
+      )}
+
+      {/* Instructors */}
+      {renderFilterSection(
+        isArabic ? 'المدرب' : 'Instructor',
+        'trainers',
+        INSTRUCTORS
+      )}
 
       {/* Price Range */}
-      <div >
+      <div>
         <Label className="font-semibold text-foreground mb-4 block">
           {isArabic ? 'نطاق السعر' : 'Price Range'}
         </Label>
@@ -120,42 +216,11 @@ export function FilterSidebar({ filters, onChange, onReset }: FilterSidebarProps
             onValueChange={handlePriceChange}
             className="w-full"
           />
-          <div className={`flex items-center justify-between text-sm text-muted-foreground  `}>
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
             <span>{filters.priceRange[0].toLocaleString()} SR</span>
             <span>-</span>
             <span>{filters.priceRange[1].toLocaleString()} SR</span>
           </div>
-        </div>
-      </div>
-
-      <Separator />
-
-      {/* Locations */}
-      <div >
-        <Label className="font-semibold text-foreground mb-3 block">
-          {isArabic ? 'المواقع' : 'Locations'}
-        </Label>
-        <div className="space-y-2">
-          {LOCATIONS.map((location) => (
-            <div
-              key={location.id}
-              className={`flex items-center space-x-2 `}
-            >
-              <Checkbox
-                id={location.id}
-                checked={filters.locations.includes(location.id)}
-                onCheckedChange={(checked) =>
-                  handleLocationChange(location.id, checked as boolean)
-                }
-              />
-              <Label
-                htmlFor={location.id}
-                className="font-normal cursor-pointer"
-              >
-                {isArabic ? location.labelAr : location.labelEn}
-              </Label>
-            </div>
-          ))}
         </div>
       </div>
     </div>

@@ -4,9 +4,9 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-
 import { cn } from '@/lib/utils'
 import { useLanguage } from '@/shared/hooks/useLanguage'
+import { useTranslate } from '@/locales/use-locales'
 
 interface SectionHeaderProps {
     titleEn: string
@@ -21,12 +21,15 @@ export function SectionHeader({
     titleEn,
     titleAr,
     viewAllLink,
-    viewAllLabel = { en: 'Browse All', ar: 'تصفح الكل' },
+    viewAllLabel,
     className,
     action
 }: SectionHeaderProps) {
     const { isRTL } = useLanguage()
+    const { t } = useTranslate('programs')
     const title = isRTL ? titleAr : titleEn
+    const defaultLabel = { en: t('browseAllLabel'), ar: t('browseAllLabel') }
+    const label = viewAllLabel || defaultLabel
 
     return (
         <div className={cn(
@@ -47,7 +50,7 @@ export function SectionHeader({
                     className="rounded-full px-6 py-5 bg-primary hover:bg-secondary text-primary-foreground font-medium transition-colors"
                 >
                     <Link href={viewAllLink}>
-                        {isRTL ? viewAllLabel.ar : viewAllLabel.en}
+                        {isRTL ? label.ar : label.en}
                         <ArrowLeft className={cn(
                             "w-4 h-4",
                             'arrow-left',

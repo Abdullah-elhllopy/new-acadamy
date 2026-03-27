@@ -8,11 +8,12 @@ import { ProgramSection } from './_components/program-section'
 import { BookProgramSection } from './_components/book-program-section'
 import { Hero } from '@/components/sections/hero'
 import { ContentLayout, Layout } from '@/layout/page-layout'
-import {  TitleContainer } from '@/components/shared/title'
+import { TitleContainer } from '@/components/shared/title'
+import { useTranslate } from '@/locales'
 
 export default function AllProgramsPage() {
-    const { language, } = useLanguage()
-    const isArabic = language === 'ar'
+    const { isArabic } = useLanguage();
+    const { t } = useTranslate('programs')
 
     const breadcrumbItems = [
         { label: isArabic ? 'الرئيسية' : 'Home', href: '/' },
