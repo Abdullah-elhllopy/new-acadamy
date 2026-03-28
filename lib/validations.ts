@@ -117,3 +117,13 @@ export const subDepartmentSchema = z.object({
 })
 
 export type SubDepartmentFormData = z.infer<typeof subDepartmentSchema>
+
+export const sliderSchema = z.object({
+  sliderTitle: z.string().min(2, 'Slider title is required'),
+  sliderDescription: z.string().optional(),
+  sliderLink: z.string().optional(),
+  isActive: z.boolean().optional(),
+  image: z.any().optional(),
+})
+
+export type SliderFormData = z.infer<typeof sliderSchema>
