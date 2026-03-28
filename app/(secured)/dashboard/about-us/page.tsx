@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Pencil, Plus } from 'lucide-react'
 import { useAboutUs } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero, Hero } from '@/components/sections/hero'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -20,26 +20,25 @@ export default function AboutUsPage() {
 
   return (
     <>
-      <Hero
-        breadcrumbItems={[
-          { label: 'Dashboard', href: '/dashboard' },
-          { label: 'About Us', href: '/dashboard/about-us' },
-        ]}
+      <DashboardHero
         title="About Us"
       >
-        <Button variant="outline" asChild>
-          <Link href="/dashboard/about-us/edit">
-            <Pencil className="mr-2 h-4 w-4" />
-            Edit
-          </Link>
-        </Button>
-        <Button asChild>
-          <Link href="/dashboard/about-us/add">
-            <Plus className="mr-2 h-4 w-4" />
-            Add Info
-          </Link>
-        </Button>
-      </Hero>
+        <div className='flex gap-2 items-center'>
+
+          <Button variant="outline" asChild>
+            <Link href="/dashboard/about-us/edit">
+              <Pencil className=" h-4 w-4" />
+              Edit
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link href="/dashboard/about-us/add">
+              <Plus className="h-4 w-4" />
+              Add Info
+            </Link>
+          </Button>
+        </div>
+      </DashboardHero>
 
       <ContentLayout>
         {isLoading ? (
@@ -55,6 +54,9 @@ export default function AboutUsPage() {
                   <Row label="About" value={company?.aboutUs} />
                   <Row label="Address" value={company?.address} />
                   <Row label="Working Hours" value={company?.workingHours} />
+                  <Row label="Working From" value={company?.workingFrom?.toString()} />
+                  <Row label="Working To" value={company?.workingTo?.toString()} />
+                  <Row label="Website Link" value={company?.link} />
                   <Row label="Vision" value={company?.ourVision} />
                   <Row label="Message" value={company?.ourMessage} />
                   <Row label="Facebook" value={company?.facebook} />

@@ -63,7 +63,7 @@ export const dashboardNavigation: NavSection[] = [
       { 
         label: 'About Us', 
         labelAr: 'عن الشركة', 
-        href: '/dashboard/about' 
+        href: '/dashboard/about-us' 
       },
       { 
         label: 'Trainers', 
