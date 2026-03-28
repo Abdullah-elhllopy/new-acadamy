@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft } from 'lucide-react'
 import { useCreateSubDepartment, useMainDepartment } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { Form, FormField } from '@/components/forms'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -36,7 +36,7 @@ export default function AddSubDepartmentPage({ params }: { params: { mainDepartm
     const formData = new FormData()
     
     formData.append('name', data.subDepartmentName)
-    formData.append('mainDeptId', params.mainDepartmentId)
+    formData.append('departmentID', params.mainDepartmentId)
     
     if (data.subDepartmentDescription) {
       formData.append('description', data.subDepartmentDescription)
@@ -51,7 +51,7 @@ export default function AddSubDepartmentPage({ params }: { params: { mainDepartm
   if (mainLoading) {
     return (
       <>
-        <Hero title="Loading..." />
+        <DashboardHero title="Loading..." />
         <ContentLayout>
           <Skeleton className="h-96 w-full" />
         </ContentLayout>
@@ -61,7 +61,7 @@ export default function AddSubDepartmentPage({ params }: { params: { mainDepartm
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Departments', href: '/dashboard/departments/main' },
@@ -77,7 +77,7 @@ export default function AddSubDepartmentPage({ params }: { params: { mainDepartm
             Back to Sub Departments
           </Link>
         </Button>
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>

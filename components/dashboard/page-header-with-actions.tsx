@@ -20,7 +20,7 @@ export function PageHeaderWithActions({
   children,
 }: PageHeaderWithActionsProps) {
   return (
-    <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="mb-6 container mx-auto px-4 md:px-6 lg:px-8 xl:px-20 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
         {description && (

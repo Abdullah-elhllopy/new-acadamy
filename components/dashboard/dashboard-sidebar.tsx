@@ -44,11 +44,11 @@ export function DashboardSidebar() {
           <Button
             variant={isActiveLink(dashboardHomeLink.href) ? 'secondary' : 'ghost'}
             className={cn(
-              'w-full  gap-2',
+              'w-full justify-end  gap-2',
             )}
           >
-            <dashboardHomeLink.icon className="h-4 w-4" />
             <span>{isArabic ? dashboardHomeLink.labelAr : dashboardHomeLink.label}</span>
+            <dashboardHomeLink.icon className="h-4 w-4" />
           </Button>
         </Link>
 
@@ -82,7 +82,7 @@ export function DashboardSidebar() {
                         variant={isActiveLink(item.href) ? 'secondary' : 'ghost'}
                         size="sm"
                         className={cn(
-                          'w-full  gap-2',
+                          'w-full justify-end gap-2',
                         )}
                       >
                         {item.icon && <item.icon className="h-4 w-4" />}

@@ -10,12 +10,13 @@ import { ConfirmDeleteDialog } from '@/components/dashboard/confirm-delete-dialo
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import { Badge } from '@/components/ui/badge'
 import type { Course } from '@/services/api'
+import { ContentLayout } from '@/layout/page-layout'
 
 export default function DashboardPage() {
   const router = useRouter()
   const { data: courses, isLoading } = useCourses()
   const deleteCourse = useDeleteCourse()
-  
+
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
 
@@ -82,25 +83,25 @@ export default function DashboardPage() {
           icon: <Plus className="mr-2 h-4 w-4" />,
         }}
       />
-
-      <DataTable
-        data={courses?.allCoursesDetails || []}
-        columns={columns}
-        isLoading={isLoading}
-        actions={[
-          tableActions.edit(handleEdit),
-          tableActions.delete(handleDeleteClick),
-        ]}
-        emptyState={{
-          title: 'No courses found',
-          description: 'Get started by creating your first course',
-          action: {
-            label: 'Add Course',
-            href: '/dashboard/courses/add',
-          },
-        }}
-      />
-
+      <ContentLayout>
+        <DataTable
+          data={courses?.allCoursesDetails || []}
+          columns={columns}
+          isLoading={isLoading}
+          actions={[
+            tableActions.edit(handleEdit),
+            tableActions.delete(handleDeleteClick),
+          ]}
+          emptyState={{
+            title: 'No courses found',
+            description: 'Get started by creating your first course',
+            action: {
+              label: 'Add Course',
+              href: '/dashboard/courses/add',
+            },
+          }}
+        />
+      </ContentLayout>
       <ConfirmDeleteDialog
         open={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}

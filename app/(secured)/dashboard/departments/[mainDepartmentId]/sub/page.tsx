@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Plus, ArrowLeft } from 'lucide-react'
 import { useSubDepartmentsByMain, useDeleteSubDepartment, useMainDepartment } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { DataTable, tableActions, type DataTableColumn } from '@/components/dashboard/data-table'
 import { ConfirmDeleteDialog } from '@/components/dashboard/confirm-delete-dialog'
 import { StatusBadge } from '@/components/dashboard/status-badge'
@@ -59,7 +59,7 @@ export default function SubDepartmentsPage({ params }: { params: { mainDepartmen
   if (mainLoading) {
     return (
       <>
-        <Hero title="Loading..." />
+        <DashboardHero title="Loading..." />
         <ContentLayout>
           <Skeleton className="h-96 w-full" />
         </ContentLayout>
@@ -69,7 +69,7 @@ export default function SubDepartmentsPage({ params }: { params: { mainDepartmen
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Departments', href: '/dashboard/departments/main' },
@@ -92,7 +92,7 @@ export default function SubDepartmentsPage({ params }: { params: { mainDepartmen
             </Link>
           </Button>
         </div>
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <DataTable

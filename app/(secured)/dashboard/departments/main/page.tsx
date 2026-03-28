@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Plus, Eye } from 'lucide-react'
 import { useMainDepartments, useDeleteMainDepartment } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { DataTable, tableActions, type DataTableColumn } from '@/components/dashboard/data-table'
 import { ConfirmDeleteDialog } from '@/components/dashboard/confirm-delete-dialog'
 import { StatusBadge } from '@/components/dashboard/status-badge'
@@ -60,7 +60,7 @@ export default function MainDepartmentsPage() {
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Departments', href: '/dashboard/departments/main' },
@@ -74,7 +74,7 @@ export default function MainDepartmentsPage() {
             Add Main Department
           </Link>
         </Button>
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <p className="text-sm text-muted-foreground mb-4">
@@ -88,7 +88,7 @@ export default function MainDepartmentsPage() {
           actions={[
             {
               label: 'View Sub Departments',
-              icon: Eye,
+              icon: <Eye className="mr-2 h-4 w-4" />,
               onClick: handleViewSub,
             },
             tableActions.delete(handleDeleteClick),

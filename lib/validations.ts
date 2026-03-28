@@ -149,3 +149,22 @@ export const aboutUsSchema = z.object({
 })
 
 export type AboutUsFormData = z.infer<typeof aboutUsSchema>
+
+export const teamMemberSchema = z.object({
+  name: z.string().min(2, 'Name is required'),
+  job: z.string().min(2, 'Job title is required'),
+  linkedin: z.string().optional(),
+  facebook: z.string().optional(),
+  twitter: z.string().optional(),
+  image: z.any().optional(),
+})
+
+export type TeamMemberFormData = z.infer<typeof teamMemberSchema>
+
+export const partnerSchema = z.object({
+  name: z.string().min(2, 'Partner name is required'),
+  link: z.string().min(1, 'Link is required'),
+  image: z.any().optional(),
+})
+
+export type PartnerFormData = z.infer<typeof partnerSchema>

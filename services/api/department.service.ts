@@ -19,47 +19,56 @@ export interface SubDepartment {
 
 class DepartmentService {
   async getAllMain(): Promise<MainDepartment[]> {
-    return apiClient.get<MainDepartment[]>(endpoints.departments.getAllMain);
+    const response = await apiClient.get<{ data: MainDepartment[] }>(endpoints.departments.getAllMain);
+    return response.data || [];
   }
 
   async getMainById(id: string): Promise<MainDepartment> {
-    return apiClient.get<MainDepartment>(endpoints.departments.getMainById(id));
+    const response = await apiClient.get<{ data: MainDepartment }>(endpoints.departments.getMainById(id));
+    return response.data;
   }
 
   async createMain(formData: FormData): Promise<MainDepartment> {
-    return apiClient.postFormData<MainDepartment>(endpoints.departments.createMain, formData);
+    const response = await apiClient.postFormData<{ data: MainDepartment }>(endpoints.departments.createMain, formData);
+    return response.data;
   }
 
   async updateMain(formData: FormData): Promise<MainDepartment> {
-    return apiClient.postFormData<MainDepartment>(endpoints.departments.updateMain, formData);
+    const response = await apiClient.postFormData<{ data: MainDepartment }>(endpoints.departments.updateMain, formData);
+    return response.data;
   }
 
   async deleteMain(id: string): Promise<void> {
-    return apiClient.delete<void>(endpoints.departments.deleteMain(id));
+    await apiClient.delete<{ data: null }>(endpoints.departments.deleteMain(id));
   }
 
   async getAllSub(): Promise<SubDepartment[]> {
-    return apiClient.get<SubDepartment[]>(endpoints.departments.getAllSub);
+    const response = await apiClient.get<{ data: SubDepartment[] }>(endpoints.departments.getAllSub);
+    return response.data || [];
   }
 
   async getSubById(id: string): Promise<SubDepartment> {
-    return apiClient.get<SubDepartment>(endpoints.departments.getSubById(id));
+    const response = await apiClient.get<{ data: SubDepartment }>(endpoints.departments.getSubById(id));
+    return response.data;
   }
 
   async getSubByMainId(mainId: string): Promise<SubDepartment[]> {
-    return apiClient.get<SubDepartment[]>(endpoints.departments.getSubByMainId(mainId));
+    const response = await apiClient.get<{ data: SubDepartment[] }>(endpoints.departments.getSubByMainId(mainId));
+    return response.data || [];
   }
 
   async createSub(formData: FormData): Promise<SubDepartment> {
-    return apiClient.postFormData<SubDepartment>(endpoints.departments.createSub, formData);
+    const response = await apiClient.postFormData<{ data: SubDepartment }>(endpoints.departments.createSub, formData);
+    return response.data;
   }
 
   async updateSub(formData: FormData): Promise<SubDepartment> {
-    return apiClient.postFormData<SubDepartment>(endpoints.departments.updateSub, formData);
+    const response = await apiClient.postFormData<{ data: SubDepartment }>(endpoints.departments.updateSub, formData);
+    return response.data;
   }
 
   async deleteSub(id: string): Promise<void> {
-    return apiClient.delete<void>(endpoints.departments.deleteSub(id));
+    await apiClient.delete<{ data: null }>(endpoints.departments.deleteSub(id));
   }
 }
 

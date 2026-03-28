@@ -2,22 +2,21 @@ import { apiClient } from './client';
 import { endpoints } from './config';
 
 export interface Partner {
-  partnerId?: string;
-  partnerName: string;
-  partnerLogo?: string;
-  partnerWebsite?: string;
+  id?: string;
+  name: string;
+  image?: string;
+  link?: string;
   isActive?: boolean;
 }
 
 export interface TeamMember {
-  teamId?: string;
-  memberName: string;
-  memberPosition: string;
-  memberImage?: string;
-  memberBio?: string;
-  linkedin?: string;
-  email?: string;
-  isActive?: boolean;
+  id?: string;
+  name: string;
+  job: string;
+  image?: string | null;
+  facebook?: string | null;
+  twitter?: string | null;
+  linkedIn?: string | null;
 }
 
 export interface Slider {
@@ -70,23 +69,23 @@ class PartnerService {
 
 class TeamService {
   async getAll(): Promise<TeamMember[]> {
-    return apiClient.get<TeamMember[]>(endpoints.team.getAll);
+    return apiClient.get<TeamMember[]>(endpoints.members.getAll);
   }
 
   async getById(id: string): Promise<TeamMember> {
-    return apiClient.get<TeamMember>(endpoints.team.getById(id));
+    return apiClient.get<TeamMember>(endpoints.members.getById(id));
   }
 
   async create(formData: FormData): Promise<TeamMember> {
-    return apiClient.postFormData<TeamMember>(endpoints.team.create, formData);
+    return apiClient.postFormData<TeamMember>(endpoints.members.create, formData);
   }
 
   async update(formData: FormData): Promise<TeamMember> {
-    return apiClient.postFormData<TeamMember>(endpoints.team.update, formData);
+    return apiClient.postFormData<TeamMember>(endpoints.members.update, formData);
   }
 
   async delete(id: string): Promise<void> {
-    return apiClient.delete<void>(endpoints.team.delete(id));
+    return apiClient.delete<void>(endpoints.members.delete(id));
   }
 }
 

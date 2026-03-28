@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft } from 'lucide-react'
 import { useCreateMainDepartment } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { Form, FormField } from '@/components/forms'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -33,7 +33,7 @@ export default function AddMainDepartmentPage() {
     const formData = new FormData()
     
     formData.append('name', data.mainDepartmentName)
-    formData.append('mainDeptId', '3fa85f64-5717-4562-b3fc-2c963f66afa6')
+    formData.append('departmentID', '3fa85f64-5717-4562-b3fc-2c963f66afa6')
     
     if (data.mainDepartmentDescription) {
       formData.append('description', data.mainDepartmentDescription)
@@ -51,7 +51,7 @@ export default function AddMainDepartmentPage() {
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Departments', href: '/dashboard/departments/main' },
@@ -66,7 +66,7 @@ export default function AddMainDepartmentPage() {
             Back to Main Departments
           </Link>
         </Button>
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
