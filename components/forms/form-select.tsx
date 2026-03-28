@@ -42,17 +42,18 @@ export function FormSelect({
     const displayLabel = labelAr || label
 
     return (
-        <div className="space-y-2">
-            <Label className="text-foreground font-bold">
+        <div className="space-y-2 w-full">
+            <Label className="text-foreground w-full font-bold">
                 {displayLabel}
                 {required && <span className="text-destructive mr-1">*</span>}
             </Label>
             <Select
+                
                 value={value}
                 onValueChange={(val) => setValue(name, val, { shouldValidate: true })}
             >
                 <SelectTrigger className={cn(
-                    "h-11 border-border",
+                    "h-11 border-border w-full",
                     error && "border-destructive"
                 )}>
                     <SelectValue placeholder={placeholder} />

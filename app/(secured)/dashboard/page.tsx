@@ -44,7 +44,7 @@ export default function DashboardPage() {
     {
       header: 'Type',
       cell: (course) => (
-        <Badge variant="outline">{course.coursetype}</Badge>
+        <Badge variant="outline">{course.courseType}</Badge>
       ),
     },
     {
@@ -84,7 +84,7 @@ export default function DashboardPage() {
       />
 
       <DataTable
-        data={courses || []}
+        data={courses?.allCoursesDetails || []}
         columns={columns}
         isLoading={isLoading}
         actions={[

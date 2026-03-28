@@ -47,7 +47,7 @@ export default function CoursesPage() {
     {
       header: 'Type',
       cell: (course) => (
-        <Badge variant="outline">{course.coursetype}</Badge>
+        <Badge variant="outline">{course.courseType}</Badge>
       ),
     },
     {
@@ -64,7 +64,7 @@ export default function CoursesPage() {
     },
     {
       header: 'Start Date',
-      cell: (course) => new Date(course.courseStartDate).toLocaleDateString(),
+      cell: (course) => course.courseStartDate,
     },
     {
       header: 'Status',
@@ -81,10 +81,6 @@ export default function CoursesPage() {
   return (
     <>
       <Hero
-        breadcrumbItems={[
-          { label: 'Dashboard', href: '/dashboard' },
-          { label: 'Courses', href: '/dashboard/courses' },
-        ]}
         title="All Courses"
       >
         <Button asChild>
@@ -94,10 +90,10 @@ export default function CoursesPage() {
           </Link>
         </Button>
       </Hero>
-
+        
       <ContentLayout>
         <DataTable
-          data={courses || []}
+          data={courses?.allCoursesDetails ||  []}
           columns={columns}
           isLoading={isLoading}
           actions={[

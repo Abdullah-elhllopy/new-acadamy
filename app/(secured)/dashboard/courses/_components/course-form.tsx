@@ -2,7 +2,7 @@
 
 import { UseFormReturn } from 'react-hook-form'
 import { CourseFormData } from '@/lib/validations'
-import { Form, FormField } from '@/components/forms'
+import { Form, FormField, FormSelect } from '@/components/forms'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -45,10 +45,19 @@ export function CourseForm({
                 placeholder="Enter course name"
                 required
               />
-              <FormField
+              {/* <FormField
                 name="courseType"
                 label="Course Type"
                 placeholder="e.g., Online, Offline, Hybrid"
+                required
+                type='select'
+              /> */}
+              <FormSelect
+                name="courseType"
+                label="Course Type"
+                options={[  { value: 'Online', label: 'Online', labelAr: 'أونلاين' },
+                  { value: 'Offline', label: 'Offline', labelAr: 'محلية' },
+                  { value: 'Hybrid', label: 'Hybrid', labelAr: 'هجينة' }]}
                 required
               />
             </div>

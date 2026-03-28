@@ -1,6 +1,15 @@
 import { apiClient } from './client';
 import { endpoints } from './config';
 
+export interface CoursesResponse {
+  totalNumberOfHourse: number;
+  numberofCustomers: number;
+  numberofTrainees: number;
+  regiesterdHourse: number;
+  allCoursesDetails: Course[];
+  ourInstructors: any[];
+}
+
 export interface Course {
   courseId: string;
   courseName: string;
@@ -10,7 +19,7 @@ export interface Course {
   numberOfMonths?: number;
   place: string;
   placeSub?: string;
-  coursetype: string;
+  courseType: string;
   language?: string;
   video?: string;
   image?: string;
@@ -47,8 +56,8 @@ export interface WWWL {
 }
 
 class CourseService {
-  async getAll(): Promise<Course[]> {
-    return apiClient.get<Course[]>(endpoints.courses.getAll);
+  async getAll(): Promise<CoursesResponse> {
+    return apiClient.get<CoursesResponse>(endpoints.courses.getAll);
   }
 
   async getById(id: string): Promise<Course> {

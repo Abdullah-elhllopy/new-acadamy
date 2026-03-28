@@ -25,7 +25,7 @@ export default function UserTrainingRequestsPage() {
     {
       header: 'Type',
       cell: (course) => (
-        <Badge variant="outline">{course.coursetype}</Badge>
+        <Badge variant="outline">{course.courseType}</Badge>
       ),
     },
     {
@@ -55,7 +55,7 @@ export default function UserTrainingRequestsPage() {
 
       <ContentLayout>
         <DataTable
-          data={courses || []}
+          data={courses?.allCoursesDetails || []}
           columns={columns}
           isLoading={isLoading}
           actions={[

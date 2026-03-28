@@ -26,8 +26,7 @@ const MOCK_CONTACT_DATA = {
 }
 
 export default function ContactPage() {
-  const { language } = useLanguage()
-  const isArabic = language === 'ar'
+  const { isArabic } = useLanguage();
   const [loading, setLoading] = useState(false)
   const methods = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema)

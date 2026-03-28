@@ -14,6 +14,7 @@ export function useCourses() {
   return useQuery({
     queryKey: COURSE_KEYS.lists(),
     queryFn: () => courseService.getAll(),
+    // select: (data) => data.allCoursesDetails,
   });
 }
 
