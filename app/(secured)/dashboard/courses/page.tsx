@@ -13,12 +13,13 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import type { Course } from '@/services/api'
+import { PageHeaderWithActions } from '@/components/dashboard'
 
 export default function CoursesPage() {
   const router = useRouter()
   const { data: courses, isLoading } = useCourses()
   const deleteCourse = useDeleteCourse()
-  
+
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
 
@@ -80,20 +81,18 @@ export default function CoursesPage() {
 
   return (
     <>
-      <Hero
+      <PageHeaderWithActions
         title="All Courses"
-      >
-        <Button asChild>
-          <Link href="/dashboard/courses/add">
-            <Plus className="mr-2 h-4 w-4" />
-            Add Course
-          </Link>
-        </Button>
-      </Hero>
-        
+        description="Manage all training courses"
+        action={{
+          label: 'Add Course',
+          href: '/dashboard/courses/add',
+          icon: <Plus className="mr-2 h-4 w-4" />,
+        }}
+      />
       <ContentLayout>
         <DataTable
-          data={courses?.allCoursesDetails ||  []}
+          data={courses?.allCoursesDetails || []}
           columns={columns}
           isLoading={isLoading}
           actions={[

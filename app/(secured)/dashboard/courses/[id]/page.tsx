@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useEffect } from 'react'
+import { useMemo, useEffect, use } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -14,48 +14,54 @@ import { courseSchema, type CourseFormData } from '@/lib/validations'
 import { CourseForm } from '../_components/course-form'
 import Link from 'next/link'
 
-export default function EditCoursePage({ params }: { params: { id: string } }) {
+export default function EditCoursePage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
-  const { data: course, isLoading } = useCourse(params.id)
+  const { id } = use(params)
+
+  const { data: course, isLoading } = useCourse(id)
   const updateCourse = useUpdateCourse()
 
-  const defaultValues = useMemo<CourseFormData>(() => (
-    course ? {
-      courseName: course.courseName || '',
-      courseDescription: course.courseDescripTion || '',
-      courseStartDate: course.courseStartDate?.split('T')[0] || '',
-      place: course.place || '',
-      placeSub: course.placeSub || '',
-      courseType: course.coursetype || '',
-      courseCost: String(course.courseCost || ''),
-      courseNumberOfHours: String(course.courseNumberOfHours || ''),
-      language: course.language || '',
-      numberOfWeeks: String(course.numberOfWeeks || ''),
-      numberOfMonths: String(course.numberOfMonths || ''),
-      courseContent: course.courseContent || '',
-      now: course.now || false,
-      soon: course.soon || false,
-      recommended: course.recommended || false,
-      mostSelling: course.mostSellenig || false,
-    } : {
-      courseName: '',
-      courseDescription: '',
-      courseStartDate: '',
-      place: '',
-      placeSub: '',
-      courseType: '',
-      courseCost: '',
-      courseNumberOfHours: '',
-      language: '',
-      numberOfWeeks: '',
-      numberOfMonths: '',
-      courseContent: '',
-      now: false,
-      soon: false,
-      recommended: false,
-      mostSelling: false,
-    }
-  ), [course])
+  const defaultValues = useMemo<CourseFormData>(
+    () =>
+      course
+        ? {
+            courseName: course.courseName || '',
+            courseDescription: course.courseDescripTion || '',
+            courseStartDate: course.courseStartDate?.split('T')[0] || '',
+            place: course.place || '',
+            placeSub: course.placeSub || '',
+            courseType: course.courseType || '',
+            courseCost: String(course.courseCost || ''),
+            courseNumberOfHours: String(course.courseNumberOfHours || ''),
+            language: course.language || '',
+            numberOfWeeks: String(course.numberOfWeeks || ''),
+            numberOfMonths: String(course.numberOfMonths || ''),
+            courseContent: course.courseContent || '',
+            now: course.now || false,
+            soon: course.soon || false,
+            recommended: course.recommended || false,
+            mostSelling: course.mostSellenig || false,
+          }
+        : {
+            courseName: '',
+            courseDescription: '',
+            courseStartDate: '',
+            place: '',
+            placeSub: '',
+            courseType: '',
+            courseCost: '',
+            courseNumberOfHours: '',
+            language: '',
+            numberOfWeeks: '',
+            numberOfMonths: '',
+            courseContent: '',
+            now: false,
+            soon: false,
+            recommended: false,
+            mostSelling: false,
+          },
+    [course]
+  )
 
   const methods = useForm<CourseFormData>({
     mode: 'onSubmit',
@@ -71,7 +77,7 @@ export default function EditCoursePage({ params }: { params: { id: string } }) {
 
   const onSubmit = async (data: CourseFormData) => {
     const formData = new FormData()
-    
+
     formData.append('CourseName', data.courseName)
     formData.append('CourseDescripTion', data.courseDescription)
     formData.append('CourseStartDate', data.courseStartDate)
@@ -95,7 +101,7 @@ export default function EditCoursePage({ params }: { params: { id: string } }) {
     if (data.video?.[0]) formData.append('vid', data.video[0])
     if (data.pdf?.[0]) formData.append('pdf', data.pdf[0])
 
-    await updateCourse.mutateAsync({ courseId: params.id, formData })
+    await updateCourse.mutateAsync({ courseId: id, formData })
     router.push('/dashboard/courses')
   }
 
@@ -132,7 +138,7 @@ export default function EditCoursePage({ params }: { params: { id: string } }) {
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Courses', href: '/dashboard/courses' },
-          { label: 'Edit Course', href: `/dashboard/courses/${params.id}` },
+          { label: 'Edit Course', href: `/dashboard/courses/${id}` },
         ]}
         title={`Edit: ${course.courseName}`}
       >
