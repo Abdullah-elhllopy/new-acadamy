@@ -27,6 +27,7 @@ export const endpoints = {
     deleteMain: (id: string) => `/api/Department/Delete-Main-Department/${id}`,
     getAllSub: '/api/Department/All-Sub-Departments',
     getSubById: (id: string) => `/api/Department/get-Sub-Department/${id}`,
+    getSubByMainId: (mainId: string) => `/api/SubDepartment/Get-By-Main-Deb/${mainId}`,
     createSub: '/api/Department/Create-Sub-Department',
     updateSub: '/api/Department/Update-Sub-Department',
     deleteSub: (id: string) => `/api/Department/Delete-Sub-Department/${id}`,

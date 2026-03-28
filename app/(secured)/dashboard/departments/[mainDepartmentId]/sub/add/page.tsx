@@ -1,0 +1,131 @@
+'use client'
+
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ArrowLeft } from 'lucide-react'
+import { useCreateSubDepartment, useMainDepartment } from '@/hooks/api'
+import { ContentLayout } from '@/layout/page-layout'
+import { Hero } from '@/components/sections/hero'
+import { Form, FormField } from '@/components/forms'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
+import { Skeleton } from '@/components/ui/skeleton'
+import { subDepartmentSchema, type SubDepartmentFormData } from '@/lib/validations'
+import Link from 'next/link'
+
+export default function AddSubDepartmentPage({ params }: { params: { mainDepartmentId: string } }) {
+  const router = useRouter()
+  const { data: mainDepartment, isLoading: mainLoading } = useMainDepartment(params.mainDepartmentId)
+  const createSubDepartment = useCreateSubDepartment()
+  
+  const methods = useForm<SubDepartmentFormData>({
+    mode: 'onSubmit',
+    resolver: zodResolver(subDepartmentSchema),
+    defaultValues: {
+      subDepartmentName: '',
+      subDepartmentDescription: '',
+      mainDepartmentId: params.mainDepartmentId,
+      isActive: true,
+    },
+  })
+
+  const onSubmit = async (data: SubDepartmentFormData) => {
+    const formData = new FormData()
+    
+    formData.append('name', data.subDepartmentName)
+    formData.append('mainDeptId', params.mainDepartmentId)
+    
+    if (data.subDepartmentDescription) {
+      formData.append('description', data.subDepartmentDescription)
+    }
+    
+    formData.append('isActive', data.isActive ? 'true' : 'false')
+
+    await createSubDepartment.mutateAsync(formData)
+    router.push(`/dashboard/departments/${params.mainDepartmentId}/sub`)
+  }
+
+  if (mainLoading) {
+    return (
+      <>
+        <Hero title="Loading..." />
+        <ContentLayout>
+          <Skeleton className="h-96 w-full" />
+        </ContentLayout>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <Hero
+        breadcrumbItems={[
+          { label: 'Dashboard', href: '/dashboard' },
+          { label: 'Departments', href: '/dashboard/departments/main' },
+          { label: 'Main Departments', href: '/dashboard/departments/main' },
+          { label: mainDepartment?.mainDepartmentName || 'Sub Departments', href: `/dashboard/departments/${params.mainDepartmentId}/sub` },
+          { label: 'Add', href: `/dashboard/departments/${params.mainDepartmentId}/sub/add` },
+        ]}
+        title={`Add Sub Department - ${mainDepartment?.mainDepartmentName || ''}`}
+      >
+        <Button variant="outline" asChild>
+          <Link href={`/dashboard/departments/${params.mainDepartmentId}/sub`}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Sub Departments
+          </Link>
+        </Button>
+      </Hero>
+
+      <ContentLayout>
+        <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Sub Department Information</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <FormField
+                  name="subDepartmentName"
+                  label="Sub Department Name"
+                  placeholder="Enter sub department name"
+                  required
+                />
+
+                <FormField
+                  name="subDepartmentDescription"
+                  label="Description"
+                  type="textarea"
+                  placeholder="Enter sub department description (optional)"
+                  rows={4}
+                />
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="isActive" 
+                    {...methods.register('isActive')} 
+                    defaultChecked 
+                  />
+                  <Label htmlFor="isActive" className="cursor-pointer">
+                    Active Sub Department
+                  </Label>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="flex justify-end gap-4">
+              <Button type="button" variant="outline" asChild>
+                <Link href={`/dashboard/departments/${params.mainDepartmentId}/sub`}>Cancel</Link>
+              </Button>
+              <Button type="submit" disabled={createSubDepartment.isPending}>
+                {createSubDepartment.isPending ? 'Creating...' : 'Create Sub Department'}
+              </Button>
+            </div>
+          </div>
+        </Form>
+      </ContentLayout>
+    </>
+  )
+}

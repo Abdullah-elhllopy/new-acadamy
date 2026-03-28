@@ -46,6 +46,10 @@ class DepartmentService {
     return apiClient.get<SubDepartment>(endpoints.departments.getSubById(id));
   }
 
+  async getSubByMainId(mainId: string): Promise<SubDepartment[]> {
+    return apiClient.get<SubDepartment[]>(endpoints.departments.getSubByMainId(mainId));
+  }
+
   async createSub(formData: FormData): Promise<SubDepartment> {
     return apiClient.postFormData<SubDepartment>(endpoints.departments.createSub, formData);
   }

@@ -11,6 +11,7 @@ export const DEPARTMENT_KEYS = {
   },
   sub: {
     lists: () => [...DEPARTMENT_KEYS.all, 'sub', 'list'] as const,
+    byMain: (mainId: string) => [...DEPARTMENT_KEYS.all, 'sub', 'by-main', mainId] as const,
     details: () => [...DEPARTMENT_KEYS.all, 'sub', 'detail'] as const,
     detail: (id: string) => [...DEPARTMENT_KEYS.sub.details(), id] as const,
   },
@@ -43,6 +44,14 @@ export function useSubDepartment(id: string) {
     queryKey: DEPARTMENT_KEYS.sub.detail(id),
     queryFn: () => departmentService.getSubById(id),
     enabled: !!id,
+  });
+}
+
+export function useSubDepartmentsByMain(mainId: string) {
+  return useQuery({
+    queryKey: DEPARTMENT_KEYS.sub.byMain(mainId),
+    queryFn: () => departmentService.getSubByMainId(mainId),
+    enabled: !!mainId,
   });
 }
 
@@ -98,6 +107,7 @@ export function useCreateSubDepartment() {
     mutationFn: (formData: FormData) => departmentService.createSub(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: DEPARTMENT_KEYS.sub.lists() });
+      queryClient.invalidateQueries({ queryKey: [...DEPARTMENT_KEYS.all, 'sub', 'by-main'] });
       toast.success('Sub department created successfully');
     },
     onError: (error: Error) => {
@@ -128,6 +138,7 @@ export function useDeleteSubDepartment() {
     mutationFn: (id: string) => departmentService.deleteSub(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: DEPARTMENT_KEYS.sub.lists() });
+      queryClient.invalidateQueries({ queryKey: [...DEPARTMENT_KEYS.all, 'sub', 'by-main'] });
       toast.success('Sub department deleted successfully');
     },
     onError: (error: Error) => {

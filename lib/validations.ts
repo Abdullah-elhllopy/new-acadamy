@@ -99,3 +99,21 @@ export const trainerSchema = z.object({
 })
 
 export type TrainerFormData = z.infer<typeof trainerSchema>
+
+export const mainDepartmentSchema = z.object({
+  mainDepartmentName: z.string().min(2, 'Department name is required'),
+  mainDepartmentDescription: z.string().optional(),
+  isActive: z.boolean().optional(),
+  image: z.any().optional(),
+})
+
+export type MainDepartmentFormData = z.infer<typeof mainDepartmentSchema>
+
+export const subDepartmentSchema = z.object({
+  subDepartmentName: z.string().min(2, 'Sub department name is required'),
+  subDepartmentDescription: z.string().optional(),
+  mainDepartmentId: z.string().min(1, 'Main department is required'),
+  isActive: z.boolean().optional(),
+})
+
+export type SubDepartmentFormData = z.infer<typeof subDepartmentSchema>
