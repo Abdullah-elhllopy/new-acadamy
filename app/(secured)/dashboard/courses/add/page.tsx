@@ -3,14 +3,11 @@
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowLeft } from 'lucide-react'
 import { useCreateCourse } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
-import { Button } from '@/components/ui/button'
+import { DashboardHero } from '@/components/sections/hero'
+import { BackButton } from '@/components/ui/button'
 import { courseSchema, type CourseFormData } from '@/lib/validations'
-// import { CourseForm } from './_components/course-form'
-import Link from 'next/link'
 import { CourseForm } from '../_components/course-form'
 
 export default function AddCoursePage() {
@@ -71,7 +68,7 @@ export default function AddCoursePage() {
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Courses', href: '/dashboard/courses' },
@@ -79,13 +76,8 @@ export default function AddCoursePage() {
         ]}
         title="Add New Course"
       >
-        <Button variant="outline" asChild>
-          <Link href="/dashboard/courses">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Courses
-          </Link>
-        </Button>
-      </Hero>
+        <BackButton href="/dashboard/courses" text="Back to Courses" />
+      </DashboardHero>
 
       <ContentLayout>
         <CourseForm

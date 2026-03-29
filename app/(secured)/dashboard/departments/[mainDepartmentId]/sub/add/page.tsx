@@ -8,7 +8,7 @@ import { useCreateSubDepartment, useMainDepartment } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
 import { DashboardHero } from '@/components/sections/hero'
 import { Form, FormField } from '@/components/forms'
-import { Button } from '@/components/ui/button'
+import { BackButton, Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
@@ -71,12 +71,7 @@ export default function AddSubDepartmentPage({ params }: { params: { mainDepartm
         ]}
         title={`Add Sub Department - ${mainDepartment?.mainDepartmentName || ''}`}
       >
-        <Button variant="outline" asChild>
-          <Link href={`/dashboard/departments/${params.mainDepartmentId}/sub`}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Sub Departments
-          </Link>
-        </Button>
+        <BackButton href={`/dashboard/departments/${params.mainDepartmentId}/sub`} text="Back to Sub Departments" />
       </DashboardHero>
 
       <ContentLayout>
@@ -115,7 +110,7 @@ export default function AddSubDepartmentPage({ params }: { params: { mainDepartm
               </CardContent>
             </Card>
 
-            <div className="flex justify-end gap-4">
+            <div className="flex justify-start gap-4">
               <Button type="button" variant="outline" asChild>
                 <Link href={`/dashboard/departments/${params.mainDepartmentId}/sub`}>Cancel</Link>
               </Button>

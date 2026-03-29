@@ -19,15 +19,21 @@ export interface Course {
   numberOfMonths?: number;
   place: string;
   placeSub?: string;
-  courseType: string;
+  coursetype?: string; // حضورى/مباشرة/عبر الإنترنت
+  courseSpecies?: string; // Offline/Online (from API)
+  courseType?: string; // Department type GUID
   language?: string;
   video?: string;
   image?: string;
   coursepdf?: string;
   institutionID?: string;
+  institutionName?: string;
+  institutionimage?: string;
+  institutionDescription?: string;
   courseCost: number;
   courseNumberOfHours: number;
   instructorIDs?: string[];
+  ourinstructors?: any[]; // Populated instructor objects from API
   courseContent?: string;
   mainDebId?: string;
   subDebId?: string;
@@ -36,6 +42,10 @@ export interface Course {
   recommended?: boolean;
   soon?: boolean;
   wwwlText?: string[];
+  wwwl?: any[]; // What Will Learn objects from API
+  relatedCourses?: any[];
+  courseLectures?: any[];
+  allcomments?: any[];
 }
 
 export interface CourseFilterByCategory {

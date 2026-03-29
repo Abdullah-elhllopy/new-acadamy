@@ -3,7 +3,7 @@
 
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { BackButton, Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useLanguage } from '@/shared/hooks/useLanguage'
 import { useTranslate } from '@/locales/use-locales'
@@ -45,18 +45,19 @@ export function SectionHeader({
             {action ? (
                 action
             ) : viewAllLink ? (
-                <Button
-                    asChild
-                    className="rounded-full px-6 py-5 bg-primary hover:bg-secondary text-primary-foreground font-medium transition-colors"
-                >
-                    <Link href={viewAllLink}>
-                        {isRTL ? label.ar : label.en}
-                        <ArrowLeft className={cn(
-                            "w-4 h-4",
-                            'arrow-left',
-                        )} />
-                    </Link>
-                </Button>
+                // <Button
+                //     asChild
+                //     className="rounded-full px-6 py-5 bg-primary hover:bg-secondary text-primary-foreground font-medium transition-colors"
+                // >
+                //     <Link href={viewAllLink}>
+                //         {isRTL ? label.ar : label.en}
+                //         <ArrowLeft className={cn(
+                //             "w-4 h-4",
+                //             'arrow-left',
+                //         )} />
+                //     </Link>
+                // </Button>
+                <BackButton variant={'default'} className="rounded-full px-6 py-5 bg-primary hover:bg-secondary text-primary-foreground font-medium transition-colors" href={viewAllLink} text={isRTL ? label.ar : label.en} />
             ) : null}
         </div>
     )

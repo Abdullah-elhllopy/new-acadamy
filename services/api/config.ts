@@ -18,6 +18,9 @@ export const endpoints = {
     update: '/api/Course/Update-Course',
     addWWWL: '/api/Course/Add-WWWL',
     delete: (id: string) => `/api/Course/Delete-Course/${id}`,
+    addLectures: '/api/Course/Add-Lectures-To-Course',
+    removeLecture: '/api/Course/Remove-Lecture-from-Course',
+    addInstructors: '/api/Course/Add-Instructors-To-Course',
   },
   departments: {
     getAllMain: '/api/MainDepartment/All-Departments',
@@ -83,8 +86,23 @@ export const endpoints = {
   lectures: {
     getAll: '/api/Lecture/All-Lectures',
     getById: (id: string) => `/api/Lecture/get-Lecture/${id}`,
+    getByCourseId: (courseId: string) => `/api/Course/get-Course/${courseId}`,
+    getByChapterId: (chapterId: string) => `/api/Lecture/get-Lectures-By-Chapter/${chapterId}`,
     create: '/api/Lecture/Create-Lecture',
+    createChapter: '/api/Lecture/Create',
+    removeLectureFromCourse: '/api/Course/Remove-Lecture-from-Course',
     delete: (id: string) => `/api/Lecture/Delete-Lecture/${id}`,
+    comments: {
+      getByLectureId: (lectureId: string) => `/api/Comment/Get-Comments-By-Lecture/${lectureId}`,
+      delete: (id: string) => `/api/Comment/Delete-Comment/${id}`,
+    },
+    topics: {
+      getByLectureId: (lectureId: string) => `/api/Topic/Get-Topics-By-Lecture/${lectureId}`,
+      delete: (id: string) => `/api/Topic/Delete-Topic/${id}`,
+    },
+    questions: {
+      create: '/api/Question/Create-Question',
+    },
   },
   images: {
     getAll: '/api/Image/All-Images',
@@ -143,7 +161,8 @@ export const endpoints = {
       getAll: '/api/EmailSubscription/All-Subscriptions',
       create: '/api/EmailSubscription/Subscribe',
     },
-  }, imagesCenter: {
+  },
+  imagesCenter: {
     groups: {
       getAll: '/api/ImagesGroup/All-Groups',
       getById: (id: string) => `/api/ImagesGroup/get-Group/${id}`,

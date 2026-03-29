@@ -7,3 +7,4 @@ export * from './department.service';
 export * from './request.service';
 export * from './common.service';
 export * from './user.service';
+export * from './lecture.service';

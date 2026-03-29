@@ -44,6 +44,11 @@ export default function CoursesPage() {
     {
       header: 'Course Name',
       accessorKey: 'courseName',
+      cell: (course)  => (
+        <Link href={`/dashboard/courses/${course.courseId}`} className="text-blue-600 hover:underline">
+          {course.courseName}
+        </Link>
+      ),
     },
     {
       header: 'Type',

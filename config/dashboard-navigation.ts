@@ -154,6 +154,19 @@ export const dashboardNavigation: NavSection[] = [
       },
     ],
   },
+  {
+    id:"add-what-will-learn",
+    label: 'What Will You Learn',
+    labelAr: 'ماذا ستتعلم',
+    icon: BookOpen,
+    items: [
+      { 
+        label: 'Manage Learning Outcomes', 
+        labelAr: 'إدارة مخرجات التعلم', 
+        href: '/dashboard/lectures/add-what-will-learn' 
+      },
+    ],
+  }
 ]
 
 export const dashboardHomeLink = {

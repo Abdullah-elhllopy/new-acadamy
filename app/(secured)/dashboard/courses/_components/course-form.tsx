@@ -234,7 +234,7 @@ export function CourseForm({
         </Card>
 
         {/* Submit Button */}
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-start gap-4">
           <Button type="button" variant="outline" asChild>
             <Link href="/dashboard/courses">Cancel</Link>
           </Button>

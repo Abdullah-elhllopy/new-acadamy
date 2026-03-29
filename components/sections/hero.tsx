@@ -32,7 +32,7 @@ export function DashboardHero({ breadcrumbItems, title, className, children }: {
       {breadcrumbItems && <Breadcrumb items={breadcrumbItems} />}
 
       <div className='flex justify-between items-center'>
-        {title && <Title title={title} />}
+        {title && <Title title={title}  className='text-3xl md:text-3xl lg:text-4xl font-bold tracking-tight' />}
         {children}
       </div>
     </motion.section>

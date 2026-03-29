@@ -7,7 +7,7 @@ import { ContentLayout } from '@/layout/page-layout'
 import { Hero } from '@/components/sections/hero'
 import { DataTable, tableActions, type DataTableColumn } from '@/components/dashboard/data-table'
 import { ConfirmDeleteDialog } from '@/components/dashboard/confirm-delete-dialog'
-import { Button } from '@/components/ui/button'
+import { BackButton, Button } from '@/components/ui/button'
 import Link from 'next/link'
 import type { UserTrainingRequest } from '@/services/api'
 
@@ -80,12 +80,7 @@ export default function UserTrainingRequestsByCourse({ params }: { params: { id:
         ]}
         title="User Training Requests for Course"
       >
-        <Button variant="outline" asChild>
-          <Link href="/dashboard/requests/user-training">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Courses
-          </Link>
-        </Button>
+        <BackButton href="/dashboard/requests/user-training" text="Back to Courses" />
       </Hero>
 
       <ContentLayout>

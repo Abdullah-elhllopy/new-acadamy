@@ -4,7 +4,7 @@ import { ArrowLeft } from 'lucide-react'
 import { useTrainingRequest } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
 import { Hero } from '@/components/sections/hero'
-import { Button } from '@/components/ui/button'
+import { BackButton, Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { StatusBadge } from '@/components/dashboard/status-badge'
@@ -58,12 +58,7 @@ export default function TrainingRequestDetailsPage({ params }: { params: { id: s
         ]}
         title="Training Request Details"
       >
-        <Button variant="outline" asChild>
-          <Link href="/dashboard/requests/training">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Requests
-          </Link>
-        </Button>
+        <BackButton href="/dashboard/requests/training" text="Back to Requests" />
       </Hero>
 
       <ContentLayout>

@@ -1,10 +1,12 @@
 'use client'
 
+import { use } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import { ArrowLeft } from 'lucide-react'
-import { useCreateSlider } from '@/hooks/api'
+import { useCreateLecture } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
 import { Hero } from '@/components/sections/hero'
 import { BackButton, Button } from '@/components/ui/button'
@@ -12,34 +14,41 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Checkbox } from '@/components/ui/checkbox'
-import { sliderSchema, type SliderFormData } from '@/lib/validations'
 import Link from 'next/link'
 
-export default function AddSliderPage() {
+const onlineLectureSchema = z.object({
+  name: z.string().min(2, 'Lecture name is required'),
+  description: z.string().optional(),
+  lectureIndex: z.string().min(1, 'Lecture number is required'),
+  video: z.any().optional(),
+})
+
+type OnlineLectureFormData = z.infer<typeof onlineLectureSchema>
+
+export default function AddOnlineLecturePage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
-  const createSlider = useCreateSlider()
-  const form = useForm<SliderFormData>({
-    resolver: zodResolver(sliderSchema),
+  const { id: chapterId } = use(params)
+  const createLecture = useCreateLecture()
+
+  const form = useForm<OnlineLectureFormData>({
+    resolver: zodResolver(onlineLectureSchema),
     defaultValues: {
-      sliderTitle: '',
-      sliderDescription: '',
-      sliderLink: '',
-      isActive: true,
+      name: '',
+      description: '',
+      lectureIndex: '1',
     },
   })
 
-  const onSubmit = async (data: SliderFormData) => {
+  const onSubmit = async (data: OnlineLectureFormData) => {
     const formData = new FormData()
-    
-    formData.append('SliderTitle', data.sliderTitle)
-    if (data.sliderDescription) formData.append('SliderDescription', data.sliderDescription)
-    if (data.sliderLink) formData.append('SliderLink', data.sliderLink)
-    formData.append('IsActive', data.isActive ? 'true' : 'false')
-    if (data.image?.[0]) formData.append('img', data.image[0])
+    formData.append('Name', data.name)
+    if (data.description) formData.append('Description', data.description)
+    formData.append('CourseId', chapterId)
+    formData.append('LectureIndex', data.lectureIndex)
+    if (data.video?.[0]) formData.append('video', data.video[0])
 
-    await createSlider.mutateAsync(formData)
-    router.push('/dashboard/sliders')
+    await createLecture.mutateAsync(formData)
+    router.push(`/dashboard/lectures/online-lectures/${chapterId}`)
   }
 
   return (
@@ -47,12 +56,13 @@ export default function AddSliderPage() {
       <Hero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
-          { label: 'Sliders', href: '/dashboard/sliders' },
-          { label: 'Add Slider', href: '/dashboard/sliders/add' },
+          { label: 'Lectures', href: '/dashboard/lectures' },
+          { label: 'Chapter', href: `/dashboard/lectures/online-lectures/${chapterId}` },
+          { label: 'Add Lecture', href: `/dashboard/lectures/online-lectures/${chapterId}/add` },
         ]}
-        title="Add New Slider"
+        title="Add New Online Lecture"
       >
-        <BackButton href="/dashboard/sliders" text="Back to Sliders" />
+        <BackButton href={`/dashboard/lectures/online-lectures/${chapterId}`} text="Back" />
       </Hero>
 
       <ContentLayout>
@@ -62,12 +72,12 @@ export default function AddSliderPage() {
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                   control={form.control}
-                  name="sliderTitle"
+                  name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Title</FormLabel>
+                      <FormLabel>Lecture Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter slider title" {...field} />
+                        <Input placeholder="Enter lecture name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -76,12 +86,12 @@ export default function AddSliderPage() {
 
                 <FormField
                   control={form.control}
-                  name="sliderDescription"
+                  name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Description</FormLabel>
+                      <FormLabel>Description (Optional)</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Enter slider description" {...field} />
+                        <Textarea placeholder="Enter lecture description" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -90,12 +100,12 @@ export default function AddSliderPage() {
 
                 <FormField
                   control={form.control}
-                  name="sliderLink"
+                  name="lectureIndex"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Link</FormLabel>
+                      <FormLabel>Lecture Number</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter slider link" {...field} />
+                        <Input type="number" min="1" placeholder="Enter lecture number" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -104,14 +114,14 @@ export default function AddSliderPage() {
 
                 <FormField
                   control={form.control}
-                  name="image"
+                  name="video"
                   render={({ field: { value, onChange, ...field } }) => (
                     <FormItem>
-                      <FormLabel>Image</FormLabel>
+                      <FormLabel>Lecture Video</FormLabel>
                       <FormControl>
                         <Input
                           type="file"
-                          accept="image/*"
+                          accept="video/*"
                           onChange={(e) => onChange(e.target.files)}
                           {...field}
                         />
@@ -121,28 +131,12 @@ export default function AddSliderPage() {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="isActive"
-                  render={({ field }) => (
-                    <FormItem className="flex items-center space-x-2 space-y-0">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormLabel className="mt-0!">Active</FormLabel>
-                    </FormItem>
-                  )}
-                />
-
                 <div className="flex justify-start gap-4">
                   <Button type="button" variant="outline" asChild>
-                    <Link href="/dashboard/sliders">Cancel</Link>
+                    <Link href={`/dashboard/lectures/online-lectures/${chapterId}`}>Cancel</Link>
                   </Button>
-                  <Button type="submit" disabled={createSlider.isPending}>
-                    {createSlider.isPending ? 'Creating...' : 'Create Slider'}
+                  <Button type="submit" disabled={createLecture.isPending}>
+                    {createLecture.isPending ? 'Creating...' : 'Create Lecture'}
                   </Button>
                 </div>
               </form>

@@ -3,7 +3,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/shared/hooks/useLanguage'
-import { Button } from '@/components/ui/button'
+import { BackButton, Button } from '@/components/ui/button'
 import { X, Calendar, MapPin, ArrowLeft } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -62,7 +62,7 @@ const announcements: Announcement[] = [
 ]
 
 export function AnnouncementBanner() {
-    const { isArabic} = useLanguage()
+    const { isArabic } = useLanguage()
     const [isVisible, setIsVisible] = useState(true)
     const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -124,17 +124,15 @@ export function AnnouncementBanner() {
                                         <MapPin className="w-4 h-4" />
                                         {isArabic ? item.locationAr : item.locationEn}
                                     </span>
-                                    <Button
+                                    <BackButton
                                         variant="secondary"
-                                        size="sm"
-                                        className="rounded-full h-8 px-4 text-xs bg-secondary hover:bg-secondary-hover"
+                                        size={'sm'}
                                         asChild
-                                    >
-                                        <a href={item.link} className="flex items-center gap-1">
-                                            {isArabic ? 'اعرف المزيد' : 'Learn More'}
-                                            <ArrowLeft  className={`w-3 h-3 arrow-left`} />
-                                        </a>
-                                    </Button>
+                                        className="rounded-full h-8 px-4 text-xs bg-secondary hover:bg-secondary-hover"
+                                        href={item.link}
+                                        text={isArabic ? 'اعرف المزيد' : 'Learn More'}
+                                    />
+
                                     <span className="mx-4 opacity-30">|</span>
                                 </div>
                             ))}

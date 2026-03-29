@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
 
-export const Title = ({ title }: { title: string }) => {
+export const Title = ({ title, className }: { title: string; className?: string }) => {
     return (
         <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -9,6 +9,7 @@ export const Title = ({ title }: { title: string }) => {
             transition={{ delay: 0.1 }}
             className={cn(
                 "text-3xl md:text-4xl lg:text-5xl font-bold text-foreground font-sans",
+                className
             )}
         >
             {title}

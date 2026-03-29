@@ -9,7 +9,13 @@ interface PageHeaderWithActionsProps {
     label: string
     href: string
     icon?: ReactNode
-  }
+  },
+  actions?: {
+    label: string
+    href: string
+    icon?: ReactNode,
+    variant ?: 'outline' | 'default' | 'ghost'
+  }[],
   children?: ReactNode
 }
 
@@ -18,9 +24,10 @@ export function PageHeaderWithActions({
   description,
   action,
   children,
+  actions
 }: PageHeaderWithActionsProps) {
   return (
-    <div className="mb-0 container mx-auto px-4 md:px-6 lg:px-8 xl:px-20 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="mb-0 mt-2 container mx-auto px-4 md:px-6 lg:px-8 xl:px-20 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
         {description && (
@@ -37,6 +44,14 @@ export function PageHeaderWithActions({
             </Link>
           </Button>
         )}
+        {actions && actions.map((act, index) => (
+          <Button variant={act.variant ? act.variant : 'default'} key={index} asChild>
+            <Link href={act.href}>
+              {act.icon}
+              {act.label}
+            </Link>
+          </Button>
+        ))}
       </div>
     </div>
   )

@@ -9,7 +9,7 @@ import { DashboardHero } from '@/components/sections/hero'
 import { DataTable, tableActions, type DataTableColumn } from '@/components/dashboard/data-table'
 import { ConfirmDeleteDialog } from '@/components/dashboard/confirm-delete-dialog'
 import { StatusBadge } from '@/components/dashboard/status-badge'
-import { Button } from '@/components/ui/button'
+import { BackButton, Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import Link from 'next/link'
 import type { SubDepartment } from '@/services/api'
@@ -79,12 +79,7 @@ export default function SubDepartmentsPage({ params }: { params: { mainDepartmen
         title={`Sub Departments - ${mainDepartment?.mainDepartmentName || ''}`}
       >
         <div className="flex gap-2">
-          <Button variant="outline" asChild>
-            <Link href="/dashboard/departments/main">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Main Departments
-            </Link>
-          </Button>
+          <BackButton href="/dashboard/departments/main" text="Back to Main Departments" />
           <Button asChild>
             <Link href={`/dashboard/departments/${params.mainDepartmentId}/sub/add`}>
               <Plus className="mr-2 h-4 w-4" />

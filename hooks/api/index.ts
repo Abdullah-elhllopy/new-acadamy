@@ -4,3 +4,4 @@ export * from './use-departments';
 export * from './use-requests';
 export * from './use-common';
 export * from './use-about-us';
+export * from './use-lectures';

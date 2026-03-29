@@ -8,7 +8,7 @@ import { ArrowLeft } from 'lucide-react'
 import { useAboutUs, useUpdateAboutUs } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
 import { DashboardHero } from '@/components/sections/hero'
-import { Button } from '@/components/ui/button'
+import { BackButton, Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -88,12 +88,7 @@ export default function EditAboutUsPage() {
         ]}
         title="Edit About Us Info"
       >
-        <Button variant="outline" asChild>
-          <Link href="/dashboard/about-us">
-            <ArrowLeft className="arrow-left h-4 w-4" />
-            Back
-          </Link>
-        </Button>
+        <BackButton href="/dashboard/about-us" text="Back to About Us" />
       </DashboardHero>
 
       <ContentLayout>
@@ -186,7 +181,7 @@ export default function EditAboutUsPage() {
                   />
                 </div>
 
-                <div className="flex justify-end gap-4">
+                <div className="flex justify-start gap-4">
                   <Button type="button" variant="outline" asChild>
                     <Link href="/dashboard/about-us">Cancel</Link>
                   </Button>
