@@ -434,7 +434,7 @@ export default function ProgramsPage() {
                       <ProgramCard
                         key={program.id}
                         program={program}
-                        language={ 'ar'}
+                        language={'ar'}
                       />
                     ))}
                   </div>

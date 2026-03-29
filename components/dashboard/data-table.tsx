@@ -88,7 +88,7 @@ export function DataTable<T extends { [key: string]: any }>({
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/50">
-              {columns.map((column, index) => (
+              {columns?.map((column, index) => (
                 <TableHead key={index} className="font-semibold">
                   {column.header}
                 </TableHead>
@@ -99,7 +99,7 @@ export function DataTable<T extends { [key: string]: any }>({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((item, rowIndex) => (
+            {data?.map((item, rowIndex) => (
               <TableRow key={rowIndex} className="hover:bg-muted/50 transition-colors">
                 {columns.map((column, colIndex) => (
                   <TableCell key={colIndex} className="py-4">
@@ -120,7 +120,7 @@ export function DataTable<T extends { [key: string]: any }>({
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        {actions.map((action, actionIndex) => (
+                        {actions?.map((action, actionIndex) => (
                           <DropdownMenuItem
                             key={actionIndex}
                             onClick={() => action.onClick(item)}
@@ -146,7 +146,7 @@ export function DataTable<T extends { [key: string]: any }>({
 
       {/* Mobile View - Card Layout */}
       <div className="md:hidden space-y-4 p-4">
-        {data.map((item, rowIndex) => (
+        {data?.map((item, rowIndex) => (
           <div
             key={rowIndex}
             className="border rounded-lg p-4 space-y-3 bg-card hover:shadow-md transition-shadow"
@@ -167,7 +167,7 @@ export function DataTable<T extends { [key: string]: any }>({
             ))}
             {actions && actions.length > 0 && (
               <div className="flex gap-2 pt-2 border-t">
-                {actions.map((action, actionIndex) => (
+                {actions?.map((action, actionIndex) => (
                   <Button
                     key={actionIndex}
                     variant={action.variant === 'destructive' ? 'destructive' : 'outline'}

@@ -1,8 +1,10 @@
 // ----------------------------------------------------------------------
 
+import { I18LANG } from "@/shared/constants/constant";
+
 export type LanguageValue = 'en' | 'ar';
 
-export const fallbackLng = 'en';
+export const fallbackLng =  typeof window === 'undefined' ?  'ar' : localStorage?.getItem(I18LANG) || 'ar'  ;
 export const languages = ['en', 'ar'];
 export const defaultNS = 'common';
 export const cookieName = 'i18next';

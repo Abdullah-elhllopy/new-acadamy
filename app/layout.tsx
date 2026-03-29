@@ -10,6 +10,8 @@ import { InitLangScript } from '@/locales/init-lang-script'
 import { ReactQueryProvider } from '@/components/providers/react-query-provider'
 import './globals.css'
 import { I18nProvider } from '@/locales'
+import { Suspense } from 'react'
+import Loading from './loading'
 
 const geist = Geist({ subsets: ["latin"] });
 const geistMono = Geist_Mono({ subsets: ["latin"] });
@@ -42,19 +44,27 @@ export default function RootLayout({
       <body className="font-sans antialiased" suppressHydrationWarning>
         <ErrorBoundary>
           <ReactQueryProvider>
-            <I18nProvider>
-              <LocalizationProvider>
-                <div className="min-h-screen flex flex-col">
-                  <Header />
-                  <main className="flex-1">
-                    {children}
-                  </main>
-                  <Footer />
-                </div>
-                <Toaster />
-                <Analytics />
-              </LocalizationProvider>
-            </I18nProvider>
+            <Suspense fallback={<Loading />}>
+              <I18nProvider>
+                <LocalizationProvider>
+                  <div className="min-h-screen flex flex-col">
+                    <Suspense fallback={null}>
+                      <Header />
+                    </Suspense>
+                    <main className="flex-1">
+                      {/* <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}> */}
+                        {children}
+                      {/* </Suspense> */}
+                    </main>
+                    <Suspense fallback={null}>
+                      <Footer />
+                    </Suspense>
+                  </div>
+                  <Toaster />
+                  <Analytics />
+                </LocalizationProvider>
+              </I18nProvider>
+            </Suspense>
           </ReactQueryProvider>
         </ErrorBoundary>
       </body>
