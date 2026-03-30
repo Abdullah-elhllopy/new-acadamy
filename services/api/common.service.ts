@@ -20,13 +20,11 @@ export interface TeamMember {
 }
 
 export interface Slider {
-  sliderId?: string;
-  sliderTitle?: string;
-  sliderDescription?: string;
-  sliderImage: string;
-  sliderLink?: string;
-  order?: number;
-  isActive?: boolean;
+  id:number ,
+  title:string,
+  description:string,
+  imageFile:string | null,
+  image:string | null
 }
 
 export interface ImageGroup {
@@ -112,7 +110,7 @@ class SliderService {
   }
 
   async delete(id: string): Promise<void> {
-    return apiClient.delete<void>(endpoints.sliders.delete(id));
+    return apiClient.get<void>(endpoints.sliders.delete(id));
   }
 }
 

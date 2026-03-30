@@ -25,8 +25,8 @@ export default function SlidersPage() {
   }
 
   const handleDeleteConfirm = async () => {
-    if (selectedSlider?.sliderId) {
-      await deleteSlider.mutateAsync(selectedSlider.sliderId)
+    if (selectedSlider?.id) {
+      await deleteSlider.mutateAsync(`${selectedSlider.id}`)
       setDeleteDialogOpen(false)
       setSelectedSlider(null)
     }
@@ -35,22 +35,16 @@ export default function SlidersPage() {
   const columns: DataTableColumn<Slider>[] = [
     {
       header: 'Title',
-      accessorKey: 'sliderTitle',
+      accessorKey: 'title',
     },
     {
       header: 'Description',
-      cell: (slider) => slider.sliderDescription || '-',
+      cell: (slider) => slider.description || '-',
     },
     {
-      header: 'Link',
-      cell: (slider) => slider.sliderLink || '-',
-    },
-    {
-      header: 'Status',
-      cell: (slider) => (
-        <StatusBadge status={slider.isActive ? 'active' : 'inactive'} />
-      ),
-    },
+      header: 'Image',
+      cell: (slider) => slider.image || '-',
+    }
   ]
 
   return (
@@ -94,7 +88,7 @@ export default function SlidersPage() {
         onOpenChange={setDeleteDialogOpen}
         onConfirm={handleDeleteConfirm}
         title="Delete Slider"
-        description={`Are you sure you want to delete "${selectedSlider?.sliderTitle}"? This action cannot be undone.`}
+        description={`Are you sure you want to delete "${selectedSlider?.title}"? This action cannot be undone.`}
         isLoading={deleteSlider.isPending}
       />
     </>

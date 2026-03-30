@@ -21,21 +21,21 @@ export default function AddSliderPage() {
   const form = useForm<SliderFormData>({
     resolver: zodResolver(sliderSchema),
     defaultValues: {
-      sliderTitle: '',
-      sliderDescription: '',
-      sliderLink: '',
-      isActive: true,
+      title: '',
+      description: '',
+      // link: '',
+      ImageFile: null,
     },
   })
 
   const onSubmit = async (data: SliderFormData) => {
     const formData = new FormData()
     
-    formData.append('SliderTitle', data.sliderTitle)
-    if (data.sliderDescription) formData.append('SliderDescription', data.sliderDescription)
-    if (data.sliderLink) formData.append('SliderLink', data.sliderLink)
-    formData.append('IsActive', data.isActive ? 'true' : 'false')
-    if (data.image?.[0]) formData.append('img', data.image[0])
+    formData.append('Title', data.title)
+    if (data.description) formData.append('Description', data.description)
+    // if (data.link) formData.append('SliderLink', data.link)
+    // formData.append('IsActive', data.isActive ? 'true' : 'false')
+    if (data.ImageFile?.[0]) formData.append('ImageFile', data.ImageFile[0])
 
     await createSlider.mutateAsync(formData)
     router.push('/dashboard/sliders')
@@ -61,7 +61,7 @@ export default function AddSliderPage() {
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                   control={form.control}
-                  name="sliderTitle"
+                  name="title"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Title</FormLabel>
@@ -75,7 +75,7 @@ export default function AddSliderPage() {
 
                 <FormField
                   control={form.control}
-                  name="sliderDescription"
+                  name="description"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Description</FormLabel>
@@ -87,7 +87,7 @@ export default function AddSliderPage() {
                   )}
                 />
 
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="sliderLink"
                   render={({ field }) => (
@@ -99,11 +99,11 @@ export default function AddSliderPage() {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
                 <FormField
                   control={form.control}
-                  name="image"
+                  name="ImageFile"
                   render={({ field: { value, onChange, ...field } }) => (
                     <FormItem>
                       <FormLabel>Image</FormLabel>
@@ -120,7 +120,7 @@ export default function AddSliderPage() {
                   )}
                 />
 
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="isActive"
                   render={({ field }) => (
@@ -134,7 +134,7 @@ export default function AddSliderPage() {
                       <FormLabel className="mt-0!">Active</FormLabel>
                     </FormItem>
                   )}
-                />
+                /> */}
 
                 <div className="flex justify-start gap-4">
                   <Button type="button" variant="outline" asChild>

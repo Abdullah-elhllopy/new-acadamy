@@ -156,7 +156,7 @@ export function DataTable<T extends { [key: string]: any }>({
                 <span className="text-sm font-semibold text-muted-foreground">
                   {column.header}
                 </span>
-                <span className="text-sm text-foreground break-words">
+                <span className="text-sm text-foreground wrap-break-word">
                   {column.cell
                     ? column.cell(item)
                     : column.accessorKey
