@@ -3,10 +3,9 @@
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowLeft } from 'lucide-react'
 import { useCreateTrainer } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { Form, FormField } from '@/components/forms'
 import { BackButton, Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -61,7 +60,7 @@ export default function AddTrainerPage() {
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Trainers', href: '/dashboard/trainers' },
@@ -70,7 +69,7 @@ export default function AddTrainerPage() {
         title="Add New Trainer"
       >
         <BackButton href="/dashboard/trainers" text="Back to Trainers" />
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>

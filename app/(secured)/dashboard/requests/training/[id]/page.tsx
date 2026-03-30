@@ -1,22 +1,24 @@
 'use client'
 
-import { ArrowLeft } from 'lucide-react'
+import { use } from 'react'
 import { useTrainingRequest } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { BackButton, Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import Link from 'next/link'
 
-export default function TrainingRequestDetailsPage({ params }: { params: { id: string } }) {
-  const { data: request, isLoading } = useTrainingRequest(params.id)
+export default function TrainingRequestDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
+
+  const { data: request, isLoading } = useTrainingRequest(id)
 
   if (isLoading) {
     return (
       <>
-        <Hero title="Loading..." />
+        <DashboardHero title="Loading..." />
         <ContentLayout>
           <Skeleton className="h-96 w-full" />
         </ContentLayout>
@@ -27,7 +29,7 @@ export default function TrainingRequestDetailsPage({ params }: { params: { id: s
   if (!request) {
     return (
       <>
-        <Hero title="Request Not Found" />
+        <DashboardHero title="Request Not Found" />
         <ContentLayout>
           <div className="text-center py-12">
             <p className="text-muted-foreground">Training request not found</p>
@@ -49,17 +51,17 @@ export default function TrainingRequestDetailsPage({ params }: { params: { id: s
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Requests', href: '/dashboard/requests/training' },
           { label: 'Training Requests', href: '/dashboard/requests/training' },
-          { label: 'Details', href: `/dashboard/requests/training/${params.id}` },
+          { label: 'Details', href: `/dashboard/requests/training/${id}` },
         ]}
         title="Training Request Details"
       >
         <BackButton href="/dashboard/requests/training" text="Back to Requests" />
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <Card>

@@ -4,7 +4,7 @@ import { use } from 'react'
 import { ArrowLeft, MessageSquare, FileText } from 'lucide-react'
 import { useLecture } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero, Hero } from '@/components/sections/hero'
 import { BackButton, Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -17,7 +17,7 @@ export default function OnlineLectureDetailPage({ params }: { params: Promise<{ 
   if (isLoading) {
     return (
       <>
-        <Hero title="Loading..." />
+        <DashboardHero title="Loading..." />
         <ContentLayout>
           <Skeleton className="h-96 w-full" />
         </ContentLayout>
@@ -28,7 +28,7 @@ export default function OnlineLectureDetailPage({ params }: { params: Promise<{ 
   if (!lecture) {
     return (
       <>
-        <Hero title="Lecture Not Found" />
+        <DashboardHero title="Lecture Not Found" />
         <ContentLayout>
           <div className="text-center py-12">
             <p className="text-muted-foreground">Lecture not found</p>
@@ -43,7 +43,7 @@ export default function OnlineLectureDetailPage({ params }: { params: Promise<{ 
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Lectures', href: '/dashboard/lectures' },
@@ -66,7 +66,7 @@ export default function OnlineLectureDetailPage({ params }: { params: Promise<{ 
             </Link>
           </Button>
         </div>
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <div className="space-y-6">

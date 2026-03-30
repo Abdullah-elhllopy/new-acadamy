@@ -1,13 +1,12 @@
 'use client'
 
 import { use, useState } from 'react'
-import { ArrowLeft } from 'lucide-react'
 import { useLectureTopics, useDeleteTopic } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { DataTable, tableActions, type DataTableColumn } from '@/components/dashboard/data-table'
 import { ConfirmDeleteDialog } from '@/components/dashboard/confirm-delete-dialog'
-import { BackButton, Button } from '@/components/ui/button'
+import { BackButton } from '@/components/ui/button'
 import Link from 'next/link'
 import type { Topic } from '@/services/api/lecture.service'
 
@@ -53,7 +52,7 @@ export default function LectureTopicsPage({ params }: { params: Promise<{ id: st
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Lectures', href: '/dashboard/lectures' },
@@ -62,7 +61,7 @@ export default function LectureTopicsPage({ params }: { params: Promise<{ id: st
         title="Lecture Topics & Notes"
       >
         <BackButton href={`/dashboard/lectures/online-lecture/${lectureId}`} text="Back to Lecture" />
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <DataTable

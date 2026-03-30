@@ -2,17 +2,17 @@
 
 import { use, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, ArrowLeft } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { useCourseWithLectures, useRemoveLectureFromCourse } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { DashboardHero, Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { DataTable, tableActions, type DataTableColumn } from '@/components/dashboard/data-table'
 import { ConfirmDeleteDialog } from '@/components/dashboard/confirm-delete-dialog'
 import { BackButton, Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import type { Lecture } from '@/services/api/lecture.service'
-import { PageHeaderWithActions } from '@/components/dashboard'
+
 
 export default function CourseLecturesPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()

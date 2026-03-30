@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { Eye } from 'lucide-react'
 import { useCourses } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { DataTable, type DataTableColumn } from '@/components/dashboard/data-table'
 import { Badge } from '@/components/ui/badge'
 import type { Course } from '@/services/api'
@@ -40,7 +40,7 @@ export default function UserTrainingRequestsPage() {
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Requests', href: '/dashboard/requests/user-training' },
@@ -51,7 +51,7 @@ export default function UserTrainingRequestsPage() {
         <p className="text-sm text-muted-foreground mt-2">
           Select a course to view training requests from users
         </p>
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <DataTable

@@ -30,21 +30,26 @@ export interface Slider {
 }
 
 export interface ImageGroup {
-  groupId?: string;
+  imageGroupId?: string;
   groupName: string;
   groupDescription?: string;
-  groupCover?: string;
+  groupImage?: string;
   createdAt?: string;
+  numberOfImages ?: number;
 }
 
 export interface Image {
-  imageId?: string;
-  imagePath: string;
-  imageTitle?: string;
-  groupId: string;
   createdAt?: string;
+  imageFile?: null | File; 
+  imageGroupId ?: string;
+  imageId ?: string;
+  imageSrc ?: string;
+  text : string;
 }
-
+export interface GroupImageDetails {
+  groubName: string;
+  images: Image[];
+}
 class PartnerService {
   async getAll(): Promise<Partner[]> {
     return apiClient.get<Partner[]>(endpoints.partners.getAll);
@@ -136,8 +141,8 @@ class ImagesCenterService {
     return apiClient.get<Image[]>(endpoints.imagesCenter.images.getAll);
   }
 
-  async getImagesByGroupId(groupId: string): Promise<Image[]> {
-    return apiClient.get<Image[]>(endpoints.imagesCenter.images.getByGroupId(groupId));
+  async getImagesByGroupId(groupId: string): Promise<GroupImageDetails> {
+    return apiClient.get<GroupImageDetails>(endpoints.imagesCenter.images.getByGroupId(groupId));
   }
 
   async createImage(formData: FormData): Promise<Image> {

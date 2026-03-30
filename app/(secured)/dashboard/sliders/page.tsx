@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Plus } from 'lucide-react'
 import { useSliders, useDeleteSlider } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { DataTable, tableActions, type DataTableColumn } from '@/components/dashboard/data-table'
 import { ConfirmDeleteDialog } from '@/components/dashboard/confirm-delete-dialog'
 import { StatusBadge } from '@/components/dashboard/status-badge'
@@ -55,7 +55,7 @@ export default function SlidersPage() {
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Sliders', href: '/dashboard/sliders' },
@@ -68,7 +68,7 @@ export default function SlidersPage() {
             Add Slider
           </Link>
         </Button>
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <DataTable

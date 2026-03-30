@@ -2,10 +2,10 @@
 
 import { use, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, ArrowLeft } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { useLecturesByChapter, useRemoveLectureFromCourse } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { DataTable, tableActions, type DataTableColumn } from '@/components/dashboard/data-table'
 import { ConfirmDeleteDialog } from '@/components/dashboard/confirm-delete-dialog'
 import { BackButton, Button } from '@/components/ui/button'
@@ -58,7 +58,7 @@ export default function OnlineLecturesPage({ params }: { params: Promise<{ id: s
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Lectures', href: '/dashboard/lectures' },
@@ -81,7 +81,7 @@ export default function OnlineLecturesPage({ params }: { params: Promise<{ id: s
             </Link>
           </Button>
         </div>
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <DataTable

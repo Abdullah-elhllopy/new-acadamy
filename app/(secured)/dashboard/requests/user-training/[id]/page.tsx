@@ -1,18 +1,18 @@
 'use client'
 
-import { useState } from 'react'
-import { ArrowLeft } from 'lucide-react'
+import { use, useState } from 'react'
 import { useUserTrainingRequestsByCourse, useRemoveUserFromCourse } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { DataTable, tableActions, type DataTableColumn } from '@/components/dashboard/data-table'
 import { ConfirmDeleteDialog } from '@/components/dashboard/confirm-delete-dialog'
 import { BackButton, Button } from '@/components/ui/button'
 import Link from 'next/link'
 import type { UserTrainingRequest } from '@/services/api'
 
-export default function UserTrainingRequestsByCourse({ params }: { params: { id: string } }) {
-  const { data: requests, isLoading } = useUserTrainingRequestsByCourse(params.id)
+export default function UserTrainingRequestsByCourse({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
+  const { data: requests, isLoading } = useUserTrainingRequestsByCourse(id)
   const removeUser = useRemoveUserFromCourse()
   
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
@@ -26,7 +26,7 @@ export default function UserTrainingRequestsByCourse({ params }: { params: { id:
   const handleDeleteConfirm = async () => {
     if (selectedRequest) {
       await removeUser.mutateAsync({ 
-        courseId: params.id, 
+        courseId: id, 
         userId: selectedRequest.userId 
       })
       setDeleteDialogOpen(false)
@@ -71,17 +71,17 @@ export default function UserTrainingRequestsByCourse({ params }: { params: { id:
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Requests', href: '/dashboard/requests/user-training' },
           { label: 'User Training Requests', href: '/dashboard/requests/user-training' },
-          { label: 'Course Requests', href: `/dashboard/requests/user-training/${params.id}` },
+          { label: 'Course Requests', href: `/dashboard/requests/user-training/${id}` },
         ]}
         title="User Training Requests for Course"
       >
         <BackButton href="/dashboard/requests/user-training" text="Back to Courses" />
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <DataTable

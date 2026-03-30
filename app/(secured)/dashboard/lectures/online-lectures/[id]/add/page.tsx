@@ -5,10 +5,9 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { ArrowLeft } from 'lucide-react'
 import { useCreateLecture } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { BackButton, Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
@@ -53,7 +52,7 @@ export default function AddOnlineLecturePage({ params }: { params: Promise<{ id:
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Lectures', href: '/dashboard/lectures' },
@@ -63,7 +62,7 @@ export default function AddOnlineLecturePage({ params }: { params: Promise<{ id:
         title="Add New Online Lecture"
       >
         <BackButton href={`/dashboard/lectures/online-lectures/${chapterId}`} text="Back" />
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <Card>

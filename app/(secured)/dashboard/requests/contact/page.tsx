@@ -2,7 +2,7 @@
 
 import { useContactMessages } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { DataTable, type DataTableColumn } from '@/components/dashboard/data-table'
 import type { ContactMessage } from '@/services/api'
 
@@ -48,7 +48,7 @@ export default function ContactMessagesPage() {
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Requests', href: '/dashboard/requests/contact' },

@@ -4,10 +4,9 @@ import { useRouter } from 'next/navigation'
 import { Eye } from 'lucide-react'
 import { useTrainingRequests } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { DataTable, type DataTableColumn } from '@/components/dashboard/data-table'
 import { StatusBadge } from '@/components/dashboard/status-badge'
-import { Button } from '@/components/ui/button'
 import type { TrainingRequest } from '@/services/api'
 
 export default function TrainingRequestsPage() {
@@ -67,7 +66,7 @@ export default function TrainingRequestsPage() {
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Requests', href: '/dashboard/requests/training' },

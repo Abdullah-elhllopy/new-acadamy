@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
 import { useTrainers, useDeleteTrainer } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { DataTable, tableActions, type DataTableColumn } from '@/components/dashboard/data-table'
 import { ConfirmDeleteDialog } from '@/components/dashboard/confirm-delete-dialog'
 import { StatusBadge } from '@/components/dashboard/status-badge'
@@ -72,7 +72,7 @@ export default function TrainersPage() {
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Trainers', href: '/dashboard/trainers' },
@@ -85,7 +85,7 @@ export default function TrainersPage() {
             Add Trainer
           </Link>
         </Button>
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <DataTable

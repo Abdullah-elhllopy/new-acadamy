@@ -1,22 +1,25 @@
 'use client'
 
-import { ArrowLeft, Download } from 'lucide-react'
+import {  Download } from 'lucide-react'
 import { useBeTrainerRequest } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { BackButton, Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import Link from 'next/link'
+import { use } from 'react'
 
-export default function BeTrainerRequestDetailsPage({ params }: { params: { id: string } }) {
-  const { data: request, isLoading } = useBeTrainerRequest(params.id)
+export default function BeTrainerRequestDetailsPage({ params }: { params:Promise<{ id: string }> }) {
+    const { id } = use(params)
+  
+  const { data: request, isLoading } = useBeTrainerRequest(id)
 
   if (isLoading) {
     return (
       <>
-        <Hero title="Loading..." />
+        <DashboardHero title="Loading..." />
         <ContentLayout>
           <Skeleton className="h-96 w-full" />
         </ContentLayout>
@@ -27,7 +30,7 @@ export default function BeTrainerRequestDetailsPage({ params }: { params: { id: 
   if (!request) {
     return (
       <>
-        <Hero title="Request Not Found" />
+        <DashboardHero title="Request Not Found" />
         <ContentLayout>
           <div className="text-center py-12">
             <p className="text-muted-foreground">Trainer application not found</p>
@@ -49,17 +52,17 @@ export default function BeTrainerRequestDetailsPage({ params }: { params: { id: 
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Requests', href: '/dashboard/requests/be-trainer' },
           { label: 'Be Trainer Requests', href: '/dashboard/requests/be-trainer' },
-          { label: 'Details', href: `/dashboard/requests/be-trainer/${params.id}` },
+          { label: 'Details', href: `/dashboard/requests/be-trainer/${id}` },
         ]}
         title="Trainer Application Details"
       >
         <BackButton href="/dashboard/requests/be-trainer" text="Back to Requests" />
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <Card>

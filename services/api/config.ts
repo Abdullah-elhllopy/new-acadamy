@@ -164,17 +164,19 @@ export const endpoints = {
   },
   imagesCenter: {
     groups: {
-      getAll: '/api/ImagesGroup/All-Groups',
-      getById: (id: string) => `/api/ImagesGroup/get-Group/${id}`,
-      create: '/api/ImagesGroup/Create-Group',
-      update: '/api/ImagesGroup/Update-Group',
-      delete: (id: string) => `/api/ImagesGroup/Delete-Group/${id}`,
+      getAll: '/api/ImageGroup/All-ImageGroup',
+      getById: (id: string) => `/api/ImageGroup/Get-Image/${id}`,
+      create: '/api/ImageGroup/Add-ImageGroup',
+      update: '/api/ImageGroup/Edit-ImageGroup/{id}',
+      delete: (id: string) => `/api/ImageGroup/Delete-ImageGroup/${id}`,
     },
     images: {
       getAll: '/api/Image/All-Images',
-      getByGroupId: (groupId: string) => `/api/Image/get-Images-By-Group/${groupId}`,
-      create: '/api/Image/Create-Image',
-      delete: (id: string) => `/api/Image/Delete-Image/${id}`,
+      getById: (id: string) => `/api/Image/Get-Image/${id}`,
+      getByGroupId: (groupId: string) => `/api/Image/Get-Images-by-GroupId/${groupId}`,
+      create: '/api/Image/Add-Image',
+      update: '/api/Image/Edit-Image{id}',
+      delete: (id: string) => `/api/Image/Delete-Image${id}`,
     },
   },
 } as const;

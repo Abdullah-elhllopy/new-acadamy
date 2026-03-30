@@ -3,10 +3,9 @@
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowLeft } from 'lucide-react'
 import { useCreateSlider } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { Hero } from '@/components/sections/hero'
+import { DashboardHero } from '@/components/sections/hero'
 import { BackButton, Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
@@ -44,7 +43,7 @@ export default function AddSliderPage() {
 
   return (
     <>
-      <Hero
+      <DashboardHero
         breadcrumbItems={[
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Sliders', href: '/dashboard/sliders' },
@@ -53,7 +52,7 @@ export default function AddSliderPage() {
         title="Add New Slider"
       >
         <BackButton href="/dashboard/sliders" text="Back to Sliders" />
-      </Hero>
+      </DashboardHero>
 
       <ContentLayout>
         <Card>
