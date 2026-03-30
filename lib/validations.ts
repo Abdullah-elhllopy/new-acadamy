@@ -172,3 +172,35 @@ export const partnerSchema = z.object({
 })
 
 export type PartnerFormData = z.infer<typeof partnerSchema>
+
+export const userSchema = z.object({
+  userFullName: z.string().min(2, 'Full name is required'),
+  userEmail: z.string().email('Invalid email address'),
+  userPassword: z.string().min(8, 'Password must be at least 8 characters').optional(),
+  userConfirmPassword: z.string().optional(),
+  userPhone: z.string().optional(),
+  type: z.string().optional(),
+}).refine((data) => !data.userPassword || data.userPassword === data.userConfirmPassword, {
+  message: "Passwords don't match",
+  path: ['userConfirmPassword'],
+})
+
+export type UserFormData = z.infer<typeof userSchema>
+
+export const packageSchema = z.object({
+  name: z.string().min(2, 'Package name is required'),
+  description: z.string().optional(),
+  price: z.string().min(1, 'Price is required'),
+  type: z.string().optional(),
+  coursesIds: z.array(z.string()).optional(),
+})
+
+export type PackageFormData = z.infer<typeof packageSchema>
+
+export const imageGroupSchema = z.object({
+  groupName: z.string().min(2, 'Group name is required'),
+  groupDescription: z.string().optional(),
+  cover: z.any().optional(),
+})
+
+export type ImageGroupFormData = z.infer<typeof imageGroupSchema>

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { Breadcrumb, BreadcrumbItem } from '@/components/shared/breadcrumb'
 import { cn } from '@/lib/utils'
-import { Title } from '../shared/title'
+import { Title, TitleContainer } from '../shared/title'
 
 
 export function Hero({ breadcrumbItems, title, className, children }: { breadcrumbItems?: BreadcrumbItem[], title?: string, className?: string, children?: React.ReactNode }) {
@@ -22,7 +22,7 @@ export function Hero({ breadcrumbItems, title, className, children }: { breadcru
   )
 }
 
-export function DashboardHero({ breadcrumbItems, title, className, children }: { breadcrumbItems?: BreadcrumbItem[], title?: string, className?: string, children?: React.ReactNode }) {
+export function DashboardHero({ breadcrumbItems, title, className, children, description }: { breadcrumbItems?: BreadcrumbItem[], description?: string, title?: string, className?: string, children?: React.ReactNode }) {
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -32,7 +32,7 @@ export function DashboardHero({ breadcrumbItems, title, className, children }: {
       {breadcrumbItems && <Breadcrumb items={breadcrumbItems} />}
 
       <div className='flex justify-between items-center'>
-        {title && <Title title={title}  className='text-3xl md:text-3xl lg:text-4xl font-bold tracking-tight' />}
+        {description && title? <TitleContainer title={title} subtitle={description} /> : title ? <Title title={title} className='text-3xl md:text-3xl lg:text-4xl font-bold tracking-tight' /> : null}
         {children}
       </div>
     </motion.section>
