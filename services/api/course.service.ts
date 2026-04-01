@@ -88,8 +88,9 @@ class CourseService {
     return apiClient.post<Course[]>(endpoints.courses.filterByCategory, filter);
   }
 
-  async filterByBool(filter: CourseFilterByBool): Promise<Course[]> {
-    return apiClient.post<Course[]>(endpoints.courses.filterByBool, filter);
+  async filterByBool(filter: CourseFilterByBool): Promise<CoursesResponse> {
+    const response = await apiClient.post<{data : CoursesResponse}>(endpoints.courses.filterByBool, filter);
+    return response.data || [];
   }
 
   async create(formData: FormData): Promise<Course> {

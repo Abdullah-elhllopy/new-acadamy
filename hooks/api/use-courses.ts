@@ -42,10 +42,11 @@ export function useCoursesFilterByCategory(filter: CourseFilterByCategory) {
   });
 }
 
-export function useCoursesFilterByBool(filter: CourseFilterByBool) {
+export function useCoursesFilterByBool(filter: CourseFilterByBool, p0?: { enabled: boolean; }) {
   return useQuery({
     queryKey: [...COURSE_KEYS.lists(), 'filter-bool', filter],
     queryFn: () => courseService.filterByBool(filter),
+    enabled : p0?.enabled ?? true,
   });
 }
 

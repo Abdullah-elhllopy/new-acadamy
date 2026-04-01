@@ -7,84 +7,99 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
+import { useSliders } from '@/hooks/api/use-common'
+import { Loader2 } from 'lucide-react'
+import { API_BASE_URL } from '@/services/api/config'
 
 export function HeaderCarousel() {
-  const { language } = useLanguage()
+  const { isArabic } = useLanguage()
   const [mounted, setMounted] = useState(false)
-  const isArabic = language === 'ar'
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedLang, setSelectedLang] = useState('ar')
   const [selectedCurrency, setSelectedCurrency] = useState('sar')
+  const { data: sliders, isLoading } = useSliders()
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  const slides = [
-    {
-      id: 1,
-      titleAr: 'أكاديمية التنمية المتكاملة',
-      titleEn: 'Integrated Development Academy',
-      descriptionAr: 'برامج تدريبية متميزة للشركات والحكومات',
-      descriptionEn: 'Distinguished training programs for companies and governments',
-      image: '/placeholder.jpg',
-    },
-    {
-      id: 2,
-      titleAr: 'تطوير المهارات القيادية',
-      titleEn: 'Leadership Skills Development',
-      descriptionAr: 'نساعدك على تطوير مهاراتك القيادية',
-      descriptionEn: 'We help you develop your leadership skills',
-      image: '/placeholder.jpg',
-    },
-    {
-      id: 3,
-      titleAr: 'برامج تدريبية عالمية',
-      titleEn: 'World-Class Training Programs',
-      descriptionAr: 'احصل على شهادات معتمدة دولياً',
-      descriptionEn: 'Get internationally accredited certificates',
-      image: '/placeholder.jpg',
-    },
-  ]
-
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length)
-    }, 5000)
-    return () => clearInterval(timer)
-  }, [slides.length])
+    if (sliders && sliders.length > 0) {
+      const timer = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % sliders.length)
+      }, 5000)
+      return () => clearInterval(timer)
+    }
+  }, [sliders])
+  // console.log(sliders)
+  const nextSlide = () => setCurrentSlide((prev) => {
+    return (prev + 1) % (sliders?.length || 1)
+  })
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + (sliders?.length || 1)) % (sliders?.length || 1))
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length)
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
+  if (isLoading) {
+    return (
+      <section className="relative h-125 md:h-150 bg-linear-to-br from-primary/20 to-secondary/20 overflow-hidden flex items-center justify-center">
+        <Loader2 className="w-12 h-12 animate-spin text-primary" />
+      </section>
+    )
+  }
+
+  if (!sliders || sliders.length === 0) {
+    return (
+      <section className="relative h-125 md:h-150 bg-linear-to-br from-primary/20 to-secondary/20 overflow-hidden">
+        <div className="container mx-auto px-4 md:px-20 h-full flex items-center">
+          <div className="w-full">
+            <div className="max-w-2xl ml-auto">
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+                {isArabic ? 'أكاديمية التنمية المتكاملة' : 'Integrated Development Academy'}
+              </h1>
+              <p className="text-xl md:text-2xl text-white mb-8">
+                {isArabic ? 'برامج تدريبية متميزة للشركات والحكومات' : 'Distinguished training programs for companies and governments'}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <>
       <section className="relative h-125 md:h-150 bg-linear-to-br from-primary/20 to-secondary/20 overflow-hidden">
-        {slides.map((slide, index) => (
+        {sliders.map((slide, index) => (
           <div
-            key={slide.id}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? 'opacity-100' : 'opacity-0'
-            }`}
+            key={`slide_${index}`}
+            className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'
+              }`}
+            style={{
+              backgroundImage: slide.image ? `url(${API_BASE_URL}${slide.image})` : undefined,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
           >
-            <div className="container mx-auto px-4 md:px-20 h-full flex items-center">
-              <div className={`w-full `}>
+            <div className="container mx-auto px-4 md:px-20 h-full flex items-center relative z-10">
+              <div className="w-full">
                 <div className="max-w-2xl ml-auto">
                   <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-                    {mounted ? (isArabic ? slide.titleAr : slide.titleEn) : slide.titleEn}
+                    {mounted ? slide.title : slide.title}
                   </h1>
                   <p className="text-xl md:text-2xl text-white mb-8">
-                    {mounted ? (isArabic ? slide.descriptionAr : slide.descriptionEn) : slide.descriptionEn}
+                    {mounted ? slide.description : slide.description}
                   </p>
                   <div className="max-w-xl">
-                    <div 
+                    <div
                       onClick={() => setIsModalOpen(true)}
                       className="flex items-center gap-3 bg-white rounded-full px-6 py-4 cursor-pointer hover:shadow-lg transition-shadow"
                     >
                       <Search className="w-5 h-5 text-[#8994ab]" />
                       <span className="text-[#8994ab] text-lg flex-1 text-right">
-                        {mounted ? (isArabic ? 'ابحث عن دورات او مدربين' : 'Search for courses or trainers') : 'Search for courses or trainers'}
+                        {mounted
+                          ? isArabic
+                            ? 'ابحث عن دورات او مدربين'
+                            : 'Search for courses or trainers'
+                          : 'Search for courses or trainers'}
                       </span>
                     </div>
                   </div>
@@ -94,27 +109,27 @@ export function HeaderCarousel() {
           </div>
         ))}
 
-        <div className={ `absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`} >
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3">
           <button
-            onClick={prevSlide}
+            onClick={isArabic ? nextSlide : prevSlide}
             className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-100 transition-colors"
           >
-            <ChevronLeft className="w-4 h-4 text-foreground" />
+            {isArabic ? <ChevronRight className="w-4 h-4 text-foreground" /> : <ChevronLeft className="w-4 h-4 text-foreground" />}
           </button>
-          {slides.map((_, index) => (
+          {sliders.map((_, index) => (
             <button
               key={index}
-              className={`w-3 h-3 rounded-full transition-all ${
-                index === currentSlide ? 'bg-foreground w-8' : 'bg-white/60'
-              }`}
+              className={`w-3 h-3 rounded-full transition-all ${index === currentSlide ? 'bg-foreground w-8' : 'bg-white/60'
+                }`}
               onClick={() => setCurrentSlide(index)}
             />
           ))}
           <button
-            onClick={nextSlide}
+            onClick={isArabic ? prevSlide : nextSlide}
             className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-100 transition-colors"
           >
-            <ChevronRight className="w-4 h-4 text-foreground" />
+            {!isArabic ? <ChevronRight className="w-4 h-4 text-foreground" /> : <ChevronLeft className="w-4 h-4 text-foreground" />}
+
           </button>
         </div>
       </section>
@@ -124,51 +139,61 @@ export function HeaderCarousel() {
           <DialogTitle className="text-[28px] text-foreground text-center mb-6 font-bold pt-6">
             {mounted ? (isArabic ? 'اللغة و العملة' : 'Language & Currency') : 'Language & Currency'}
           </DialogTitle>
-          {/* <button 
-            onClick={() => setIsModalOpen(false)}
-            className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 z-10"
-          >
-            <X className="h-5 w-5" />
-          </button> */}
           <div className="p-6 pt-0">
             <div className="space-y-6">
               <RadioGroup value={selectedLang} onValueChange={setSelectedLang} className="grid grid-cols-2 gap-6">
                 <div className="flex items-center gap-3">
                   <RadioGroupItem value="ar" id="ar" />
-                  <Label htmlFor="ar" className="text-xl cursor-pointer">العربية</Label>
+                  <Label htmlFor="ar" className="text-xl cursor-pointer">
+                    العربية
+                  </Label>
                 </div>
                 <div className="flex items-center gap-3">
                   <RadioGroupItem value="en" id="en" />
-                  <Label htmlFor="en" className="text-xl cursor-pointer">English</Label>
+                  <Label htmlFor="en" className="text-xl cursor-pointer">
+                    English
+                  </Label>
                 </div>
               </RadioGroup>
-              
+
               <hr className="border-border" />
-              
-              <RadioGroup value={selectedCurrency} onValueChange={setSelectedCurrency} className="space-y-4">
+
+              <RadioGroup
+                value={selectedCurrency}
+                onValueChange={setSelectedCurrency}
+                className="space-y-4"
+              >
                 <div className="grid grid-cols-2 gap-6">
                   <div className="flex items-center gap-3">
                     <RadioGroupItem value="egp" id="egp" />
-                    <Label htmlFor="egp" className="text-xl cursor-pointer">جنيه مصرى</Label>
+                    <Label htmlFor="egp" className="text-xl cursor-pointer">
+                      جنيه مصرى
+                    </Label>
                   </div>
                   <div className="flex items-center gap-3">
                     <RadioGroupItem value="sar" id="sar" />
-                    <Label htmlFor="sar" className="text-xl cursor-pointer">ريال سعودى</Label>
+                    <Label htmlFor="sar" className="text-xl cursor-pointer">
+                      ريال سعودى
+                    </Label>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-6">
                   <div className="flex items-center gap-3">
                     <RadioGroupItem value="usd" id="usd" />
-                    <Label htmlFor="usd" className="text-xl cursor-pointer">دولار أمريكى</Label>
+                    <Label htmlFor="usd" className="text-xl cursor-pointer">
+                      دولار أمريكى
+                    </Label>
                   </div>
                   <div className="flex items-center gap-3">
                     <RadioGroupItem value="eur" id="eur" />
-                    <Label htmlFor="eur" className="text-xl cursor-pointer">يورو</Label>
+                    <Label htmlFor="eur" className="text-xl cursor-pointer">
+                      يورو
+                    </Label>
                   </div>
                 </div>
               </RadioGroup>
-              
-              <Button 
+
+              <Button
                 onClick={() => setIsModalOpen(false)}
                 className="w-full h-14 rounded-full bg-success hover:bg-secondary-hover text-white text-xl font-medium mt-2"
               >

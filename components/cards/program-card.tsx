@@ -7,16 +7,19 @@ import { Program, Session } from '@/shared/types'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { API_BASE_URL } from '@/services/api/config'
+import { Course } from '@/services/api/course.service'
 
 interface ProgramCardProps {
-  program: Program
+  program: Program | Course | any
   language: 'en' | 'ar'
   className?: string
 }
-const getStatusBadge = (course: Program) => {
+
+const getStatusBadge = (course: any) => {
   const status = course.status || (course.progress === 100 ? 'completed' : course.progress || 0 > 0 ? 'in-progress' : 'upcoming')
 
-  const variants = {
+  const variants: Record<string, { label: string; className: string }> = {
     upcoming: {
       label: 'قادم',
       className: 'bg-secondary/10 text-secondary border-secondary/20'
@@ -31,16 +34,34 @@ const getStatusBadge = (course: Program) => {
     }
   }
 
-  const info = variants[status]
+  const info = variants[status] || variants.upcoming
   return (
     <Badge variant="outline" className={cn("font-bold", info.className)}>
       {info.label}
     </Badge>
   )
 }
+
 export function ProgramCard({ program, language, className }: ProgramCardProps) {
   const isArabic = language === 'ar'
-  const title = isArabic ? program.titleAr : program.titleEn
+  
+  // Handle both Program and Course types
+  const id = program.id || program.courseId
+  const title = program.titleAr || program.courseName || program.titleEn
+  const image = program.image
+  const courseType = program.courseType || program.coursetype || program.courseSpecies
+  const price = program.price || program.courseCost || 0
+  const hours = program.courseNumberOfHours
+  const months = program.numberOfMonths
+  const weeks = program.numberOfWeeks
+  const place = program.place
+  const placeSub = program.placeSub
+  const startDate = program.courseStartDate
+  
+  // Instructor data
+  const instructor = program.ourinstructors?.[0] || program.trainer
+  const instructorName = instructor?.name || instructor?.instructorname || instructor?.nameAr || instructor?.nameEn
+  const instructorImage = instructor?.image || instructor?.instructorimage
 
   return (
     <motion.div
@@ -50,83 +71,114 @@ export function ProgramCard({ program, language, className }: ProgramCardProps) 
       transition={{ duration: 0.3 }}
       className={className}
     >
-      <Link href={`/programs/${program.id}`}>
+      <Link href={`/programs/${id}`}>
         <Card className="overflow-hidden hover:shadow-xl gap-4 transition-all duration-300 cursor-pointer group py-0 pb-3">
           {/* Image */}
           <div className="relative w-full h-52 from-slate-700 to-slate-900 overflow-hidden">
-            {/* <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-10" /> */}
             <div className="relative h-52 bg-muted">
-              <Image src="/placeholder.jpg" alt={'title'} fill className="object-cover" />
+              {image ? (
+                <Image 
+                  src={`${API_BASE_URL}${image}`} 
+                  alt={title} 
+                  fill 
+                  className="object-cover" 
+                />
+              ) : (
+                <Image src="/placeholder.jpg" alt={title} fill className="object-cover" />
+              )}
             </div>
             <Badge className="absolute top-4 right-4 bg-white/90 text-slate-900 hover:bg-white">
-              {program?.courseType || isArabic ? 'عبر الإنترنت' : 'Online'}
+              {courseType || (isArabic ? 'عبر الإنترنت' : 'Online')}
             </Badge>
-            {program.status && <div className="absolute top-4 left-4">
-              {getStatusBadge(program)}
-            </div>}
+            {program.status && (
+              <div className="absolute top-4 left-4">
+                {getStatusBadge(program)}
+              </div>
+            )}
           </div>
 
           <CardContent className="px-6 flex flex-col justify-between h-full space-y-3">
+            {/* Progress bar (only for enrolled courses) */}
+            {program.progress !== undefined && (
+              <div className="space-y-2 pt-0">
+                <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${program.progress || 0}%` }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className={cn(
+                      "h-full rounded-full transition-all",
+                      program.progress === 100 ? "bg-secondary" : "bg-primary"
+                    )}
+                  />
+                </div>
+                <div className="flex justify-between text-sm font-medium">
+                  <span className="text-primary">{program.progress || 0}%</span>
+                </div>
+              </div>
+            )}
+            
             {/* Title */}
-            {program.progress !== undefined && <div className="space-y-2 pt-0">
-
-
-              <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: `${program.progress || 0}%` }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className={cn(
-                    "h-full rounded-full transition-all",
-                    program.progress === 100 ? "bg-secondary" : "bg-primary"
-                  )}
-                />
-              </div>
-              <div className="flex justify-between text-sm font-medium">
-                {/* <span className="text-muted-foreground">{isArabic ? 'التقدم' : 'Progress'}</span> */}
-                <span className="text-primary">{program.progress || 0}%</span>
-              </div>
-            </div>}
             <div className="flex items-start justify-between gap-2">
-              <h3 className={`text-lg font-bold text-slate-900  line-clamp-2  `}>
+              <h3 className="text-lg font-bold text-slate-900 line-clamp-2">
                 {title}
               </h3>
-              <ArrowUpRight className={cn(
-                "w-5 h-5 text-muted-foreground shrink-0 transition-transform",
-                isArabic ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"
-              )} />
+              <ArrowUpRight
+                className={cn(
+                  "w-5 h-5 text-muted-foreground shrink-0 transition-transform",
+                  isArabic ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"
+                )}
+              />
             </div>
+            
             {/* Details */}
             <div className="space-y-3 mb-4">
-              <div className={`flex items-center gap-2 text-sm text-slate-600 `}>
-                <Calendar className="w-4 h-4" />
-                <span>{isArabic ? '14 محاضرة' : '14 lectures'}</span>
-              </div>
-              <div className={`flex items-center gap-2 text-sm text-slate-600 `}>
-                <Clock className="w-4 h-4" />
-                <span>{isArabic ? '30 ساعة' : '30 hours'}</span>
-              </div>
-              <div className={`flex items-center gap-2 text-sm text-slate-600 `}>
-                <MapPin className="w-4 h-4" />
-                <span>{isArabic ? 'أونلاين' : 'Online'}</span>
-              </div>
+              {startDate && (
+                <div className="flex items-center gap-2 text-sm text-slate-600">
+                  <Calendar className="w-4 h-4" />
+                  <span>{isArabic ? `تبدأ في ${startDate}` : `Starts ${startDate}`}</span>
+                </div>
+              )}
+              {hours && (
+                <div className="flex items-center gap-2 text-sm text-slate-600">
+                  <Clock className="w-4 h-4" />
+                  <span>
+                    {isArabic ? `${hours} ساعة` : `${hours} hours`}
+                    {months && (isArabic ? ` - ${months} شهور` : ` - ${months} months`)}
+                    {weeks && (isArabic ? ` - ${weeks} أسابيع` : ` - ${weeks} weeks`)}
+                  </span>
+                </div>
+              )}
+              {(place || placeSub) && (
+                <div className="flex items-center gap-2 text-sm text-slate-600">
+                  <MapPin className="w-4 h-4" />
+                  <span>
+                    {placeSub && `${placeSub}`}
+                    {place && placeSub && ' - '}
+                    {place && `${place}`}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Trainer and Price */}
-            <div className={`flex items-center justify-between pt-4 border-t `}>
-              <div className={`flex items-center gap-3 `}>
+            <div className="flex items-center justify-between pt-4 border-t">
+              <div className="flex items-center gap-3">
                 <Avatar className="w-10 h-10">
+                  {instructorImage ? (
+                    <AvatarImage src={`${API_BASE_URL}${instructorImage}`} alt={instructorName} />
+                  ) : null}
                   <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
-                    {program.trainer ? (isArabic ? program.trainer.nameAr : program.trainer.nameEn).split(' ').map(n => n[0]).join('') : 'T'}
+                    {instructorName ? instructorName.split(' ').map((n: string) => n[0]).join('').slice(0, 2) : 'T'}
                   </AvatarFallback>
                 </Avatar>
                 <span className="text-sm font-medium text-slate-700">
-                  {program.trainer ? (isArabic ? program.trainer.nameAr : program.trainer.nameEn) : (isArabic ? 'اسم المدرب' : 'Trainer Name')}
+                  {instructorName || (isArabic ? 'اسم المدرب' : 'Trainer Name')}
                 </span>
               </div>
-              <div >
+              <div>
                 <p className="text-xl font-bold text-slate-900">
-                  {program.price.toLocaleString()}
+                  {price.toLocaleString()}
                   <span className="text-sm font-normal text-slate-600 mr-1">
                     {isArabic ? 'جنيه' : 'EGP'}
                   </span>

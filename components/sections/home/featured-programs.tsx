@@ -1,14 +1,96 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useTranslate } from '@/locales/use-locales'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { mockPrograms } from '@/app/programs/page'
 import { ProgramCard } from '../../cards/program-card'
+import { useCoursesFilterByBool } from '@/hooks/api/use-courses'
+import { Loader2 } from 'lucide-react'
+import RenderComponent from '@/components/performance/RenderComponent'
+
+type TabType = 'new' | 'mostWanted' | 'soon' | 'recommended'
 
 export function FeaturedPrograms() {
   const { t, currentLang } = useTranslate('programs')
+  const [activeTab, setActiveTab] = useState<TabType>('new')
+  const [loadedTabs, setLoadedTabs] = useState<Set<TabType>>(new Set(['new']))
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab as TabType)
+    setLoadedTabs(prev => new Set(prev).add(tab as TabType))
+  }
+
+  const { data: newCourses, isLoading: loadingNew } = useCoursesFilterByBool(
+    {
+      now: true,
+      mostSelling: false,
+      recommended: false,
+      soon: false,
+    },
+    { enabled: loadedTabs.has('new') }
+  )
+
+  const { data: mostWantedCourses, isLoading: loadingMostWanted } = useCoursesFilterByBool(
+    {
+      now: false,
+      mostSelling: true,
+      recommended: false,
+      soon: false,
+    },
+    { enabled: loadedTabs.has('mostWanted') }
+  )
+
+  const { data: soonCourses, isLoading: loadingSoon } = useCoursesFilterByBool(
+    {
+      now: false,
+      mostSelling: false,
+      recommended: false,
+      soon: true,
+    },
+    { enabled: loadedTabs.has('soon') }
+  )
+
+  const { data: recommendedCourses, isLoading: loadingRecommended } = useCoursesFilterByBool(
+    {
+      now: false,
+      mostSelling: false,
+      recommended: true,
+      soon: false,
+    },
+    { enabled: loadedTabs.has('recommended') }
+  )
+  const renderCourses = (courses: any[] | undefined, isLoading: boolean) => {
+    if (isLoading) {
+      return (
+        <div className="flex justify-center items-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      )
+    }
+
+    if (!courses || courses.length === 0) {
+      return (
+        <div className="text-center py-12 text-muted-foreground">
+          {t('comingSoon')}
+        </div>
+      )
+    }
+
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {courses.slice(0, 6).map((course) => (
+          <RenderComponent key={`home_${course.courseId}`}>
+            <ProgramCard
+              program={course}
+              language={currentLang.value as any}
+            />
+          </RenderComponent>
+        ))}
+      </div>
+    )
+  }
 
   return (
     <section className="bg-white py-20 md:py-24">
@@ -17,7 +99,7 @@ export function FeaturedPrograms() {
           {t('title')}
         </h2>
 
-        <Tabs defaultValue="new" className="w-full">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-4 mb-10">
             <TabsTrigger value="new" className="rounded-full">
               {t('new')}
@@ -34,31 +116,19 @@ export function FeaturedPrograms() {
           </TabsList>
 
           <TabsContent value="new" className="mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {mockPrograms.filter(p => p.type === 'new').map((program) => (
-                <ProgramCard program={program } key={`home_${program.id}`} language={currentLang.value as any} />
-              ))}
-            </div>
+            {renderCourses(newCourses?.allCoursesDetails, loadingNew)}
           </TabsContent>
 
           <TabsContent value="mostWanted">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {mockPrograms.filter(p => p.type === 'mostWanted').map((program) => (
-                <ProgramCard program={program } key={`home_${program.id}`} language={currentLang.value as any} />
-              ))}
-            </div>
+            {renderCourses(mostWantedCourses?.allCoursesDetails, loadingMostWanted)}
           </TabsContent>
 
           <TabsContent value="soon">
-            <div className="text-center py-12 text-muted-foreground">
-              {t('comingSoon')}
-            </div>
+            {renderCourses(soonCourses?.allCoursesDetails, loadingSoon)}
           </TabsContent>
 
           <TabsContent value="recommended">
-            <div className="text-center py-12 text-muted-foreground">
-              {t('comingSoon')}
-            </div>
+            {renderCourses(recommendedCourses?.allCoursesDetails, loadingRecommended)}
           </TabsContent>
         </Tabs>
 
