@@ -6,60 +6,19 @@ import TeamMember from '@/components/cards/TeamMember'
 import { Layout } from '@/layout/page-layout'
 import { Hero } from '@/components/sections/hero'
 import { Title } from '@/components/shared/title'
+import { useTrainers } from '@/hooks/api'
+import Loader from '@/components/shared/loader'
 
-export const MOCK_TRAINERS = [
-  {
-    instructorid: 1,
-    name: 'د. أحمد السعود',
-    job: 'القيادة والإدارة',
-    image: '/placeholder.jpg',
-    facbook: 'https://facebook.com',
-    linkedin: 'https://linkedin.com',
-    twitter: 'https://twitter.com'
-  },
-  {
-    instructorid: 2,
-    name: 'سارة جونسون',
-    job: 'التسويق الرقمي',
-    image: '/placeholder.jpg',
-    facbook: 'https://facebook.com',
-    linkedin: 'https://linkedin.com',
-    twitter: 'https://twitter.com'
-  },
-  {
-    instructorid: 3,
-    name: 'محمد الراشد',
-    job: 'إدارة المشاريع',
-    image: '/placeholder.jpg',
-    facbook: 'https://facebook.com',
-    linkedin: 'https://linkedin.com',
-    twitter: 'https://twitter.com'
-  },
-  {
-    instructorid: 4,
-    name: 'فاطمة الزهراني',
-    job: 'الموارد البشرية',
-    image: '/placeholder.jpg',
-    facbook: 'https://facebook.com',
-    linkedin: 'https://linkedin.com',
-    twitter: 'https://twitter.com'
-  },
-  {
-    instructorid: 5,
-    name: 'عمر عبدالله',
-    job: 'علم البيانات',
-    image: '/placeholder.jpg',
-    facbook: 'https://facebook.com',
-    linkedin: 'https://linkedin.com',
-    twitter: 'https://twitter.com'
-  }
-]
 
 export default function TrainersPage() {
+  const { data: trainers, isLoading } = useTrainers()
+
   useEffect(() => {
     document.title = 'مدربينا'
   }, [])
-
+  if (isLoading) {
+    return  <Loader number={4} />
+  }
   return (
     <Layout>
       <Hero breadcrumbItems={[
@@ -77,7 +36,7 @@ export default function TrainersPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          {MOCK_TRAINERS.map((trainer) => (
+          {trainers?.map((trainer) => (
             <TeamMember key={`${trainer.instructorid}-trainer`} trainer={trainer} />
           ))}
         </motion.section>

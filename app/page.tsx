@@ -12,21 +12,51 @@ import { IntroVideoSection } from '@/components/sections/home/intro-video-sectio
 import { PDFDownloadSection } from '@/components/sections/home/pdf-download-section'
 import { WhatsAppButton } from '@/components/shared/whatsapp-button'
 import { CustomersCarousel } from '@/components/sections/home/customers-carousel'
+import RenderComponent from '@/components/performance/RenderComponent'
+import { Suspense } from 'react'
 
 export default function Home() {
   return (
     <>
       <AnnouncementBanner />
       <HeaderCarousel />
-      <PDFDownloadSection />
-      <FeaturedPrograms />
-      <IntroVideoSection />
-      <TrainersSection />
-      <OurPartners />
-      <Testimonials />
-      <CustomersCarousel />
-      <EmailSubscription />
-      <WhatsAppButton />
+
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+        <RenderComponent>
+          <FeaturedPrograms />
+        </RenderComponent>
+      </Suspense>
+
+      <RenderComponent>
+        <IntroVideoSection />
+      </RenderComponent>
+
+      <RenderComponent>
+        <TrainersSection />
+      </RenderComponent>
+
+      <RenderComponent>
+        <OurPartners />
+      </RenderComponent>
+
+      <RenderComponent>
+        <Testimonials />
+      </RenderComponent>
+
+      <RenderComponent>
+        <CustomersCarousel />
+      </RenderComponent>
+
+      <RenderComponent>
+        <EmailSubscription />
+      </RenderComponent>
+      
+      <RenderComponent>
+        <PDFDownloadSection />
+      </RenderComponent>
+      <RenderComponent>
+        <WhatsAppButton />
+      </RenderComponent>
     </>
   )
 }

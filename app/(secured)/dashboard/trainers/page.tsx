@@ -8,7 +8,6 @@ import { ContentLayout } from '@/layout/page-layout'
 import { DashboardHero } from '@/components/sections/hero'
 import { DataTable, tableActions, type DataTableColumn } from '@/components/dashboard/data-table'
 import { ConfirmDeleteDialog } from '@/components/dashboard/confirm-delete-dialog'
-import { StatusBadge } from '@/components/dashboard/status-badge'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import type { Trainer } from '@/services/api'
@@ -22,7 +21,7 @@ export default function TrainersPage() {
   const [selectedTrainer, setSelectedTrainer] = useState<Trainer | null>(null)
 
   const handleEdit = (trainer: Trainer) => {
-    router.push(`/dashboard/trainers/${trainer.instructorId}`)
+    router.push(`/dashboard/trainers/${trainer.instructorid}`)
   }
 
   const handleDeleteClick = (trainer: Trainer) => {
@@ -31,8 +30,8 @@ export default function TrainersPage() {
   }
 
   const handleDeleteConfirm = async () => {
-    if (selectedTrainer?.instructorId) {
-      await deleteTrainer.mutateAsync(selectedTrainer.instructorId)
+    if (selectedTrainer?.instructorid) {
+      await deleteTrainer.mutateAsync(selectedTrainer.instructorid)
       setDeleteDialogOpen(false)
       setSelectedTrainer(null)
     }
@@ -41,32 +40,11 @@ export default function TrainersPage() {
   const columns: DataTableColumn<Trainer>[] = [
     {
       header: 'Name',
-      accessorKey: 'instructorName',
-    },
-    {
-      header: 'Email',
-      accessorKey: 'instructorEmail',
-    },
-    {
-      header: 'Phone',
-      accessorKey: 'instructorPhone',
+      accessorKey: 'name',
     },
     {
       header: 'Specialization',
-      accessorKey: 'specialization',
-    },
-    {
-      header: 'Experience',
-      cell: (trainer) => trainer.experience ? `${trainer.experience} years` : 'N/A',
-    },
-    {
-      header: 'Status',
-      cell: (trainer) => (
-        <StatusBadge 
-          status={trainer.isActive ? 'active' : 'inactive'} 
-          label={trainer.isActive ? 'Active' : 'Inactive'} 
-        />
-      ),
+      accessorKey: 'job',
     },
   ]
 
@@ -112,7 +90,7 @@ export default function TrainersPage() {
         onOpenChange={setDeleteDialogOpen}
         onConfirm={handleDeleteConfirm}
         title="Delete Trainer"
-        description={`Are you sure you want to delete "${selectedTrainer?.instructorName}"? This action cannot be undone.`}
+        description={`Are you sure you want to delete "${selectedTrainer?.name}"? This action cannot be undone.`}
         isLoading={deleteTrainer.isPending}
       />
     </>

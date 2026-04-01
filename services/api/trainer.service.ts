@@ -1,20 +1,19 @@
 import { apiClient } from './client';
 import { endpoints } from './config';
+import { Course } from './course.service';
 
 export interface Trainer {
-  instructorId?: string;
-  instructorName: string;
-  instructorEmail: string;
-  instructorPhone?: string;
-  instructorBio?: string;
-  instructorImage?: string;
-  instructorCV?: string;
-  specialization?: string;
-  experience?: number;
-  linkedin?: string;
-  facebook?: string;
-  twitter?: string;
-  isActive?: boolean;
+  instructorid: string;
+  name: string;
+  image: string | null;
+  job: string;
+  about: string;
+  linkedin: string | null;
+  facbook: string | null;  // Note: "facebook" is misspelled in the data
+  instgram: string | null;  // Note: "instagram" is misspelled in the data
+  twitter: string | null;
+  pdf: string;
+  courseDetails ?: Course[];
 }
 
 class TrainerService {

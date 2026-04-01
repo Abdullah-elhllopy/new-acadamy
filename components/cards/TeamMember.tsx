@@ -3,52 +3,37 @@ import Link from 'next/link'
 import { Facebook, Linkedin, Twitter } from 'lucide-react'
 import Image from 'next/image'
 import { API_BASE_URL } from '@/services/api/config'
+import { Trainer } from '@/services/api'
 
-interface Instructor {
-  instructorId?: string
-  instructorid?: number
-  instructorName?: string
-  name?: string
-  specialization?: string
-  job?: string
-  instructorImage?: string
-  image?: string
-  facebook?: string
-  facbook?: string
-  linkedin?: string
-  twitter?: string
-}
 
-const TeamMember = ({ trainer }: { trainer: Instructor }) => {
-  const id = trainer.instructorId || trainer.instructorid
-  const name = trainer.instructorName || trainer.name || ''
-  const job = trainer.specialization || trainer.job || ''
-  const image = trainer.instructorImage || trainer.image || ''
-  const facebook = trainer.facebook || trainer.facbook || '#'
+const TeamMember = ({ trainer }: { trainer: Trainer }) => {
+  const id = trainer.instructorid
+  const name = trainer.name || ''
+  const job = trainer.job || ''
+  const image = trainer.image || ''
+  const facebook = trainer.facbook || '#'
   const linkedin = trainer.linkedin || '#'
   const twitter = trainer.twitter || '#'
 
   return (
-    <Card key={id} className="pt-0 pb-4 rounded-t-[15px] border-0 shadow-none">
-      <div className="relative shadow-none h-52 bg-muted">
-        {image && (
-          <Image
-            src={`${API_BASE_URL}${image}`}
-            alt={name}
-            fill
-            className="object-cover rounded-t-[15px]"
-          />
-        )}
+    <Card key={id} className="pt-0 pb-4 rounded-t-[15px] border-0 ">
+      <div className="relative shadow-none h-60 bg-muted">
+        <Image
+          src={image ? `${API_BASE_URL}${image}` : 'https://plus.unsplash.com/premium_photo-1689568158814-3b8e9c1a9618?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29uYXxlbnwwfHwwfHx8MA%3D%3D'}
+          alt={name}
+          fill
+          className="object-contain w-full h-full rounded-t-[15px]"
+        />
       </div>
       <CardContent>
-        <h3 className="my-1 mb-5 font-sans font-bold text-primary">
+        <h3 className="my-0 mb-2 font-sans font-bold text-primary">
           <Link href={`/trainers/${id}`} className="text-xl no-underline hover:underline">
             {name}
           </Link>
         </h3>
         <p className="text-base mb-5 text-hero-bg font-sans">{job}</p>
         <div className="flex items-center gap-4">
-          {facebook && facebook !== '#' && (
+          {(
             <Link
               href={facebook}
               target="_blank"
@@ -58,7 +43,7 @@ const TeamMember = ({ trainer }: { trainer: Instructor }) => {
               <Facebook />
             </Link>
           )}
-          {linkedin && linkedin !== '#' && (
+          {(
             <Link
               href={linkedin}
               target="_blank"
@@ -68,7 +53,7 @@ const TeamMember = ({ trainer }: { trainer: Instructor }) => {
               <Linkedin />
             </Link>
           )}
-          {twitter && twitter !== '#' && (
+          {(
             <Link
               href={twitter}
               target="_blank"

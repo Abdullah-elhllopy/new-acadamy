@@ -6,6 +6,8 @@ import { ContentLayout } from '@/layout/page-layout'
 import { useTrainers } from '@/hooks/api/use-trainers'
 import { Loader2 } from 'lucide-react'
 import { useLanguage } from '@/shared/hooks/useLanguage'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export function TrainersSection() {
   const { data: trainers, isLoading } = useTrainers()
@@ -29,7 +31,7 @@ export function TrainersSection() {
   }
 
   return (
-    <ContentLayout className="bg-muted">
+    <ContentLayout >
       <h2 className="text-4xl md:text-5xl font-bold text-primary text-center mb-16">
         {isArabic ? 'مدربونا' : 'Our Trainers'}
       </h2>
@@ -40,9 +42,17 @@ export function TrainersSection() {
         transition={{ duration: 0.6, delay: 0.2 }}
       >
         {trainers.slice(0, 4).map((trainer) => (
-          <TeamMember key={`${trainer.instructorId}-trainer`} trainer={trainer} />
+          <TeamMember key={`${trainer.instructorid}-trainer`} trainer={trainer} />
         ))}
       </motion.section>
+
+      <div className="text-center mt-12">
+        <Button size="lg" className="rounded-full h-14 px-10 bg-primary hover:bg-secondary" asChild>
+          <Link href="/trainers">
+            {'تصفح الجميع' /* "View All" in Arabic */}
+          </Link>
+        </Button>
+      </div>
     </ContentLayout>
   )
 }
