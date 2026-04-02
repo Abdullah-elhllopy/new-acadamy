@@ -8,6 +8,7 @@ import { initReactI18next, I18nextProvider as Provider } from 'react-i18next';
 
 import { i18nOptions } from './config-locales';
 import { I18LANG } from '@/shared/constants/constant';
+import Loading from '@/app/loading';
 
 let isInitialized = false;
 
@@ -46,9 +47,11 @@ export function I18nProvider({ children }: Props) {
     initializeI18n();
     setIsReady(true);
   }, []);
-
+  // if (!isReady) {
+  //   return <>{children}</>;
+  // }
   if (!isReady) {
-    return <>{children}</>;
+    return <Loading /> ;
   }
 
   return <Provider i18n={i18next}>{children}</Provider>;

@@ -3,6 +3,10 @@ import { endpoints } from './config';
 import { Course } from './course.service';
 
 export interface Trainer {
+  email: string;
+  phone: string;
+  experience: string;
+  isActive: boolean;
   instructorid: string;
   name: string;
   image: string | null;

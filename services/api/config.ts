@@ -41,6 +41,27 @@ export const endpoints = {
     create: '/api/Instructor/Create-Instructor',
     update: '/api/Instructor/Update-Instructor',
     delete: (id: string) => `/api/Instructor/Delete-Instructor/${id}`,
+    videos: {
+      getAll: '/api/Instructor/All-Videos',
+      getByTrainerId: (trainerId: string) => `/api/Instructor/Videos/${trainerId}`,
+      create: '/api/Instructor/Add-Video',
+      update: '/api/Instructor/Update-Video',
+      delete: (id: string) => `/api/Instructor/Delete-Video/${id}`,
+    },
+    articles: {
+      getAll: '/api/Instructor/All-Articles',
+      getByTrainerId: (trainerId: string) => `/api/Instructor/Articles/${trainerId}`,
+      create: '/api/Instructor/Add-Article',
+      update: '/api/Instructor/Update-Article',
+      delete: (id: string) => `/api/Instructor/Delete-Article/${id}`,
+    },
+    reviews: {
+      getAll: '/api/Instructor/All-Reviews',
+      getByTrainerId: (trainerId: string) => `/api/Instructor/Reviews/${trainerId}`,
+      create: '/api/Instructor/Add-Review',
+      update: '/api/Instructor/Update-Review',
+      delete: (id: string) => `/api/Instructor/Delete-Review/${id}`,
+    },
   },
   partners: {
     getAll: '/api/Partner/All-Partners',

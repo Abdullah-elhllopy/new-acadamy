@@ -104,6 +104,41 @@ export const trainerSchema = z.object({
 
 export type TrainerFormData = z.infer<typeof trainerSchema>
 
+export const trainerVideoSchema = z.object({
+  titleEn: z.string().min(2, 'Title (English) is required'),
+  titleAr: z.string().min(2, 'Title (Arabic) is required'),
+  descriptionEn: z.string().optional(),
+  descriptionAr: z.string().optional(),
+  videoUrl: z.string().url('Invalid video URL'),
+  thumbnail: z.any().optional(),
+  duration: z.string().optional(),
+  published: z.boolean().optional(),
+})
+
+export type TrainerVideoFormData = z.infer<typeof trainerVideoSchema>
+
+export const trainerArticleSchema = z.object({
+  titleEn: z.string().min(2, 'Title (English) is required'),
+  titleAr: z.string().min(2, 'Title (Arabic) is required'),
+  contentEn: z.string().min(50, 'Content (English) must be at least 50 characters'),
+  contentAr: z.string().min(50, 'Content (Arabic) must be at least 50 characters'),
+  excerpt: z.string().optional(),
+  category: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  coverImage: z.any().optional(),
+  published: z.boolean().optional(),
+})
+
+export type TrainerArticleFormData = z.infer<typeof trainerArticleSchema>
+
+export const trainerReviewSchema = z.object({
+  rating: z.number().min(1, 'Rating is required').max(5, 'Rating must be between 1 and 5'),
+  comment: z.string().min(10, 'Comment must be at least 10 characters'),
+  courseId: z.string().optional(),
+})
+
+export type TrainerReviewFormData = z.infer<typeof trainerReviewSchema>
+
 export const mainDepartmentSchema = z.object({
   mainDepartmentName: z.string().min(2, 'Department name is required'),
   mainDepartmentDescription: z.string().optional(),

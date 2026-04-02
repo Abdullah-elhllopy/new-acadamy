@@ -20,6 +20,7 @@ import { MoreHorizontal, Pencil, Trash2, Eye } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { EmptyState } from '@/components/states/empty-state'
 import { Skeleton } from '@/components/ui/skeleton'
+import { ListPageLoader } from '../shared/loader/list-page-loader'
 
 export interface DataTableColumn<T> {
   header: string
@@ -58,14 +59,15 @@ export function DataTable<T extends { [key: string]: any }>({
 }: DataTableProps<T>) {
   if (isLoading) {
     return (
-      <Card>
-        <div className="p-4 space-y-3">
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-10 w-full" />
-        </div>
-      </Card>
+      <ListPageLoader />
+      // <Card>
+      //   <div className="p-4 space-y-3">
+      //     <Skeleton className="h-10 w-full" />
+      //     <Skeleton className="h-10 w-full" />
+      //     <Skeleton className="h-10 w-full" />
+      //     <Skeleton className="h-10 w-full" />
+      //   </div>
+      // </Card>
     )
   }
 
@@ -82,7 +84,7 @@ export function DataTable<T extends { [key: string]: any }>({
   }
 
   return (
-    <Card className="w-full overflow-hidden">
+    <Card className="w-full pt-0 overflow-hidden">
       {/* Desktop View */}
       <div className="hidden md:block overflow-x-auto">
         <Table>

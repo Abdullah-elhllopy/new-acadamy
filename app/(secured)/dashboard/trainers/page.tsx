@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus } from 'lucide-react'
+import { Plus, Video, FileText, Star } from 'lucide-react'
 import { useTrainers, useDeleteTrainer } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
 import { DashboardHero } from '@/components/sections/hero'
@@ -21,7 +21,7 @@ export default function TrainersPage() {
   const [selectedTrainer, setSelectedTrainer] = useState<Trainer | null>(null)
 
   const handleEdit = (trainer: Trainer) => {
-    router.push(`/dashboard/trainers/${trainer.instructorid}`)
+    router.push(`/dashboard/trainers/${trainer.instructorid}/edit`)
   }
 
   const handleDeleteClick = (trainer: Trainer) => {
@@ -45,6 +45,38 @@ export default function TrainersPage() {
     {
       header: 'Specialization',
       accessorKey: 'job',
+    },
+    {
+      header: 'Manage',
+      accessorKey: 'instructorid',
+      cell: (row: Trainer) => (
+        <div className="flex justify-center gap-1">
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => router.push(`/dashboard/trainers/${row.instructorid}/videos`)}
+            title="Manage Videos"
+          >
+            <Video className="h-4 w-4" />
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => router.push(`/dashboard/trainers/${row.instructorid}/articles`)}
+            title="Manage Articles"
+          >
+            <FileText className="h-4 w-4" />
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => router.push(`/dashboard/trainers/${row.instructorid}/reviews`)}
+            title="Manage Reviews"
+          >
+            <Star className="h-4 w-4" />
+          </Button>
+        </div>
+      ),
     },
   ]
 

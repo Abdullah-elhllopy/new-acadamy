@@ -7,7 +7,7 @@ import { Layout } from '@/layout/page-layout'
 import { Hero } from '@/components/sections/hero'
 import { Title } from '@/components/shared/title'
 import { useTrainers } from '@/hooks/api'
-import Loader from '@/components/shared/loader'
+import Loader from '@/components/shared/loader/loader'
 
 
 export default function TrainersPage() {
