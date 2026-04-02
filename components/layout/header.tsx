@@ -60,6 +60,11 @@ export function Header() {
                     {t('ourCustomers')}
                   </Link>
                 </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                  <Link href="/articles" className="w-full cursor-pointer">
+                    {t('articles')}
+                  </Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 

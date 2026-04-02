@@ -1,15 +1,15 @@
-import { 
-  Home, 
-  Video, 
-  Info, 
-  Layers, 
-  Lightbulb, 
-  MessageSquare, 
+import {
+  Home,
+  Video,
+  Info,
+  Layers,
+  Lightbulb,
+  MessageSquare,
   Users,
   BookOpen,
   Presentation,
   Image as ImageIcon,
-  type LucideIcon 
+  type LucideIcon
 } from 'lucide-react'
 
 export interface NavItem {
@@ -34,23 +34,29 @@ export const dashboardNavigation: NavSection[] = [
     labelAr: 'برامجنا',
     icon: Video,
     items: [
-      { 
-        label: 'Courses', 
-        labelAr: 'الدورات', 
+      {
+        label: 'Courses',
+        labelAr: 'الدورات',
         href: '/dashboard/courses',
-        icon: BookOpen 
+        icon: BookOpen
       },
-      { 
-        label: 'Lectures', 
-        labelAr: 'المحاضرات', 
+      {
+        label: 'Lectures',
+        labelAr: 'المحاضرات',
         href: '/dashboard/lectures',
-        icon: Presentation 
+        icon: Presentation
       },
-      { 
-        label: 'Sliders', 
-        labelAr: 'سلايدر', 
+      {
+        label: 'Sliders',
+        labelAr: 'سلايدر',
         href: '/dashboard/sliders',
-        icon: ImageIcon 
+        icon: ImageIcon
+      },
+      {
+        label: 'Articles',
+        labelAr: 'المقالات',
+        href: '/dashboard/articles',
+        icon: BookOpen
       },
     ],
   },
@@ -60,25 +66,25 @@ export const dashboardNavigation: NavSection[] = [
     labelAr: 'عن الأكاديمية',
     icon: Info,
     items: [
-      { 
-        label: 'About Us', 
-        labelAr: 'عن الشركة', 
-        href: '/dashboard/about-us' 
+      {
+        label: 'About Us',
+        labelAr: 'عن الشركة',
+        href: '/dashboard/about-us'
       },
-      { 
-        label: 'Trainers', 
-        labelAr: 'المدربين', 
-        href: '/dashboard/trainers' 
+      {
+        label: 'Trainers',
+        labelAr: 'المدربين',
+        href: '/dashboard/trainers'
       },
-      { 
-        label: 'Partners', 
-        labelAr: 'شركائنا', 
-        href: '/dashboard/partners' 
+      {
+        label: 'Partners',
+        labelAr: 'شركائنا',
+        href: '/dashboard/partners'
       },
-      { 
-        label: 'Team', 
-        labelAr: 'فريقنا', 
-        href: '/dashboard/team' 
+      {
+        label: 'Team',
+        labelAr: 'فريقنا',
+        href: '/dashboard/team'
       },
     ],
   },
@@ -88,10 +94,10 @@ export const dashboardNavigation: NavSection[] = [
     labelAr: 'الأقسام',
     icon: Layers,
     items: [
-      { 
-        label: 'Main Departments', 
-        labelAr: 'الأقسام الرئيسية', 
-        href: '/dashboard/departments/main' 
+      {
+        label: 'Main Departments',
+        labelAr: 'الأقسام الرئيسية',
+        href: '/dashboard/departments/main'
       },
     ],
   },
@@ -101,10 +107,10 @@ export const dashboardNavigation: NavSection[] = [
     labelAr: 'مركز المعرفة',
     icon: Lightbulb,
     items: [
-      { 
-        label: 'Images Center', 
-        labelAr: 'مركز الصور', 
-        href: '/dashboard/images-center' 
+      {
+        label: 'Images Center',
+        labelAr: 'مركز الصور',
+        href: '/dashboard/images-center'
       },
     ],
   },
@@ -114,30 +120,30 @@ export const dashboardNavigation: NavSection[] = [
     labelAr: 'مركز التواصل',
     icon: MessageSquare,
     items: [
-      { 
-        label: 'Contact Messages', 
-        labelAr: 'رسائل للتواصل', 
-        href: '/dashboard/requests/contact' 
+      {
+        label: 'Contact Messages',
+        labelAr: 'رسائل للتواصل',
+        href: '/dashboard/requests/contact'
       },
-      { 
-        label: 'Training Requests', 
-        labelAr: 'طلبات التدريب', 
-        href: '/dashboard/requests/training' 
+      {
+        label: 'Training Requests',
+        labelAr: 'طلبات التدريب',
+        href: '/dashboard/requests/training'
       },
-      { 
-        label: 'User Training Requests', 
-        labelAr: 'طلبات التدريب لمستخدم', 
-        href: '/dashboard/requests/user-training' 
+      {
+        label: 'User Training Requests',
+        labelAr: 'طلبات التدريب لمستخدم',
+        href: '/dashboard/requests/user-training'
       },
-      { 
-        label: 'Be Trainer Requests', 
-        labelAr: 'طلبات الالتحاق كمدرب', 
-        href: '/dashboard/requests/be-trainer' 
+      {
+        label: 'Be Trainer Requests',
+        labelAr: 'طلبات الالتحاق كمدرب',
+        href: '/dashboard/requests/be-trainer'
       },
-      { 
-        label: 'Email Subscriptions', 
-        labelAr: 'القائمة البريدية', 
-        href: '/dashboard/requests/email-subscriptions' 
+      {
+        label: 'Email Subscriptions',
+        labelAr: 'القائمة البريدية',
+        href: '/dashboard/requests/email-subscriptions'
       },
     ],
   },
@@ -147,23 +153,23 @@ export const dashboardNavigation: NavSection[] = [
     labelAr: 'المستخدمين',
     icon: Users,
     items: [
-      { 
-        label: 'All Users', 
-        labelAr: 'المستخدمين', 
-        href: '/dashboard/users' 
+      {
+        label: 'All Users',
+        labelAr: 'المستخدمين',
+        href: '/dashboard/users'
       },
     ],
   },
   {
-    id:"add-what-will-learn",
+    id: "add-what-will-learn",
     label: 'What Will You Learn',
     labelAr: 'ماذا ستتعلم',
     icon: BookOpen,
     items: [
-      { 
-        label: 'Manage Learning Outcomes', 
-        labelAr: 'إدارة مخرجات التعلم', 
-        href: '/dashboard/lectures/add-what-will-learn' 
+      {
+        label: 'Manage Learning Outcomes',
+        labelAr: 'إدارة مخرجات التعلم',
+        href: '/dashboard/lectures/add-what-will-learn'
       },
     ],
   }

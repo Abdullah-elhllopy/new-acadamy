@@ -15,6 +15,7 @@ import { ProgramCard } from '@/components/cards/program-card'
 import { Layout } from '@/layout/page-layout'
 import { Title, TitleContainer } from '@/components/shared/title'
 import { Hero } from '@/components/sections/hero'
+import { EmptyState } from '@/components/states/empty-state'
 
 
 interface ProgramsData {
@@ -256,28 +257,28 @@ export default function MyCoursesPage() {
     )
   }
 
-  const EmptyState = () => (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="text-center py-16 px-4"
-    >
-      <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-muted flex items-center justify-center">
-        <Calendar className="w-12 h-12 text-muted-foreground" />
-      </div>
-      <h3 className="text-xl font-bold text-foreground mb-2">
-        {isArabic ? 'لا توجد دورات حاليا' : 'No courses available'}
-      </h3>
-      <p className="text-muted-foreground mb-6">
-        {isArabic ? 'ابدأ رحلتك التعليمية معنا اليوم' : 'Start your learning journey with us today'}
-      </p>
-      <Button asChild className="bg-secondary hover:bg-secondary-hover text-secondary-foreground">
-        <Link href="/all-programs">
-          {isArabic ? 'تصفح الكورسات' : 'Browse Courses'}
-        </Link>
-      </Button>
-    </motion.div>
-  )
+  // const EmptyState = () => (
+  //   <motion.div
+  //     initial={{ opacity: 0, scale: 0.95 }}
+  //     animate={{ opacity: 1, scale: 1 }}
+  //     className="text-center py-16 px-4"
+  //   >
+  //     <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-muted flex items-center justify-center">
+  //       <Calendar className="w-12 h-12 text-muted-foreground" />
+  //     </div>
+  //     <h3 className="text-xl font-bold text-foreground mb-2">
+  //       {isArabic ? 'لا توجد دورات حاليا' : 'No courses available'}
+  //     </h3>
+  //     <p className="text-muted-foreground mb-6">
+  //       {isArabic ? 'ابدأ رحلتك التعليمية معنا اليوم' : 'Start your learning journey with us today'}
+  //     </p>
+  //     <Button asChild className="bg-secondary hover:bg-secondary-hover text-secondary-foreground">
+  //       <Link href="/all-programs">
+  //         {isArabic ? 'تصفح الكورسات' : 'Browse Courses'}
+  //       </Link>
+  //     </Button>
+  //   </motion.div>
+  // )
 
   const FilterButtons = ({ type }: { type: 'presence' | 'live' | 'online' }) => {
     const buttons = type === 'online'
@@ -393,7 +394,16 @@ export default function MyCoursesPage() {
                         ))}
                       </div>
                     ) : (
-                      <EmptyState />
+                      <EmptyState
+                        icon={Calendar}
+                        title={isArabic ? 'لا توجد دورات حاليا' : 'No courses available'}
+                        description={isArabic ? 'ابدأ رحلتك التعليمية معنا اليوم' : 'Start your learning journey with us today'}
+                        action={{
+                          label: isArabic ? 'تصفح الكورسات' : 'Browse Courses',
+                          href: '/all-programs'
+                        }}
+                        language={language}
+                      />
                     )}
                   </motion.div>
                 </TabsContent>

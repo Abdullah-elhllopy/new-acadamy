@@ -139,6 +139,64 @@ export const trainerReviewSchema = z.object({
 
 export type TrainerReviewFormData = z.infer<typeof trainerReviewSchema>
 
+export const articleSchema = z.object({
+  titleEn: z.string().min(2, 'Title (English) is required'),
+  titleAr: z.string().min(2, 'Title (Arabic) is required'),
+  contentEn: z.string().min(50, 'Content (English) must be at least 50 characters'),
+  contentAr: z.string().min(50, 'Content (Arabic) must be at least 50 characters'),
+  excerptEn: z.string().optional(),
+  excerptAr: z.string().optional(),
+  categoryId: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  coverImage: z.any().optional(),
+  published: z.boolean().optional(),
+  featured: z.boolean().optional(),
+})
+
+export type ArticleFormData = z.infer<typeof articleSchema>
+
+export const articleCategorySchema = z.object({
+  nameEn: z.string().min(2, 'Category name (English) is required'),
+  nameAr: z.string().min(2, 'Category name (Arabic) is required'),
+  descriptionEn: z.string().optional(),
+  descriptionAr: z.string().optional(),
+  slug: z.string().min(2, 'Slug is required'),
+})
+
+export type ArticleCategoryFormData = z.infer<typeof articleCategorySchema>
+
+export const caseStudySchema = z.object({
+  titleEn: z.string().min(2, 'Title (English) is required'),
+  titleAr: z.string().min(2, 'Title (Arabic) is required'),
+  clientName: z.string().min(2, 'Client name is required'),
+  industry: z.string().min(2, 'Industry is required'),
+  challengeEn: z.string().min(50, 'Challenge (English) must be at least 50 characters'),
+  challengeAr: z.string().min(50, 'Challenge (Arabic) must be at least 50 characters'),
+  solutionEn: z.string().min(50, 'Solution (English) must be at least 50 characters'),
+  solutionAr: z.string().min(50, 'Solution (Arabic) must be at least 50 characters'),
+  resultsEn: z.string().min(50, 'Results (English) must be at least 50 characters'),
+  resultsAr: z.string().min(50, 'Results (Arabic) must be at least 50 characters'),
+  clientLogo: z.any().optional(),
+  coverImage: z.any().optional(),
+  images: z.array(z.any()).optional(),
+  published: z.boolean().optional(),
+  featured: z.boolean().optional(),
+})
+
+export type CaseStudyFormData = z.infer<typeof caseStudySchema>
+
+export const commentSchema = z.object({
+  comment: z.string().min(10, 'Comment must be at least 10 characters'),
+})
+
+export type CommentFormData = z.infer<typeof commentSchema>
+
+export const ratingSchema = z.object({
+  rating: z.number().min(1, 'Rating is required').max(5, 'Rating must be between 1 and 5'),
+})
+
+export type RatingFormData = z.infer<typeof ratingSchema>
+
 export const mainDepartmentSchema = z.object({
   mainDepartmentName: z.string().min(2, 'Department name is required'),
   mainDepartmentDescription: z.string().optional(),

@@ -123,14 +123,88 @@ export interface Article {
   titleAr: string
   contentEn: string
   contentAr: string
+  excerptEn?: string
+  excerptAr?: string
+  coverImage?: string
+  categoryId?: string
+  categoryName?: string
   authorId: string
-  category: string
+  authorName: string
   views: number
-  rating: number
   published: boolean
+  featured: boolean
+  tags?: string[]
   createdAt: Date
   updatedAt: Date
 }
+
+export interface ArticleCategory {
+  id: string
+  nameEn: string
+  nameAr: string
+  descriptionEn?: string
+  descriptionAr?: string
+  slug: string
+  articleCount: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface ArticleComment {
+  id: string
+  articleId: string
+  userId: string
+  userName: string
+  userAvatar?: string
+  comment: string
+  approved: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface ArticleRating {
+  articleId: string
+  averageRating: number
+  totalRatings: number
+  userRating?: number
+}
+
+export interface CaseStudy {
+  id: string
+  titleEn: string
+  titleAr: string
+  clientName: string
+  clientLogo?: string
+  industry: string
+  challengeEn: string
+  challengeAr: string
+  solutionEn: string
+  solutionAr: string
+  resultsEn: string
+  resultsAr: string
+  coverImage?: string
+  images?: string[]
+  published: boolean
+  featured: boolean
+  views: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+// export interface Article {
+//   id: string
+//   titleEn: string
+//   titleAr: string
+//   contentEn: string
+//   contentAr: string
+//   authorId: string
+//   category: string
+//   views: number
+//   rating: number
+//   published: boolean
+//   createdAt: Date
+//   updatedAt: Date
+// }
 
 export interface Certificate {
   id: string
