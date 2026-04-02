@@ -11,7 +11,7 @@ import type { BeTrainerRequest } from '@/services/api'
 
 export default function BeTrainerRequestsPage() {
   const router = useRouter()
-  const { data: requests, isLoading } = useBeTrainerRequests()
+  const { data: requests, isLoading, error, refetch } = useBeTrainerRequests()
 
   const handleView = (request: BeTrainerRequest) => {
     router.push(`/dashboard/requests/be-trainer/${request.requestId}`)
@@ -80,6 +80,8 @@ export default function BeTrainerRequestsPage() {
           data={requests || []}
           columns={columns}
           isLoading={isLoading}
+          error={error}
+          onRetry={() => refetch()}
           actions={[
             {
               label: 'View Details',

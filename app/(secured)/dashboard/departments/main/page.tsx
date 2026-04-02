@@ -15,7 +15,7 @@ import type { MainDepartment } from '@/services/api'
 
 export default function MainDepartmentsPage() {
   const router = useRouter()
-  const { data: departments, isLoading } = useMainDepartments()
+  const { data: departments, isLoading, error, refetch } = useMainDepartments()
   const deleteDepartment = useDeleteMainDepartment()
   
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
@@ -85,6 +85,8 @@ export default function MainDepartmentsPage() {
           data={departments || []}
           columns={columns}
           isLoading={isLoading}
+          error={error}
+          onRetry={() => refetch()}
           actions={[
             {
               label: 'View Sub Departments',

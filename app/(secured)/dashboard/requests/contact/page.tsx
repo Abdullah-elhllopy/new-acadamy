@@ -7,7 +7,7 @@ import { DataTable, type DataTableColumn } from '@/components/dashboard/data-tab
 import type { ContactMessage } from '@/services/api'
 
 export default function ContactMessagesPage() {
-  const { data: messages, isLoading } = useContactMessages()
+  const { data: messages, isLoading, error, refetch } = useContactMessages()
 
   const columns: DataTableColumn<ContactMessage>[] = [
     {
@@ -62,6 +62,8 @@ export default function ContactMessagesPage() {
           data={messages || []}
           columns={columns}
           isLoading={isLoading}
+          error={error}
+          onRetry={() => refetch()}
           emptyState={{
             title: 'No contact messages found',
             description: 'Contact messages will appear here when submitted',

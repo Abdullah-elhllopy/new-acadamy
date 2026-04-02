@@ -11,7 +11,7 @@ import type { Course } from '@/services/api'
 
 export default function UserTrainingRequestsPage() {
   const router = useRouter()
-  const { data: courses, isLoading } = useCourses()
+  const { data: courses, isLoading, error, refetch } = useCourses()
 
   const handleView = (course: Course) => {
     router.push(`/dashboard/requests/user-training/${course.courseId}`)
@@ -58,6 +58,8 @@ export default function UserTrainingRequestsPage() {
           data={courses?.allCoursesDetails || []}
           columns={columns}
           isLoading={isLoading}
+          error={error}
+          onRetry={() => refetch()}
           actions={[
             {
               label: 'View Requests',

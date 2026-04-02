@@ -7,7 +7,7 @@ import { DataTable, type DataTableColumn } from '@/components/dashboard/data-tab
 import type { EmailSubscription } from '@/services/api'
 
 export default function EmailSubscriptionsPage() {
-  const { data: subscriptions, isLoading } = useEmailSubscriptions()
+  const { data: subscriptions, isLoading, error, refetch } = useEmailSubscriptions()
 
   const columns: DataTableColumn<EmailSubscription>[] = [
     {
@@ -40,6 +40,8 @@ export default function EmailSubscriptionsPage() {
           data={subscriptions || []}
           columns={columns}
           isLoading={isLoading}
+          error={error}
+          onRetry={() => refetch()}
           emptyState={{
             title: 'No email subscriptions found',
             description: 'Email subscriptions will appear here when users subscribe',

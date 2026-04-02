@@ -15,7 +15,7 @@ import { PageHeaderWithActions } from '@/components/dashboard'
 
 export default function CoursesPage() {
   const router = useRouter()
-  const { data: courses, isLoading } = useCourses()
+  const { data: courses, isLoading, error, refetch } = useCourses()
   const deleteCourse = useDeleteCourse()
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
@@ -98,6 +98,8 @@ export default function CoursesPage() {
           data={courses?.allCoursesDetails || []}
           columns={columns}
           isLoading={isLoading}
+          error={error}
+          onRetry={() => refetch()}
           actions={[
             tableActions.edit(handleEdit),
             tableActions.delete(handleDeleteClick),

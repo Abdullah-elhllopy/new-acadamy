@@ -13,7 +13,7 @@ import Link from 'next/link'
 
 export default function CoursesWithLecturesPage() {
   const router = useRouter()
-  const { data: courses, isLoading } = useCourses()
+  const { data: courses, isLoading, error, refetch } = useCourses()
 
   const handleViewLectures = (course: Course) => {
     // Route based on course type
@@ -61,7 +61,6 @@ export default function CoursesWithLecturesPage() {
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Lectures', href: '/dashboard/lectures' },
         ]}
-      // title="Lectures"
       >
         <TitleContainer title='Lectures' subtitle=' Select a course to view its lectures' />
       </DashboardHero>
@@ -71,6 +70,8 @@ export default function CoursesWithLecturesPage() {
           data={courses?.allCoursesDetails || []}
           columns={columns}
           isLoading={isLoading}
+          error={error}
+          onRetry={() => refetch()}
           actions={[
             {
               label: 'View Lectures',

@@ -14,7 +14,7 @@ import type { Trainer } from '@/services/api'
 
 export default function TrainersPage() {
   const router = useRouter()
-  const { data: trainers, isLoading } = useTrainers()
+  const { data: trainers, isLoading, error, refetch } = useTrainers()
   const deleteTrainer = useDeleteTrainer()
   
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
@@ -102,6 +102,8 @@ export default function TrainersPage() {
           data={trainers || []}
           columns={columns}
           isLoading={isLoading}
+          error={error}
+          onRetry={() => refetch()}
           actions={[
             tableActions.edit(handleEdit),
             tableActions.delete(handleDeleteClick),

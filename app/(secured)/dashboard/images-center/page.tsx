@@ -15,7 +15,7 @@ import Image from 'next/image'
 
 export default function ImagesCenterPage() {
   const router = useRouter()
-  const { data: groups, isLoading } = useImageGroups()
+  const { data: groups, isLoading, error, refetch } = useImageGroups()
   const deleteGroup = useDeleteImageGroup()
   
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
@@ -91,6 +91,8 @@ export default function ImagesCenterPage() {
           data={groups || []}
           columns={columns}
           isLoading={isLoading}
+          error={error}
+          onRetry={() => refetch()}
           actions={[
             {
               label: 'View Images',

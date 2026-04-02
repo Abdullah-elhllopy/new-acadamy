@@ -13,7 +13,7 @@ import type { Partner } from '@/services/api'
 import Image from 'next/image'
 
 export default function PartnersPage() {
-  const { data: partners, isLoading } = usePartners()
+  const { data: partners, isLoading, error, refetch } = usePartners()
   const deletePartner = useDeletePartner()
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
@@ -86,6 +86,8 @@ export default function PartnersPage() {
           data={partners || []}
           columns={columns}
           isLoading={isLoading}
+          error={error}
+          onRetry={() => refetch()}
           actions={[tableActions.delete(handleDeleteClick)]}
           emptyState={{
             title: 'No partners found',

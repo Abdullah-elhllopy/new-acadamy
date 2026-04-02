@@ -5,7 +5,6 @@ import { Plus, Trash2, Pencil, Eye } from 'lucide-react'
 import { useSliders, useDeleteSlider } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
 import { DashboardHero } from '@/components/sections/hero'
-// import { DataTable } from '@/components/data-table'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { toast } from 'sonner'
@@ -16,17 +15,15 @@ import { useSetState } from '@/hooks/use-set-state'
 // Define filter interface
 interface SliderFilters {
   search: string
-  // status: string
 }
 
 export default function SlidersPage() {
-  const { data: sliders = [], isLoading, isFetching } = useSliders()
+  const { data: sliders = [], isLoading, isFetching, error, refetch } = useSliders()
   const deleteSlider = useDeleteSlider()
 
   // Filter state using your useSetState hook
   const filters = useSetState<SliderFilters>({
     search: '',
-    // status: 'all',
   })
 
   // Handle delete with confirmation built into action
@@ -95,23 +92,9 @@ export default function SlidersPage() {
     },
   ], [handleDelete])
 
-  // Filter configurations for toolbar
-  // const filterConfigs = useMemo(() => [
-  //   {
-  //     key: 'status' as const,
-  //     label: 'Status',
-  //     type: 'select' as const,
-  //     options: [
-  //       { label: 'Active', value: 'active' },
-  //       { label: 'Inactive', value: 'inactive' },
-  //     ],
-  //   },
-  // ], [])
-
   // Filter result configurations
   const filterResultConfigs = useMemo(() => [
     { key: 'search' as const, label: 'Search' },
-    // { key: 'status' as const, label: 'Status', resetValue: 'all' },
   ], [])
 
   // Apply filters function
@@ -120,9 +103,6 @@ export default function SlidersPage() {
       const matchesSearch = !state.search || 
         slider.title.toLowerCase().includes(state.search.toLowerCase()) ||
         slider.description?.toLowerCase().includes(state.search.toLowerCase())
-      
-      // const matchesStatus = state.status === 'all' || 
-      //   (state.status === 'active' ? slider.isActive : !slider.isActive)
       
       return matchesSearch 
     })
@@ -154,7 +134,6 @@ export default function SlidersPage() {
           
           // Built-in filtering
           filters={filters}
-          // filterConfigs={filterConfigs}
           applyFilters={applyFilters}
           filterResultConfigs={filterResultConfigs}
           searchPlaceholder="Search sliders..."
@@ -173,6 +152,8 @@ export default function SlidersPage() {
           // Loading
           isLoading={isLoading}
           isFetching={isFetching}
+          error={error}
+          onRefresh={() => refetch()}
           
           // Empty state
         />

@@ -13,7 +13,7 @@ import type { TeamMember } from '@/services/api'
 import Image from 'next/image'
 
 export default function TeamPage() {
-  const { data: members, isLoading } = useTeamMembers()
+  const { data: members, isLoading, error, refetch } = useTeamMembers()
   const deleteTeamMember = useDeleteTeamMember()
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
@@ -108,6 +108,8 @@ export default function TeamPage() {
           data={members || []}
           columns={columns}
           isLoading={isLoading}
+          error={error}
+          onRetry={() => refetch()}
           actions={[tableActions.delete(handleDeleteClick)]}
           emptyState={{
             title: 'No team members found',
