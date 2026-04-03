@@ -103,6 +103,11 @@ export function Header() {
                     {t('imagesCenter')}
                   </Link>
                 </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                  <Link href="/my-certificates" className="w-full cursor-pointer">
+                    {t('myCertificates')}
+                  </Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
