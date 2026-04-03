@@ -82,13 +82,19 @@ export default function ArticlesListPage() {
         description={isArabic ? 'قم بإدارة مقالاتك، قم بإنشاء مقالات جديدة، وتعديل المقالات الحالية.' : 'Manage your articles, create new ones, and edit existing content.'}
 
       >
-
-        <Link href="/dashboard/articles/add">
-          <Button>
-            <Plus className="h-4 w-4 mr-2" />
-            {isArabic ? 'إضافة مقال' : 'Add Article'}
-          </Button>
-        </Link>
+        <div className='flex items-center gap-2'>
+          <Link href="/dashboard/articles/add">
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              {isArabic ? 'إضافة مقال' : 'Add Article'}
+            </Button>
+          </Link>
+          <Link href="/dashboard/article-categories">
+            <Button  variant="outline">
+              {isArabic ? ' تصنيف المقالات' : 'Article Categories'}
+            </Button>
+          </Link>
+        </div>
       </DashboardHero>
 
       <ContentLayout>
