@@ -16,3 +16,4 @@ export * from './request.service';
 export * from './common.service';
 export * from './user.service';
 export * from './lecture.service';
+export * from './certificate.service';

@@ -233,4 +233,14 @@ export const endpoints = {
       delete: (id: string) => `/api/Image/Delete-Image${id}`,
     },
   },
+  certificates: {
+    generate: '/api/Certificate/Generate',
+    getById: (id: string) => `/api/Certificate/${id}`,
+    getUserCertificates: (userId: string) => `/api/Certificate/User/${userId}`,
+    verify: '/api/Certificate/Verify',
+    verifyByQR: (qrCode: string) => `/api/Certificate/Verify-QR/${qrCode}`,
+    sign: (id: string) => `/api/Certificate/Sign/${id}`,
+    getAll: '/api/Certificate/All',
+    revoke: (id: string) => `/api/Certificate/Revoke/${id}`,
+  },
 } as const;

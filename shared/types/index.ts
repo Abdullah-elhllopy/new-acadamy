@@ -208,8 +208,41 @@ export interface CaseStudy {
 
 export interface Certificate {
   id: string
-  bookingId: string
+  userId: string
+  courseId: string
+  courseName: string
+  courseNameAr: string
+  userName: string
+  userNameAr: string
   certificateNumber: string
   issueDate: Date
-  verificationId: string
+  completionDate: Date
+  trainerName: string
+  trainerNameAr: string
+  trainerSignature?: string
+  directorSignature?: string
+  qrCode?: string
+  verificationUrl?: string
+  status: 'valid' | 'revoked' | 'expired'
+  signed: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface CertificateData {
+  certificateId?: string
+  certificateNumber: string
+  userName: string
+  userNameAr: string
+  courseName: string
+  courseNameAr: string
+  completionDate: Date
+  issueDate: Date
+  trainerName: string
+  trainerNameAr: string
+  trainerSignature?: string
+  directorSignature?: string
+  academyLogo?: string
+  qrCodeData?: string
+  verificationUrl?: string
 }

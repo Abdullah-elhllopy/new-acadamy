@@ -9,6 +9,7 @@ import {
   BookOpen,
   Presentation,
   Image as ImageIcon,
+  Award,
   type LucideIcon
 } from 'lucide-react'
 
@@ -157,6 +158,20 @@ export const dashboardNavigation: NavSection[] = [
         label: 'All Users',
         labelAr: 'المستخدمين',
         href: '/dashboard/users'
+      },
+    ],
+  },
+  {
+    id: 'certificates',
+    label: 'Certificates',
+    labelAr: 'الشهادات',
+    icon: Award,
+    items: [
+      {
+        label: 'All Certificates',
+        labelAr: 'جميع الشهادات',
+        href: '/dashboard/certificates',
+        icon: Award
       },
     ],
   },
