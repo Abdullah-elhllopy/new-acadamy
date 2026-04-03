@@ -10,6 +10,7 @@ import { Trash2, Check, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { EmptyState } from '@/components/states/empty-state'
 import { DetailPageLoader } from '@/components/shared/loader/detail-page-loader'
+import { SimpleAvatar } from '@/components/shared/simple-avatar'
 
 
 export default function TrainerReviewsPage({ params }: { params: Promise<{ id: string }> }) {
@@ -36,78 +37,63 @@ export default function TrainerReviewsPage({ params }: { params: Promise<{ id: s
     {
       header: 'User',
       cell: (row: any) => (
-        <div className="flex items-center gap-2">
-          {row.userAvatar && (
-            <img src={row.userAvatar} alt={row.userName} className="h-8 w-8 rounded-full" />
-          )}
-          <span>{row.userName}</span>
+        <div className="flex items-center gap-2 min-w-37.5">
+            <SimpleAvatar src={row.userAvatar} alt={row.userName} />
+          <span className="whitespace-nowrap">{row.userName}</span>
         </div>
       ),
     },
     {
       header: 'Rating',
       cell: (row: any) => (
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 min-w-30">
           {'⭐'.repeat(row.rating)}
-          <span className="ml-1 text-sm text-muted-foreground">({row.rating}/5)</span>
+          <span className="ml-1 text-sm text-muted-foreground whitespace-nowrap">({row.rating}/5)</span>
         </div>
       ),
     },
     {
       header: 'Comment',
       cell: (row: any) => (
-        <div className="max-w-md truncate">{row.comment}</div>
+        <div className="max-w-75 min-w-50 truncate" title={row.comment}>{row.comment}</div>
       ),
     },
     {
       header: 'Course',
-      cell: (row: any) => row.courseName || 'General',
+      cell: (row: any) => <span className="whitespace-nowrap">{row.courseName || 'General'}</span>,
     },
     {
       header: 'Status',
       cell: (row: any) => (
-        <Badge variant={row.approved ? 'default' : 'secondary'}>
+        <Badge variant={row.approved ? 'default' : 'secondary'} className="whitespace-nowrap">
           {row.approved ? 'Approved' : 'Pending'}
         </Badge>
       ),
     },
+  ]
+
+  const actions = [
     {
-      header: 'Actions',
-      cell: (row: any) => (
-        <div className="flex gap-2">
-          {!row.approved && (
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => handleApprove(row.id)}
-              title="Approve"
-            >
-              <Check className="h-4 w-4 text-green-600" />
-            </Button>
-          )}
-          {row.approved && (
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => handleReject(row.id)}
-              title="Reject"
-            >
-              <X className="h-4 w-4 text-orange-600" />
-            </Button>
-          )}
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => {
-              if (confirm('Are you sure you want to delete this review?')) {
-                deleteReview.mutate(row.id)
-              }
-            }}
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
-        </div>
-      ),
+      label: 'Approve',
+      icon: <Check className="mr-2 h-4 w-4" />,
+      onClick: (row: any) => handleApprove(row.id),
+      show: (row: any) => !row.approved,
+    },
+    {
+      label: 'Reject',
+      icon: <X className="mr-2 h-4 w-4" />,
+      onClick: (row: any) => handleReject(row.id),
+      show: (row: any) => row.approved,
+    },
+    {
+      label: 'Delete',
+      icon: <Trash2 className="mr-2 h-4 w-4" />,
+      onClick: (row: any) => {
+        if (confirm('Are you sure you want to delete this review?')) {
+          deleteReview.mutate(row.id)
+        }
+      },
+      variant: 'destructive' as const,
     },
   ]
 
@@ -132,7 +118,7 @@ export default function TrainerReviewsPage({ params }: { params: Promise<{ id: s
         <Card>
           <CardContent className="p-6">
             {reviews && reviews.length > 0 ? (
-              <DataTable columns={columns} data={reviews} />
+              <DataTable columns={columns} data={reviews} actions={actions} />
             ) : (
               <EmptyState
                 title="No reviews yet"

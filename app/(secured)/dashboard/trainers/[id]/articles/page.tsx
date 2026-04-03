@@ -9,7 +9,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { DataTable } from '@/components/dashboard/data-table'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { TrainerArticleForm } from '@/components/forms/trainer-article-form'
-import { Plus, Edit, Trash2, Eye } from 'lucide-react'
+import { Plus, Edit, Trash2 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { EmptyState } from '@/components/states/empty-state'
 import { DetailPageLoader } from '@/components/shared/loader/detail-page-loader'
@@ -50,7 +50,7 @@ export default function TrainerArticlesPage({ params }: { params: Promise<{ id: 
     {
       header: 'Actions',
       cell: (row: any) => (
-        <div className="flex gap-2">
+        <div className="flex justify-center gap-2">
           <Button
             size="sm"
             variant="ghost"

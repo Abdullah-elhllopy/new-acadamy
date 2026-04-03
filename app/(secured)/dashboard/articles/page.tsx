@@ -11,12 +11,14 @@ import { Plus, Pencil, Trash2 } from 'lucide-react'
 import { useLanguage } from '@/shared/hooks/useLanguage'
 import { format } from 'date-fns'
 import type { Article } from '@/shared/types'
+import { ContentLayout } from '@/layout/page-layout'
+import { DashboardHero } from '@/components/sections/hero'
 
 
 export default function ArticlesListPage() {
   const { language } = useLanguage()
   const isArabic = language === 'ar'
-  const { data: articles, isLoading , error, refetch } = useArticles()
+  const { data: articles, isLoading, error, refetch } = useArticles()
   const deleteArticle = useDeleteArticle()
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
@@ -75,26 +77,30 @@ export default function ArticlesListPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-primary">
-          {isArabic ? 'المقالات' : 'Articles'}
-        </h1>
+      <DashboardHero
+        title={isArabic ? 'المقالات' : 'Articles'}
+        description={isArabic ? 'قم بإدارة مقالاتك، قم بإنشاء مقالات جديدة، وتعديل المقالات الحالية.' : 'Manage your articles, create new ones, and edit existing content.'}
+
+      >
+
         <Link href="/dashboard/articles/add">
           <Button>
             <Plus className="h-4 w-4 mr-2" />
             {isArabic ? 'إضافة مقال' : 'Add Article'}
           </Button>
         </Link>
-      </div>
+      </DashboardHero>
 
-      <DataTable
-        columns={columns}
-        data={articles || []}
-        isLoading={isLoading}
-        error={error}
-        onRetry={refetch}
-      />
+      <ContentLayout>
 
+        <DataTable
+          columns={columns}
+          data={articles || []}
+          isLoading={isLoading}
+          error={error}
+          onRetry={refetch}
+        />
+      </ContentLayout>
       <ConfirmDeleteDialog
         open={!!deleteId}
         onOpenChange={(open) => !open && setDeleteId(null)}

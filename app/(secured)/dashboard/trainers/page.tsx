@@ -41,6 +41,11 @@ export default function TrainersPage() {
     {
       header: 'Name',
       accessorKey: 'name',
+      cell: (row) => (
+        <Link href={`/dashboard/trainers/${row.instructorid}/edit`} className="font-medium text-primary hover:underline">
+          {row.name}
+        </Link>
+      )
     },
     {
       header: 'Specialization',

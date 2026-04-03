@@ -51,7 +51,7 @@ export default function TrainerVideosPage({ params }: { params: Promise<{ id: st
     {
       header: 'Actions',
       cell: (row: any) => (
-        <div className="flex gap-2">
+        <div className="flex justify-center gap-2">
           <Button
             size="sm"
             variant="ghost"

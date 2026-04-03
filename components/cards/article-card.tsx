@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { SimpleAvatar } from '@/components/shared/simple-avatar'
+import { useLanguage } from '@/shared/hooks/useLanguage'
 
 
 interface ArticleAuthor {
@@ -26,7 +27,7 @@ export interface ArticleCardProps {
   image: string
   author: ArticleAuthor
   href?: string
-  language: 'en' | 'ar'
+  language?: 'en' | 'ar'
 }
 
 export function ArticleCard({
@@ -40,17 +41,13 @@ export function ArticleCard({
   image,
   author,
   href = '#',
-  language
 }: ArticleCardProps) {
-  const isArabic = language === 'ar'
-  const displayTitle = isArabic ? titleAr : title
-  const displayCategory = isArabic ? categoryAr : category
-  const displayDescription = isArabic ? descriptionAr : description
+  const { isArabic } = useLanguage()
   const displayAuthorName = isArabic ? author.nameAr : author.name
   const displayAuthorRole = isArabic ? author.roleAr : author.role
 
   return (
-    <Card className="overflow-hidden py-0 pb-1 shadow-card rounded-lg">
+    <Card className="overflow-hidden py-0 pb-3 shadow-card rounded-lg">
       <div className="relative h-52 bg-muted">
         <Image src={image} alt={title} fill className="object-cover" />
       </div>
@@ -64,9 +61,9 @@ export function ArticleCard({
         <p className="text-hero-bg mb-10">{description}</p>
         <hr className="mb-4" />
         <div className="flex items-center gap-4">
-          <SimpleAvatar 
+          <SimpleAvatar
             src={author.avatar}
-            alt ={displayAuthorName}
+            alt={displayAuthorName}
             className="w-16 h-16  bg-muted"
           />
           <div className="text-right">

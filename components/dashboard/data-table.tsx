@@ -32,6 +32,7 @@ export interface DataTableAction<T> {
   icon?: ReactNode
   onClick: (item: T) => void
   variant?: 'default' | 'destructive'
+  show?: (item: T) => boolean
 }
 
 interface DataTableProps<T> {
@@ -71,10 +72,10 @@ export function DataTable<T extends { [key: string]: any }>({
           />
         </Card>
       ) : (
-        <Card className="w-full pt-0 overflow-hidden">
+        <Card className="w-full pt-0">
           {/* Desktop View */}
           <div className="hidden md:block overflow-x-auto">
-            <Table>
+            <Table className="min-w-full">
               <TableHeader>
                 <TableRow className="bg-muted/50">
                   {columns?.map((column, index) => (
@@ -109,7 +110,7 @@ export function DataTable<T extends { [key: string]: any }>({
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            {actions?.map((action, actionIndex) => (
+                            {actions?.filter(action => !action.show || action.show(item)).map((action, actionIndex) => (
                               <DropdownMenuItem
                                 key={actionIndex}
                                 onClick={() => action.onClick(item)}
@@ -156,7 +157,7 @@ export function DataTable<T extends { [key: string]: any }>({
                 ))}
                 {actions && actions.length > 0 && (
                   <div className="flex gap-2 pt-2 border-t">
-                    {actions?.map((action, actionIndex) => (
+                    {actions?.filter(action => !action.show || action.show(item)).map((action, actionIndex) => (
                       <Button
                         key={actionIndex}
                         variant={action.variant === 'destructive' ? 'destructive' : 'outline'}

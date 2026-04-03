@@ -13,11 +13,13 @@ import { useTrainerArticlesByTrainerId } from '@/hooks/api/use-trainer-articles'
 import { useTrainerReviewsByTrainerId } from '@/hooks/api/use-trainer-reviews'
 import Loader from '@/components/shared/loader/loader'
 import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { TrainerReviewForm } from '@/components/forms/trainer-review-form'
+import { ContentLayout } from '@/layout/page-layout'
+import TrainerArticleCard from '@/components/cards/trainer-article-card'
+import VideoCard from '@/components/cards/video-card'
 
 const MOCK_TRAINER = {
   id: 1,
@@ -39,11 +41,11 @@ export default function TrainerProfilePage({ params }: { params: Promise<{ id: s
   const { data: articles } = useTrainerArticlesByTrainerId(id)
   const { data: reviews } = useTrainerReviewsByTrainerId(id)
   const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false)
-  
+
   useEffect(() => {
     document.title = data?.name || 'ملف المدرب'
   }, [data?.name])
-  
+
   if (isLoading) {
     return <Loader number={2} />
   }
@@ -117,7 +119,7 @@ export default function TrainerProfilePage({ params }: { params: Promise<{ id: s
       </motion.div>
 
       <motion.div
-        className="px-75 py-20 max-sm:px-2.5 max-sm:pt-20 max-sm:pb-0 sm:max-md:px-2.5 sm:max-md:pt-20 sm:max-md:pb-0 lg:max-xl:px-50"
+        className="px-75 py-4 max-sm:px-2.5 max-sm:pt-20 max-sm:pb-0 sm:max-md:px-2.5 sm:max-md:pt-20 sm:max-md:pb-0 lg:max-xl:px-50"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
@@ -132,12 +134,7 @@ export default function TrainerProfilePage({ params }: { params: Promise<{ id: s
         </div>
       </motion.div>
 
-      <motion.div
-        className="px-75 pb-20 pt-0 max-sm:px-2.5 max-sm:py-10 sm:max-md:px-5 sm:max-md:py-10 md:max-lg:px-40 lg:max-xl:px-50"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-      >
+      <ContentLayout >
         <Tabs defaultValue="courses" className="w-full">
           <TabsList className="grid w-full grid-cols-4 mb-8">
             <TabsTrigger value="courses">دورات المدرب</TabsTrigger>
@@ -159,69 +156,35 @@ export default function TrainerProfilePage({ params }: { params: Promise<{ id: s
           </TabsContent>
 
           <TabsContent value="videos">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {publishedVideos.map((video : any) => (
-                <Card key={video.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="relative aspect-video bg-muted">
-                    {video.thumbnail ? (
-                      <img src={video.thumbnail} alt={video.titleEn} className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="flex items-center justify-center h-full">
-                        <Play className="h-12 w-12 text-muted-foreground" />
-                      </div>
-                    )}
-                  </div>
-                  <CardContent className="p-4">
-                    <h3 className="font-semibold mb-2">{video.titleAr || video.titleEn}</h3>
-                    <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
-                      {video.descriptionAr || video.descriptionEn}
-                    </p>
-                    <div className="flex items-center justify-between text-sm">
-                      <span>{video.duration} min</span>
-                      <span>{video.views} views</span>
-                    </div>
-                    <Button asChild className="w-full mt-3">
-                      <a href={video.videoUrl} target="_blank" rel="noopener noreferrer">
-                        مشاهدة
-                      </a>
-                    </Button>
-                  </CardContent>
-                </Card>
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-10"
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              {publishedVideos.map((video: any) => (
+                <VideoCard key={video.id} video={video} />
               ))}
-            </div>
+            </motion.div>
           </TabsContent>
 
           <TabsContent value="articles">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-10"
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
               {publishedArticles.map((article) => (
-                <Card key={article.id} className="hover:shadow-lg transition-shadow">
-                  {article.coverImage && (
-                    <div className="aspect-video bg-muted">
-                      <img src={article.coverImage} alt={article.titleEn} className="w-full h-full object-cover" />
-                    </div>
-                  )}
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      {article.category && (
-                        <Badge variant="secondary">{article.category}</Badge>
-                      )}
-                      <span className="text-sm text-muted-foreground">{article.views} views</span>
-                    </div>
-                    <h3 className="font-bold text-xl mb-3">{article.titleAr || article.titleEn}</h3>
-                    <p className="text-muted-foreground line-clamp-3 mb-4">
-                      {article.excerpt || article.contentAr?.substring(0, 150) + '...'}
-                    </p>
-                    <Button variant="outline" className="w-full">
-                      قراءة المزيد
-                    </Button>
-                  </CardContent>
-                </Card>
+                <TrainerArticleCard key={article.id} article={article} />
               ))}
-            </div>
+            </motion.div>
           </TabsContent>
 
           <TabsContent value="reviews">
-            <div className="space-y-6">
+            <motion.div className="space-y-6">
               <div className="flex justify-between items-center">
                 <div>
                   <h3 className="text-2xl font-bold">تقييمات المتدربين</h3>
@@ -250,14 +213,21 @@ export default function TrainerProfilePage({ params }: { params: Promise<{ id: s
                 </Dialog>
               </div>
 
-              <div className="space-y-4">
+              <motion.div
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-10"
+                initial={{ opacity: 0, y: -20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
                 {approvedReviews.map((review) => (
                   <Card key={review.id}>
                     <CardContent className="p-6">
                       <div className="flex items-start gap-4">
-                        {review.userAvatar && (
+                        {/* {review.userAvatar && (
                           <img src={review.userAvatar} alt={review.userName} className="h-12 w-12 rounded-full" />
-                        )}
+                        )} */}
+                        <SimpleAvatar src={review.userAvatar || '/placeholder-avatar.jpg'} alt={review.userName} className="h-12 w-12 rounded-full" />
                         <div className="flex-1">
                           <div className="flex items-center justify-between mb-2">
                             <div>
@@ -276,11 +246,11 @@ export default function TrainerProfilePage({ params }: { params: Promise<{ id: s
                     </CardContent>
                   </Card>
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </TabsContent>
         </Tabs>
-      </motion.div>
+      </ContentLayout>
     </div>
   )
 }
