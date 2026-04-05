@@ -1,27 +1,27 @@
 'use client'
 
 import { use, useState } from 'react'
-import { useTrainerArticlesByTrainerId, useDeleteTrainerArticle } from '@/hooks/api/use-trainer-articles'
 import { ContentLayout } from '@/layout/page-layout'
 import { DashboardHero } from '@/components/sections/hero'
 import { BackButton, Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { DataTable } from '@/components/dashboard/data-table'
+import { DataTable, DataTableColumn } from '@/components/dashboard/data-table'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { TrainerArticleForm } from '@/components/forms/trainer-article-form'
 import { Plus, Edit, Trash2 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { EmptyState } from '@/components/states/empty-state'
 import { DetailPageLoader } from '@/components/shared/loader/detail-page-loader'
+import { useDeleteArticle, useTrainerArticlesByTrainerId } from '@/hooks/api/use-articles'
+import { Article } from '@/shared/types'
 
 export default function TrainerArticlesPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const { data: articles, isLoading } = useTrainerArticlesByTrainerId(id)
-  const deleteArticle = useDeleteTrainerArticle()
+  const deleteArticle = useDeleteArticle()
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
-  const [editingArticle, setEditingArticle] = useState<any>(null)
+  const [editingArticle, setEditingArticle] = useState<Article | null>(null)
 
-  const columns: any[] = [
+  const columns: DataTableColumn<Article>[] = [
     {
       header: 'Title',
       cell: (row: any) => (
@@ -111,8 +111,7 @@ export default function TrainerArticlesPage({ params }: { params: Promise<{ id: 
       </DashboardHero>
 
       <ContentLayout>
-        <Card>
-          <CardContent className="p-6">
+
             {articles && articles.length > 0 ? (
               <DataTable columns={columns} data={articles} />
             ) : (
@@ -121,8 +120,6 @@ export default function TrainerArticlesPage({ params }: { params: Promise<{ id: 
                 description="Start by adding your first article"
               />
             )}
-          </CardContent>
-        </Card>
       </ContentLayout>
 
       {editingArticle && (

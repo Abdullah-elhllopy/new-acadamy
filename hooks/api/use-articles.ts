@@ -9,6 +9,8 @@ export const ARTICLE_KEYS = {
     [...ARTICLE_KEYS.lists(), filters] as const,
   details: () => [...ARTICLE_KEYS.all, 'detail'] as const,
   detail: (id: string) => [...ARTICLE_KEYS.details(), id] as const,
+  byTrainer: (trainerId: string) => [...ARTICLE_KEYS.all, 'trainer', trainerId] as const,
+
 };
 
 export function useArticles(filters?: { search?: string; categoryId?: string }) {
@@ -23,6 +25,13 @@ export function useArticle(id: string) {
     queryKey: ARTICLE_KEYS.detail(id),
     queryFn: () => articleService.getById(id),
     enabled: !!id,
+  });
+}
+export function useTrainerArticlesByTrainerId(trainerId: string) { //add this on article service
+  return useQuery({
+    queryKey: ARTICLE_KEYS.byTrainer(trainerId),
+    queryFn: () => articleService.getByTrainerId(trainerId),
+    enabled: !!trainerId,
   });
 }
 

@@ -2,7 +2,6 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useCreateTrainerArticle, useUpdateTrainerArticle } from '@/hooks/api/use-trainer-articles'
 import { Form, FormField } from '@/components/forms'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -10,16 +9,18 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { trainerArticleSchema, type TrainerArticleFormData } from '@/lib/validations'
 import { useEffect } from 'react'
+import { Article } from '@/shared/types'
+import { useCreateArticle , useUpdateArticle } from '@/hooks/api/use-articles'
 
 interface TrainerArticleFormProps {
   trainerId: string
-  article?: any
+  article?: Article
   onSuccess?: () => void
 }
 
 export function TrainerArticleForm({ trainerId, article, onSuccess }: TrainerArticleFormProps) {
-  const createArticle = useCreateTrainerArticle()
-  const updateArticle = useUpdateTrainerArticle()
+  const createArticle = useCreateArticle()
+  const updateArticle = useUpdateArticle()
   const isEditing = !!article
 
   const methods = useForm<TrainerArticleFormData>({
@@ -43,8 +44,8 @@ export function TrainerArticleForm({ trainerId, article, onSuccess }: TrainerArt
         titleAr: article.titleAr || '',
         contentEn: article.contentEn || '',
         contentAr: article.contentAr || '',
-        excerpt: article.excerpt || '',
-        category: article.category || '',
+        excerpt: article.excerptAr || '',
+        category: article.categoryName || '',
         tags: article.tags || [],
         published: article.published || false,
       })

@@ -4,7 +4,6 @@ export * from './course.service';
 export * from './about-us.service';
 export * from './trainer.service';
 export * from './trainer-videos.service';
-export * from './trainer-articles.service';
 export * from './trainer-reviews.service';
 export * from './article.service';
 export * from './article-category.service';

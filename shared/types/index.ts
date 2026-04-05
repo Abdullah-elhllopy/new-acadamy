@@ -85,38 +85,6 @@ export interface TrainerVideo {
   updatedAt: Date
 }
 
-export interface TrainerArticle {
-  id: string
-  trainerId: string
-  titleEn: string
-  titleAr: string
-  contentEn: string
-  contentAr: string
-  excerpt?: string
-  coverImage?: string
-  category?: string
-  tags?: string[]
-  views: number
-  published: boolean
-  createdAt: Date
-  updatedAt: Date
-}
-
-export interface TrainerReview {
-  id: string
-  trainerId: string
-  userId: string
-  userName: string
-  userAvatar?: string
-  rating: number
-  comment: string
-  courseId?: string
-  courseName?: string
-  approved: boolean
-  createdAt: Date
-  updatedAt: Date
-}
-
 export interface Article {
   id: string
   titleEn: string
@@ -137,6 +105,22 @@ export interface Article {
   createdAt: Date
   updatedAt: Date
 }
+
+export interface TrainerReview {
+  id: string
+  trainerId: string
+  userId: string
+  userName: string
+  userAvatar?: string
+  rating: number
+  comment: string
+  courseId?: string
+  courseName?: string
+  approved: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
 
 export interface ArticleCategory {
   id: string

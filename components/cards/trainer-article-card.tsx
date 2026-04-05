@@ -2,10 +2,10 @@ import { motion } from 'framer-motion'
 import { Card, CardContent } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
-import { TrainerArticle } from '@/shared/types'
+import { Article } from '@/shared/types'
 import Link from 'next/link'
 
-const TrainerArticleCard = ({ article, className }: { article: TrainerArticle; className?: string }) => {
+const TrainerArticleCard = ({ article, className }: { article: Article; className?: string }) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -22,14 +22,14 @@ const TrainerArticleCard = ({ article, className }: { article: TrainerArticle; c
                 )}
                 <CardContent className="p-6">
                     <div className="flex items-center gap-2 mb-3">
-                        {article.category && (
-                            <Badge variant="secondary">{article.category}</Badge>
+                        {article.categoryName && (
+                            <Badge variant="secondary">{article.categoryName}</Badge>
                         )}
                         <span className="text-sm text-muted-foreground">{article.views} views</span>
                     </div>
                     <h3 className="font-bold text-xl mb-3">{article.titleAr || article.titleEn}</h3>
                     <p className="text-muted-foreground line-clamp-3 mb-4">
-                        {article.excerpt || article.contentAr?.substring(0, 150) + '...'}
+                        {article.excerptAr || article.excerptEn || article.contentAr?.substring(0, 150) + '...'}
                     </p>
                     <Button variant="outline" className="w-full">
                         <Link href={`/articles/${article.id}`}>

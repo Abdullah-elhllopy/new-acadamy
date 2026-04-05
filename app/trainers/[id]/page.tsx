@@ -9,7 +9,6 @@ import { ProgramCard } from '@/components/cards/program-card'
 import { mockPrograms } from '@/app/programs/page'
 import { useTrainer } from '@/hooks/api'
 import { useTrainerVideosByTrainerId } from '@/hooks/api/use-trainer-videos'
-import { useTrainerArticlesByTrainerId } from '@/hooks/api/use-trainer-articles'
 import { useTrainerReviewsByTrainerId } from '@/hooks/api/use-trainer-reviews'
 import Loader from '@/components/shared/loader/loader'
 import { Card, CardContent } from '@/components/ui/card'
@@ -20,6 +19,7 @@ import { TrainerReviewForm } from '@/components/forms/trainer-review-form'
 import { ContentLayout } from '@/layout/page-layout'
 import TrainerArticleCard from '@/components/cards/trainer-article-card'
 import VideoCard from '@/components/cards/video-card'
+import { useTrainerArticlesByTrainerId } from '@/hooks/api/use-articles'
 
 const MOCK_TRAINER = {
   id: 1,

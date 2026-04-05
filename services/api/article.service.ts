@@ -110,7 +110,7 @@ export const articleService = {
     let filtered = [...MOCK_ARTICLES];
     if (params?.search) {
       const searchLower = params.search.toLowerCase();
-      filtered = filtered.filter(a => 
+      filtered = filtered.filter(a =>
         a.titleEn.toLowerCase().includes(searchLower) ||
         a.titleAr.includes(params.search!) ||
         a.contentEn.toLowerCase().includes(searchLower)
@@ -180,4 +180,12 @@ export const articleService = {
     const index = MOCK_ARTICLES.findIndex(a => a.id === id);
     if (index > -1) MOCK_ARTICLES.splice(index, 1);
   },
+
+  getByTrainerId: async (trainerId: string): Promise<Article[]> => {
+    // const response : Article[] = await apiClient.get(endpoints.trainers.articles.getByTrainerId(trainerId));
+    // return response;
+    await new Promise(resolve => setTimeout(resolve, 300));
+    return MOCK_ARTICLES
+  },
+
 };
