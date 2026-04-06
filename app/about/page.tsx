@@ -2,36 +2,22 @@
 'use client'
 
 import { motion } from 'framer-motion'
-
-import { ABOUT_US_DATA } from '@/data/about-data'
-
 import { cn } from '@/lib/utils'
-// components/about/value-card.tsx
-
 import { Check } from 'lucide-react'
-import { CompanyValue } from '@/types/about'
-
-
-interface ValueCardProps {
-  value: CompanyValue
-  index: number
-}
 import { useLanguage } from '@/shared/hooks/useLanguage'
 import { ContentLayout, Layout } from '@/layout/page-layout'
 import { Hero } from '@/components/sections/hero'
 import { Title } from '@/components/shared/title'
+import { useAboutUs } from '@/hooks/api/use-about-us'
+import { ABOUT_US_DATA } from '@/data/about-data'
 
+interface ValueCardProps {
+  title: string
+  description: string
+  index: number
+}
 
-
-
-
-export function ValueCard({ value, index }: ValueCardProps) {
-  const { language, isRTL } = useLanguage()
-  const isArabic = language === 'ar'
-
-  const title = isArabic ? value.titleAr : value.title
-  const description = isArabic ? value.descriptionAr : value.description
-
+export function ValueCard({ title, description, index }: ValueCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -40,26 +26,17 @@ export function ValueCard({ value, index }: ValueCardProps) {
       transition={{ delay: index * 0.1 }}
       className="bg-white rounded-xl p-8 shadow-card hover:shadow-card-hover transition-shadow duration-300"
     >
-      <div className={cn(
-        "flex gap-5",
-      )}>
-        {/* Icon */}
+      <div className={cn("flex gap-5")}>
         <div className="shrink-0">
           <div className="w-14 h-14 rounded-full flex items-center justify-center">
             <Check className="w-7 h-7 text-secondary" />
           </div>
         </div>
-
-        {/* Content */}
         <div className="space-y-3">
-          <h4 className={cn(
-            "text-xl md:text-2xl font-bold text-foreground font-sans"
-          )}>
+          <h4 className={cn("text-xl md:text-2xl font-bold text-foreground font-sans")}>
             {title}
           </h4>
-          <p className={cn(
-            "text-muted-foreground leading-relaxed",
-          )}>
+          <p className={cn("text-muted-foreground leading-relaxed")}>
             {description}
           </p>
         </div>
@@ -67,10 +44,14 @@ export function ValueCard({ value, index }: ValueCardProps) {
     </motion.div>
   )
 }
+
 export default function AboutUsPage() {
-  const { language, } = useLanguage()
+  const { language } = useLanguage()
   const isArabic = language === 'ar'
-  const data = ABOUT_US_DATA
+  const { data: aboutData, isLoading } = useAboutUs()
+
+  // Fallback to mock data if API fails
+  const data = aboutData || ABOUT_US_DATA
 
   const breadcrumbs = [
     { label: 'Home', labelAr: 'الرئيسية', href: '/' },
@@ -92,10 +73,22 @@ export default function AboutUsPage() {
     visible: { opacity: 1, y: 0 }
   }
 
+  if (isLoading) {
+    return (
+      <Layout>
+        <Hero breadcrumbItems={breadcrumbs}>
+          <Title title={isArabic ? 'من نحن' : 'About Us'} />
+        </Hero>
+        <ContentLayout className='flex items-center justify-center py-20'>
+          <div className="text-center">Loading...</div>
+        </ContentLayout>
+      </Layout>
+    )
+  }
+
   return (
     <Layout>
-      {/* Header */}
-      <Hero breadcrumbItems={breadcrumbs} >
+      <Hero breadcrumbItems={breadcrumbs}>
         <Title title={isArabic ? 'من نحن' : 'About Us'} />
       </Hero>
 
@@ -106,17 +99,14 @@ export default function AboutUsPage() {
           viewport={{ once: true }}
           className="max-w-4xl mx-auto text-center space-y-6"
         >
-          <h2 className={cn(
-            "text-3xl md:text-4xl font-bold text-foreground font-sans",
-          )}>
-            {isArabic ? data.nameAr : data.name}
+          <h2 className={cn("text-3xl md:text-4xl font-bold text-foreground font-sans")}>
+            {aboutData?.name || data.name}
           </h2>
-          <p className={cn(
-            "text-lg md:text-xl text-muted-foreground leading-relaxed",
-          )}>
-            {isArabic ? data.descriptionAr : data.description}
+          <p className={cn("text-lg md:text-xl text-muted-foreground leading-relaxed")}>
+            {aboutData?.aboutUs }
           </p>
         </motion.section>
+
         <motion.section
           variants={containerVariants}
           initial="hidden"
@@ -124,77 +114,61 @@ export default function AboutUsPage() {
           viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 lg:gap-24"
         >
-          {/* Vision */}
-          <motion.div variants={itemVariants} className={cn(
-            "space-y-4",
-          )}>
-            <h3 className={cn(
-              "text-2xl md:text-3xl font-bold text-foreground font-sans",
-
-            )}>
+          <motion.div variants={itemVariants} className={cn("space-y-4")}>
+            <h3 className={cn("text-2xl md:text-3xl font-bold text-foreground font-sans")}>
               {isArabic ? 'رؤيتنا' : 'Our Vision'}
             </h3>
-            <p className={cn(
-              "text-muted-foreground text-lg leading-relaxed",
-
-            )}>
-              {isArabic ? data.visionAr : data.vision}
+            <p className={cn("text-muted-foreground text-lg leading-relaxed")}>
+              {aboutData?.ourVision }
             </p>
           </motion.div>
 
-          {/* Mission */}
-          <motion.div variants={itemVariants} className={cn(
-            "space-y-4",
-          )}>
-            <h3 className={cn(
-              "text-2xl md:text-3xl font-bold text-foreground font-sans",
-
-            )}>
+          <motion.div variants={itemVariants} className={cn("space-y-4")}>
+            <h3 className={cn("text-2xl md:text-3xl font-bold text-foreground font-sans")}>
               {isArabic ? 'رسالتنا' : 'Our Mission'}
             </h3>
-            <p className={cn(
-              "text-muted-foreground text-lg leading-relaxed",
-
-            )}>
-              {isArabic ? data.missionAr : data.mission}
+            <p className={cn("text-muted-foreground text-lg leading-relaxed")}>
+              {aboutData?.ourMessage }
             </p>
           </motion.div>
         </motion.section>
       </ContentLayout>
-      {/* Our Values */}
-      <ContentLayout className="py-12 bg-muted">
 
+      <ContentLayout className="py-12 bg-muted">
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h3 className={cn(
-            "text-3xl md:text-4xl font-bold text-foreground font-sans",
-          )}>
+          <h3 className={cn("text-3xl md:text-4xl font-bold text-foreground font-sans")}>
             {isArabic ? 'قيمنا' : 'Our Values'}
           </h3>
         </motion.section>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
-          {data.values.map((value, index) => (
-            <ValueCard key={value.id} value={value} index={index} />
-          ))}
+          {(aboutData?.ourValues && aboutData.ourValues.length > 0
+            ? aboutData.ourValues.map((value, index) => (
+              <ValueCard
+                key={index}
+                title={value.title || ''}
+                description={value.description || ''}
+                index={index}
+              />
+            )) 
+            : null
+          )}
         </div>
-
       </ContentLayout>
-      <ContentLayout className="py-12">
 
+      <ContentLayout className="py-12">
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h3 className={cn(
-            "text-3xl md:text-4xl font-bold text-foreground font-sans",
-          )}>
+          <h3 className={cn("text-3xl md:text-4xl font-bold text-foreground font-sans")}>
             {'الاحصاءات'}
           </h3>
         </motion.section>
@@ -209,7 +183,7 @@ export default function AboutUsPage() {
               <p className="text-4xl font-bold mb-2">
                 {isArabic ? stat.valueAr : stat.valueEn}
               </p>
-              <p className="text-sm  ">
+              <p className="text-sm">
                 {isArabic ? stat.labelAr : stat.labelEn}
               </p>
             </div>

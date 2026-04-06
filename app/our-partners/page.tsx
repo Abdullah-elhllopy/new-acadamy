@@ -2,6 +2,8 @@
 
 import { useLanguage } from '@/shared/hooks/useLanguage'
 import Partner from '@/components/cards/Partner'
+import { usePartners } from '@/hooks/api'
+// import { usePartners } from '@/hooks/api/use-partners'
 
 export const MOCK_PARTNERS = [
   { id: 1, name: 'Saudi Aramco', nameAr: 'أرامكو السعودية' },
@@ -20,6 +22,11 @@ export const MOCK_PARTNERS = [
 
 export default function OurPartnersPage() {
   const { isArabic } = useLanguage()
+  const { data: partners, isLoading } = usePartners()
+  
+  // Use API data if available, otherwise fallback to mock data
+  const displayPartners = partners && partners.length > 0 ? partners : MOCK_PARTNERS
+
   return (
     <>
       <section className="bg-linear-to-br from-primary/10 to-accent/10 py-16 md:py-24 border-b border-border">
@@ -39,11 +46,18 @@ export default function OurPartnersPage() {
 
       <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {MOCK_PARTNERS.map((partner) => (
-              <Partner key={partner.id} name={isArabic ? partner.nameAr : partner.name} />
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="text-center py-12">Loading...</div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {displayPartners.map((partner) => (
+                <Partner 
+                  key={partner.id} 
+                  name={'name' in partner ? partner.name : 'Mock Partner'} 
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

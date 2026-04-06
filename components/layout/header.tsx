@@ -89,6 +89,11 @@ export function Header() {
                     {t('presenceCourses')}
                   </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/online-courses" className="w-full cursor-pointer">
+                    {t('onlineCourses')}
+                  </Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
