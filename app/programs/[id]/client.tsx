@@ -1,6 +1,25 @@
-import { Metadata } from 'next'
-import { courseService } from '@/services/api'
-import CourseDetailClient from './client'
+'use client'
+
+import { use, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { CourseReviews } from './_components/course-reviews'
+import { CourseDetailsHero } from './_components/course-details-hero'
+import { CourseDetailsSidebar } from './_components/course-details-sidebar'
+import { WhatYouWillLearn } from './_components/what-you-will-learn'
+import { CourseLectures } from './_components/course-lectures'
+import { CourseTrainers } from './_components/course-trainers'
+import { RelatedCourses } from './_components/related-courses'
+import { SimpleAvatar } from '@/components/shared/simple-avatar'
+import { motion } from 'framer-motion'
+import { ArticlesSection } from '@/components/sections/home/articles-section'
+import { ContentLayout } from '@/layout/page-layout'
+import { CertificateBadge } from '@/components/programs/certificate-badge'
+import { SocialShareBar } from '@/components/programs/social-share-bar'
+import { SessionsSection } from '@/components/programs/sessions-section'
+import { LocationMap } from '@/components/programs/location-map'
+import { PDFDownloadModal } from '@/components/programs/pdf-download-modal'
+import { useTranslate } from '@/locales'
+import { useLanguage } from '@/shared/hooks/useLanguage'
 
 const mockCourse = {
   id: '1',
@@ -184,38 +203,146 @@ const mockCourse = {
   },
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
-  const { id } = await params
-  
-  try {
-    // TODO: Replace with actual API call when backend is ready
-    const course = await courseService.getById(id)
-    
-    return {
-      title: course.courseName,
-      description: course.courseDescripTion?.substring(0, 160) || '',
-      openGraph: {
-        title: course.courseName,
-        description: course.courseDescripTion?.substring(0, 160) || '',
-        images: course.image ? [{ url: course.image }] : [],
-        type: 'website',
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: course.courseName,
-        description: course.courseDescripTion?.substring(0, 160) || '',
-        images: course.image ? [course.image] : [],
-      },
-    }
-  } catch {
-    return {
-      title: 'Course Details',
-      description: 'View course details and enroll',
-    }
-  }
-}
+export default function CourseDetailClient({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
+  const router = useRouter()
+  const [currentUser, setCurrentUser] = useState(true)
+  const { isArabic } = useLanguage()
+  const { t } = useTranslate('programs')
+  const [showPDFModal, setShowPDFModal] = useState(false)
 
-export default function CourseDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-  return <CourseDetailClient params={params} />
-}
+  return (
+    <div className="min-h-screen bg-background">
+      <CourseDetailsHero
+        courseType="عبر الإنترنت"
+        courseName={mockCourse.courseName}
+        description={mockCourse.courseDescription}
+        videoUrl={mockCourse.video}
+        pdfUrl={mockCourse.coursepdf}
+        handleOpenCLick={() => setShowPDFModal(true)}
+      />
 
+      <div className="px-4 md:px-20 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[44%_10%_45%] gap-8">
+          <motion.div
+            className="space-y-20"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <WhatYouWillLearn objectives={mockCourse.wwwl} />
+            <CourseLectures lectures={mockCourse.courseLectures} />
+            <CourseTrainers trainers={mockCourse.ourinstructors} />
+
+            {/* Provider */}
+            <div>
+              <h2 className="text-4xl font-bold text-primary mb-10">مقدمة من</h2>
+              <div className="flex items-start gap-6 mb-6">
+                <SimpleAvatar
+                  src={mockCourse.provider.avatar}
+                  alt={mockCourse.provider.name}
+                  className="w-24 h-24 text-2xl  bg-muted-foreground"
+                />
+                <div>
+                  <h4 className="text-3xl font-bold text-primary mb-1">{mockCourse.provider.name}</h4>
+                  <p className="text-hero-bg text-lg">{mockCourse.provider.university}</p>
+                </div>
+              </div>
+              <p className="text-primary leading-relaxed">{mockCourse.provider.description}</p>
+            </div>
+
+            <CourseReviews reviews={mockCourse.reviews} />
+          </motion.div>
+
+          <div />
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            <CourseDetailsSidebar
+              price={mockCourse.courseCost}
+              currency="جنيه مصرى"
+              startDate={mockCourse.courseStartDate}
+              hours={mockCourse.courseNumberOfHours}
+              months={mockCourse.numberOfMonths}
+              location="عبر الإنترنت"
+              isAuthenticated={currentUser}
+              onEnroll={() => router.push('/payment/1')}
+              onLogin={() => router.push('/login')}
+              onRequestProgram={() => router.push(`/apply-for-program/${mockCourse.id}`)}
+              courseId={mockCourse.id}
+            />
+          </motion.div>
+        </div>
+      </div>
+      <ContentLayout>
+        <div className="space-y-12">
+          {/* Program Header */}
+          <div className="space-y-4">
+            <h1 className="text-4xl font-bold">
+              {mockCourse.courseName}
+            </h1>
+            <p className="text-lg text-gray-600">
+              {mockCourse.courseDescription}
+            </p>
+            <div className="flex flex-wrap items-center gap-4">
+              <CertificateBadge type="professional" />
+              <span className="text-lg font-semibold text-primary">{mockCourse.courseCost} SR</span>
+            </div>
+          </div>
+
+          {/* Social Share Bar */}
+          <div className="border-t border-b py-4">
+            <SocialShareBar
+              title={mockCourse.courseName}
+            />
+          </div>
+
+          {/* Sessions Section */}
+          <SessionsSection sessions={mockCourse.sessions} />
+
+          {/* Location Map */}
+          <LocationMap
+            address={mockCourse.location}
+            latitude={25.2048}
+            longitude={55.2708}
+          />
+
+          {/* Program Details */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-xl font-bold mb-4">{t('details')}</h3>
+              <ul className="space-y-3 text-gray-700">
+                <li><strong>{t('duration')}:</strong> {mockCourse.duration} {t('hours')}</li>
+                <li><strong>{t('capacity')}:</strong> {mockCourse.capacity} {t('seats')}</li>
+                <li><strong>{t('instructor')}:</strong> {mockCourse.trainer.nameEn}</li>
+                <li><strong>{t('location')}:</strong> {mockCourse.location}</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-4">{t('objectives')}</h3>
+              <ul className="space-y-2 text-gray-700">
+                {mockCourse.objectives.map((obj, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="text-primary mt-1">•</span>
+                    <span>{obj}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </ContentLayout>
+      <ArticlesSection />
+
+      <RelatedCourses courses={mockCourse.relatedCourses} language="ar" />
+      <PDFDownloadModal
+        isOpen={showPDFModal}
+        onClose={() => setShowPDFModal(false)}
+        courseTitle={mockCourse.courseName}
+      />
+    </div>
+  )
+}

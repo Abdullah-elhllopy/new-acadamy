@@ -2,12 +2,15 @@
 
 import { UseFormReturn } from 'react-hook-form'
 import { CourseFormData } from '@/lib/validations'
-import { Form, FormField, FormSelect } from '@/components/forms'
+import { Form, FormField, FormSelect, WhatWillLearn } from '@/components/forms'
+import { FormCheckbox } from '@/components/forms/form-checkbox'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Checkbox } from '@/components/ui/checkbox'
+import { useMainDepartments, useSubDepartmentsByMain } from '@/hooks/api/use-departments'
+import { useTrainers } from '@/hooks/api/use-trainers'
+import { MultiSelect } from '@/components/ui/multi-select'
 import Link from 'next/link'
 
 interface CourseFormProps {
@@ -29,6 +32,33 @@ export function CourseForm({
   isEdit = false,
   currentFiles = {}
 }: CourseFormProps) {
+  const mainDepId = methods.watch('mainDebId')
+  const subDepId = methods.watch('subDebId')
+  const instructorIDs = methods.watch('instructorIDs') || []
+  const wwwl = methods.watch('wwwl') || []
+
+  const { data: mainDepartments } = useMainDepartments()
+  const { data: subDepartments } = useSubDepartmentsByMain(mainDepId || '')
+  const { data: trainers } = useTrainers()
+
+  const trainersOptions = trainers?.map(trainer => ({
+    value: trainer.instructorid,
+    label: trainer.name,
+    labelAr: trainer.name
+  })) || []
+
+  const mainDepsOptions = mainDepartments?.map(dep => ({
+    value: dep.mainDepartmentId || '',
+    label: dep.mainDepartmentName || '',
+    labelAr: dep.mainDepartmentName || ''
+  })) || []
+
+  const subDepsOptions = subDepartments?.map(dep => ({
+    value: dep.subDepartmentId || '',
+    label: dep.subDepartmentName || '',
+    labelAr: dep.subDepartmentName || ''
+  })) || []
+
   return (
     <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
       <div className="space-y-6">
@@ -45,19 +75,12 @@ export function CourseForm({
                 placeholder="Enter course name"
                 required
               />
-              {/* <FormField
-                name="courseType"
-                label="Course Type"
-                placeholder="e.g., Online, Offline, Hybrid"
-                required
-                type='select'
-              /> */}
               <FormSelect
                 name="courseType"
                 label="Course Type"
-                options={[  { value: 'Online', label: 'Online', labelAr: 'أونلاين' },
-                  { value: 'Offline', label: 'Offline', labelAr: 'محلية' },
-                  { value: 'Hybrid', label: 'Hybrid', labelAr: 'هجينة' }]}
+                options={[{ value: 'Online', label: 'Online', labelAr: 'أونلاين' },
+                { value: 'Offline', label: 'Offline', labelAr: 'محلية' },
+                { value: 'Hybrid', label: 'Hybrid', labelAr: 'هجينة' }]}
                 required
               />
             </div>
@@ -141,10 +164,52 @@ export function CourseForm({
                 placeholder="0"
                 required
               />
-              <FormField
+              <FormSelect
                 name="language"
                 label="Language"
-                placeholder="e.g., English, Arabic"
+                options={[{ value: 'English', label: 'English', labelAr: 'إنجليزي' },
+                { value: 'Arabic', label: 'Arabic', labelAr: 'عربي' }]}
+                required
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Departments & Trainers */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Departments & Trainers</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
+              <FormSelect
+                name="mainDebId"
+                label="Main Department"
+                options={mainDepsOptions}
+                required
+                onChange={(value: string) => {
+                  methods.setValue('mainDebId', value)
+                  methods.setValue('subDebId', '')
+                }}
+              />
+
+              <FormSelect
+                name="subDebId"
+                label="Sub Department"
+                options={subDepsOptions}
+                required
+                disabled={!mainDepId}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="trainers">Trainers *</Label>
+              <MultiSelect
+                options={trainersOptions}
+                selected={instructorIDs}
+                onChange={(selected) => methods.setValue('instructorIDs', selected)}
+                placeholder="Select trainers..."
+                searchPlaceholder="Search trainers..."
               />
             </div>
           </CardContent>
@@ -157,36 +222,27 @@ export function CourseForm({
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 md:grid-cols-2">
-              <div className="flex items-center space-x-2">
-                <Checkbox id="now" {...methods.register('now')} />
-                <Label htmlFor="now" className="cursor-pointer">Available Now</Label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox id="soon" {...methods.register('soon')} />
-                <Label htmlFor="soon" className="cursor-pointer">Coming Soon</Label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox id="recommended" {...methods.register('recommended')} />
-                <Label htmlFor="recommended" className="cursor-pointer">Recommended</Label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox id="mostSelling" {...methods.register('mostSelling')} />
-                <Label htmlFor="mostSelling" className="cursor-pointer">Best Seller</Label>
-              </div>
+              <FormCheckbox name="now" label="Available Now" />
+              <FormCheckbox name="soon" label="Coming Soon" />
+              <FormCheckbox name="recommended" label="Recommended" />
+              <FormCheckbox name="mostSelling" label="Best Seller" />
             </div>
           </CardContent>
         </Card>
+
+        {/* What Will You Learn */}
+        <WhatWillLearn
+          items={wwwl}
+          onChange={(items) => methods.setValue('wwwl', items)}
+        />
 
         {/* Media Files */}
         <Card>
           <CardHeader>
             <CardTitle>{isEdit ? 'Update Media Files' : 'Media Files'}</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
+          <CardContent className="space-y-4 flex md:flex-row flex-col gap-2 ">
+            <div className="space-y-2 flex-1">
               <Label htmlFor="image">
                 Course Image {isEdit && '(leave empty to keep current)'}
               </Label>
@@ -201,7 +257,7 @@ export function CourseForm({
               )}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 flex-1">
               <Label htmlFor="video">
                 Course Video {isEdit && '(leave empty to keep current)'}
               </Label>
@@ -216,7 +272,7 @@ export function CourseForm({
               )}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 flex-1">
               <Label htmlFor="pdf">
                 Course PDF {isEdit && '(leave empty to keep current)'}
               </Label>

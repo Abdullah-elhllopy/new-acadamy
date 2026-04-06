@@ -75,7 +75,10 @@ export const courseSchema = z.object({
   mainDebId: z.string().optional(),
   subDebId: z.string().optional(),
   instructorIDs: z.array(z.string()).optional(),
-  wwwlText: z.array(z.string()).optional(),
+  wwwl: z.array(z.object({
+    id: z.string(),
+    text: z.string()
+  })).optional(),
   now: z.boolean().optional(),
   soon: z.boolean().optional(),
   recommended: z.boolean().optional(),

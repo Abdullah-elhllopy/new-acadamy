@@ -25,6 +25,8 @@ interface FormSelectProps {
     options: SelectOption[]
     required?: boolean
     placeholder?: string
+    disabled?: boolean
+    onChange?: (value: string) => void
 }
 
 export function FormSelect({
@@ -33,7 +35,9 @@ export function FormSelect({
     labelAr,
     options,
     required,
-    placeholder = 'اختر...'
+    placeholder = 'اختر...',
+    disabled = false,
+    onChange
 }: FormSelectProps) {
     const { register, formState: { errors }, setValue, watch } = useFormContext()
     const error = errors[name]?.message as string
@@ -43,17 +47,21 @@ export function FormSelect({
 
     return (
         <div className="space-y-2 w-full">
-            <Label className="text-foreground w-full font-bold">
+            <Label className="text-foreground w-full  ">
                 {displayLabel}
                 {required && <span className="text-destructive mr-1">*</span>}
             </Label>
+            
             <Select
-                
+                disabled={disabled}
                 value={value}
-                onValueChange={(val) => setValue(name, val, { shouldValidate: true })}
+                onValueChange={(val) => {
+                    setValue(name, val, { shouldValidate: true })
+                    onChange?.(val)
+                }}
             >
-                <SelectTrigger className={cn(
-                    "h-11 border-border w-full",
+                <SelectTrigger style={{height:' calc(var(--spacing) * 11)'}} className={cn(
+                    "h-11   border-border w-full",
                     error && "border-destructive"
                 )}>
                     <SelectValue placeholder={placeholder} />

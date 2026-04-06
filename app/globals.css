@@ -217,7 +217,9 @@
 
 /* Force RTL on Radix UI components */
 [dir="rtl"] [data-slot="tabs"],
-[dir="rtl"] [data-radix-collection-item] {
+[dir="rtl"] [data-radix-collection-item],
+[dir="rtl"] [data-slot="select-trigger"] 
+{
   direction: rtl;
 }
 

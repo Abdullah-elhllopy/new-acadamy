@@ -13,6 +13,7 @@ import { CourseForm } from '../_components/course-form'
 export default function AddCoursePage() {
   const router = useRouter()
   const createCourse = useCreateCourse()
+
   const methods = useForm<CourseFormData>({
     mode: 'onSubmit',
     resolver: zodResolver(courseSchema),
@@ -29,6 +30,10 @@ export default function AddCoursePage() {
       numberOfWeeks: '',
       numberOfMonths: '',
       courseContent: '',
+      mainDebId: '',
+      subDebId: '',
+      instructorIDs: [],
+      wwwl: [],
       now: false,
       soon: false,
       recommended: false,
@@ -57,6 +62,21 @@ export default function AddCoursePage() {
     formData.append('Soon', data.soon ? 'true' : 'false')
     formData.append('Recommended', data.recommended ? 'true' : 'false')
     formData.append('MostSellenig', data.mostSelling ? 'true' : 'false')
+
+    if (data.mainDebId) formData.append('MainDebId', data.mainDebId)
+    if (data.subDebId) formData.append('SubDebId', data.subDebId)
+    
+    if (data.instructorIDs && data.instructorIDs.length > 0) {
+      data.instructorIDs.forEach(trainerId => {
+        formData.append('InstructorIDs', trainerId)
+      })
+    }
+
+    if (data.wwwl && data.wwwl.length > 0) {
+      data.wwwl.forEach(item => {
+        formData.append('WWWLText', item.text)
+      })
+    }
 
     if (data.image?.[0]) formData.append('img', data.image[0])
     if (data.video?.[0]) formData.append('vid', data.video[0])
