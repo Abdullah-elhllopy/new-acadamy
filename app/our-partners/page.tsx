@@ -3,6 +3,10 @@
 import { useLanguage } from '@/shared/hooks/useLanguage'
 import Partner from '@/components/cards/Partner'
 import { usePartners } from '@/hooks/api'
+import { ContentLayout ,Layout } from '@/layout/page-layout'
+import { Hero } from '@/components/sections/hero'
+import { TitleContainer } from '@/components/shared/title'
+import { DataStateHandler } from '@/components/shared/data-state-handler'
 // import { usePartners } from '@/hooks/api/use-partners'
 
 export const MOCK_PARTNERS = [
@@ -22,44 +26,37 @@ export const MOCK_PARTNERS = [
 
 export default function OurPartnersPage() {
   const { isArabic } = useLanguage()
-  const { data: partners, isLoading } = usePartners()
-  
+  const { data: partners, isLoading , error, refetch } = usePartners()
+
   // Use API data if available, otherwise fallback to mock data
   const displayPartners = partners && partners.length > 0 ? partners : MOCK_PARTNERS
 
   return (
-    <>
-      <section className="bg-linear-to-br from-primary/10 to-accent/10 py-16 md:py-24 border-b border-border">
-        <div className="container px-4 md:px-6">
-          <div className={`max-w-2xl `}>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              {isArabic ? 'شركاؤنا' : 'Our Partners'}
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              {isArabic
-                ? 'نفخر بشراكتنا مع أبرز المؤسسات والشركات الرائدة'
-                : 'We are proud to partner with leading organizations and companies'}
-            </p>
-          </div>
-        </div>
-      </section>
+    <Layout>
 
-      <section className="py-16 md:py-24">
-        <div className="container px-4 md:px-6">
-          {isLoading ? (
-            <div className="text-center py-12">Loading...</div>
-          ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {displayPartners.map((partner) => (
-                <Partner 
-                  key={partner.id} 
-                  name={'name' in partner ? partner.name : 'Mock Partner'} 
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+      <Hero breadcrumbItems={[
+        { label: 'الرئيسية', href: '/' },
+        { label: 'شركاؤنا', }
+      ]}   >
+        <TitleContainer title={isArabic ? 'شركاؤنا' : 'Our Partners'}
+          subtitle={isArabic
+            ? 'نفخر بشراكتنا مع أبرز المؤسسات والشركات الرائدة'
+            : 'We are proud to partner with leading organizations and companies'}
+        />
+      </Hero>
+      <ContentLayout>
+        <DataStateHandler isLoading={isLoading} error={error} onRetry={refetch} >
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {displayPartners.map((partner) => (
+              <Partner
+                key={partner.id}
+                name={'name' in partner ? partner.name : 'Mock Partner'}
+              />
+            ))}
+          </div>
+        </DataStateHandler>
+
+      </ContentLayout>
 
       <section className="bg-muted py-16">
         <div className="container px-4 md:px-6">
@@ -81,6 +78,6 @@ export default function OurPartnersPage() {
           </div>
         </div>
       </section>
-    </>
+    </Layout>
   )
 }

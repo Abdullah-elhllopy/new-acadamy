@@ -10,6 +10,9 @@ import {
   Presentation,
   Image as ImageIcon,
   Award,
+  Briefcase,
+  UserCheck,
+  FileText,
   type LucideIcon
 } from 'lucide-react'
 
@@ -87,6 +90,18 @@ export const dashboardNavigation: NavSection[] = [
         labelAr: 'فريقنا',
         href: '/dashboard/team'
       },
+      {
+        label: 'Advisory Board',
+        labelAr: 'المجلس الاستشاري',
+        href: '/dashboard/advisory-board',
+        icon: UserCheck
+      },
+      {
+        label: 'Static Pages',
+        labelAr: 'الصفحات الثابتة',
+        href: '/dashboard/static-pages',
+        icon: FileText
+      },
     ],
   },
   {
@@ -145,6 +160,12 @@ export const dashboardNavigation: NavSection[] = [
         label: 'Email Subscriptions',
         labelAr: 'القائمة البريدية',
         href: '/dashboard/requests/email-subscriptions'
+      },
+      {
+        label: 'Job Vacancies',
+        labelAr: 'الوظائف الشاغرة',
+        href: '/dashboard/vacancies',
+        icon: Briefcase
       },
     ],
   },

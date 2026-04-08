@@ -2,11 +2,15 @@ import { apiClient } from './client';
 import { endpoints } from './config';
 
 export interface MainDepartment {
-  mainDepartmentId?: string;
-  mainDepartmentName: string;
-  mainDepartmentDescription?: string;
-  mainDepartmentImage?: string;
+  // mainDepartmentId?: string;
+  // mainDepartmentName: string;
+  // mainDepartmentDescription?: string;
+  // mainDepartmentImage?: string;
   isActive?: boolean;
+  name : string;
+  departmentID ?:string;
+  description ?:string;
+  image : string;
 }
 
 export interface SubDepartment {
@@ -29,7 +33,7 @@ class DepartmentService {
   }
 
   async createMain(formData: FormData): Promise<MainDepartment> {
-    const response = await apiClient.postFormData<{ data: MainDepartment }>(endpoints.departments.createMain, formData);
+    const response = await apiClient.post<{ data: MainDepartment }>(endpoints.departments.createMain, formData);
     return response.data;
   }
 
@@ -58,7 +62,7 @@ class DepartmentService {
   }
 
   async createSub(formData: FormData): Promise<SubDepartment> {
-    const response = await apiClient.postFormData<{ data: SubDepartment }>(endpoints.departments.createSub, formData);
+    const response = await apiClient.post<{ data: SubDepartment }>(endpoints.departments.createSub, formData);
     return response.data;
   }
 

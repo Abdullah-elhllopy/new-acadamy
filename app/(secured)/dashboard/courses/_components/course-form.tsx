@@ -48,9 +48,9 @@ export function CourseForm({
   })) || []
 
   const mainDepsOptions = mainDepartments?.map(dep => ({
-    value: dep.mainDepartmentId || '',
-    label: dep.mainDepartmentName || '',
-    labelAr: dep.mainDepartmentName || ''
+    value: dep.departmentID || '',
+    label: dep.name || '',
+    labelAr: dep.name || ''
   })) || []
 
   const subDepsOptions = subDepartments?.map(dep => ({

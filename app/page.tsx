@@ -12,6 +12,10 @@ import { IntroVideoSection } from '@/components/sections/home/intro-video-sectio
 import { PDFDownloadSection } from '@/components/sections/home/pdf-download-section'
 import { WhatsAppButton } from '@/components/shared/whatsapp-button'
 import { CustomersCarousel } from '@/components/sections/home/customers-carousel'
+import { AcademyStats } from '@/components/sections/home/academy-stats'
+import { CourseCategoriesSection } from '@/components/sections/home/course-categories'
+import { FAQSection } from '@/components/sections/home/faq-section'
+import { JobVacancies } from '@/components/sections/home/job-vacancies'
 import RenderComponent from '@/components/performance/RenderComponent'
 import { Suspense } from 'react'
 
@@ -28,8 +32,14 @@ export default function Home() {
       </Suspense>
 
       <RenderComponent>
+        <CourseCategoriesSection />
+      </RenderComponent>
+
+      <RenderComponent>
         <IntroVideoSection />
       </RenderComponent>
+
+
 
       <RenderComponent>
         <TrainersSection />
@@ -38,7 +48,9 @@ export default function Home() {
       <RenderComponent>
         <OurPartners />
       </RenderComponent>
-
+      <RenderComponent>
+        <AcademyStats />
+      </RenderComponent>
       <RenderComponent>
         <Testimonials />
       </RenderComponent>
@@ -50,10 +62,19 @@ export default function Home() {
       <RenderComponent>
         <EmailSubscription />
       </RenderComponent>
-      
+
       <RenderComponent>
         <PDFDownloadSection />
       </RenderComponent>
+
+      <RenderComponent>
+        <FAQSection />
+      </RenderComponent>
+
+      <RenderComponent>
+        <JobVacancies />
+      </RenderComponent>
+
       <RenderComponent>
         <WhatsAppButton />
       </RenderComponent>

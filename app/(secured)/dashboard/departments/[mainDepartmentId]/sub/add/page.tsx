@@ -15,37 +15,43 @@ import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
 import { subDepartmentSchema, type SubDepartmentFormData } from '@/lib/validations'
 import Link from 'next/link'
+import { use } from 'react'
 
-export default function AddSubDepartmentPage({ params }: { params: { mainDepartmentId: string } }) {
-  const router = useRouter()
-  const { data: mainDepartment, isLoading: mainLoading } = useMainDepartment(params.mainDepartmentId)
+export default function AddSubDepartmentPage({ params }: { params: Promise<{ mainDepartmentId: string }> }) {
+  const router = useRouter();
+  const { mainDepartmentId } = use(params)
+  const { data: mainDepartment, isLoading: mainLoading } = useMainDepartment(mainDepartmentId)
   const createSubDepartment = useCreateSubDepartment()
-  
+
   const methods = useForm<SubDepartmentFormData>({
     mode: 'onSubmit',
     resolver: zodResolver(subDepartmentSchema),
     defaultValues: {
       subDepartmentName: '',
       subDepartmentDescription: '',
-      mainDepartmentId: params.mainDepartmentId,
+      mainDepartmentId: mainDepartmentId,
       isActive: true,
     },
   })
-
   const onSubmit = async (data: SubDepartmentFormData) => {
     const formData = new FormData()
-    
+    const form_Data = {
+      "name": data.subDepartmentName,
+      "mainDeptId": mainDepartmentId,
+      "description": data.subDepartmentDescription,
+      "isActive": data.isActive
+    }
     formData.append('name', data.subDepartmentName)
-    formData.append('departmentID', params.mainDepartmentId)
-    
+    formData.append('mainDeptId', mainDepartmentId)
+
     if (data.subDepartmentDescription) {
       formData.append('description', data.subDepartmentDescription)
     }
-    
+
     formData.append('isActive', data.isActive ? 'true' : 'false')
 
-    await createSubDepartment.mutateAsync(formData)
-    router.push(`/dashboard/departments/${params.mainDepartmentId}/sub`)
+    await createSubDepartment.mutateAsync(form_Data)
+    router.push(`/dashboard/departments/${mainDepartmentId}/sub`)
   }
 
   if (mainLoading) {
@@ -66,12 +72,12 @@ export default function AddSubDepartmentPage({ params }: { params: { mainDepartm
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Departments', href: '/dashboard/departments/main' },
           { label: 'Main Departments', href: '/dashboard/departments/main' },
-          { label: mainDepartment?.mainDepartmentName || 'Sub Departments', href: `/dashboard/departments/${params.mainDepartmentId}/sub` },
-          { label: 'Add', href: `/dashboard/departments/${params.mainDepartmentId}/sub/add` },
+          { label: mainDepartment?.name || 'Sub Departments', href: `/dashboard/departments/${mainDepartmentId}/sub` },
+          { label: 'Add', href: `/dashboard/departments/${mainDepartmentId}/sub/add` },
         ]}
-        title={`Add Sub Department - ${mainDepartment?.mainDepartmentName || ''}`}
+        title={`Add Sub Department `}
       >
-        <BackButton href={`/dashboard/departments/${params.mainDepartmentId}/sub`} text="Back to Sub Departments" />
+        <BackButton href={`/dashboard/departments/${mainDepartmentId}/sub`} text="Back to Sub Departments" />
       </DashboardHero>
 
       <ContentLayout>
@@ -98,10 +104,10 @@ export default function AddSubDepartmentPage({ params }: { params: { mainDepartm
                 />
 
                 <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="isActive" 
-                    {...methods.register('isActive')} 
-                    defaultChecked 
+                  <Checkbox
+                    id="isActive"
+                    {...methods.register('isActive')}
+                    defaultChecked
                   />
                   <Label htmlFor="isActive" className="cursor-pointer">
                     Active Sub Department
@@ -112,7 +118,7 @@ export default function AddSubDepartmentPage({ params }: { params: { mainDepartm
 
             <div className="flex justify-start gap-4">
               <Button type="button" variant="outline" asChild>
-                <Link href={`/dashboard/departments/${params.mainDepartmentId}/sub`}>Cancel</Link>
+                <Link href={`/dashboard/departments/${mainDepartmentId}/sub`}>Cancel</Link>
               </Button>
               <Button type="submit" disabled={createSubDepartment.isPending}>
                 {createSubDepartment.isPending ? 'Creating...' : 'Create Sub Department'}

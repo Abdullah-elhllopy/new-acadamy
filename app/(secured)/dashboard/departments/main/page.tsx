@@ -17,12 +17,12 @@ export default function MainDepartmentsPage() {
   const router = useRouter()
   const { data: departments, isLoading, error, refetch } = useMainDepartments()
   const deleteDepartment = useDeleteMainDepartment()
-  
+
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [selectedDepartment, setSelectedDepartment] = useState<MainDepartment | null>(null)
 
   const handleViewSub = (department: MainDepartment) => {
-    router.push(`/dashboard/departments/${department.mainDepartmentId}/sub`)
+    router.push(`/dashboard/departments/${department.departmentID}/sub`)
   }
 
   const handleDeleteClick = (department: MainDepartment) => {
@@ -31,8 +31,8 @@ export default function MainDepartmentsPage() {
   }
 
   const handleDeleteConfirm = async () => {
-    if (selectedDepartment?.mainDepartmentId) {
-      await deleteDepartment.mutateAsync(selectedDepartment.mainDepartmentId)
+    if (selectedDepartment?.departmentID) {
+      await deleteDepartment.mutateAsync(selectedDepartment.departmentID)
       setDeleteDialogOpen(false)
       setSelectedDepartment(null)
     }
@@ -41,18 +41,24 @@ export default function MainDepartmentsPage() {
   const columns: DataTableColumn<MainDepartment>[] = [
     {
       header: 'Department Name',
-      accessorKey: 'mainDepartmentName',
+      accessorKey: 'name',
+      cell: (dept) => (
+        <Link href={`/dashboard/departments/${dept.departmentID}/sub`}>
+          {dept.name}
+        </Link>
+
+      ),
     },
     {
       header: 'Description',
-      cell: (dept) => dept.mainDepartmentDescription || 'N/A',
+      cell: (dept) => dept.description || 'N/A',
     },
     {
       header: 'Status',
       cell: (dept) => (
-        <StatusBadge 
-          status={dept.isActive ? 'active' : 'inactive'} 
-          label={dept.isActive ? 'Active' : 'Inactive'} 
+        <StatusBadge
+          status={dept.isActive ? 'active' : 'inactive'}
+          label={dept.isActive ? 'Active' : 'Inactive'}
         />
       ),
     },
@@ -80,7 +86,7 @@ export default function MainDepartmentsPage() {
         <p className="text-sm text-muted-foreground mb-4">
           Select a main department to view its sub departments
         </p>
-        
+
         <DataTable
           data={departments || []}
           columns={columns}
@@ -111,7 +117,7 @@ export default function MainDepartmentsPage() {
         onOpenChange={setDeleteDialogOpen}
         onConfirm={handleDeleteConfirm}
         title="Delete Main Department"
-        description={`Are you sure you want to delete "${selectedDepartment?.mainDepartmentName}"? This will also delete all sub departments under it. This action cannot be undone.`}
+        description={`Are you sure you want to delete "${selectedDepartment?.name}"? This will also delete all sub departments under it. This action cannot be undone.`}
         isLoading={deleteDepartment.isPending}
       />
     </>

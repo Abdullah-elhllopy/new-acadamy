@@ -30,22 +30,27 @@ export default function AddMainDepartmentPage() {
   })
 
   const onSubmit = async (data: MainDepartmentFormData) => {
-    const formData = new FormData()
-    
-    formData.append('name', data.mainDepartmentName)
-    formData.append('departmentID', '3fa85f64-5717-4562-b3fc-2c963f66afa6')
-    
-    if (data.mainDepartmentDescription) {
-      formData.append('description', data.mainDepartmentDescription)
+    // const formData = new FormData()
+    const form_Data = {
+      "name": data.mainDepartmentName,
+      "mainDeptId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "description": data.mainDepartmentDescription,
+      "isActive": data.isActive
     }
-    
-    formData.append('isActive', data.isActive ? 'true' : 'false')
+    // formData.append('name', data.mainDepartmentName)
+    // formData.append('mainDeptId', '3fa85f64-5717-4562-b3fc-2c963f66afa6')
 
-    if (data.image?.[0]) {
-      formData.append('image', data.image[0])
-    }
+    // if (data.mainDepartmentDescription) {
+    //   formData.append('description', data.mainDepartmentDescription)
+    // }
 
-    await createDepartment.mutateAsync(formData)
+    // formData.append('isActive', data.isActive ? 'true' : 'false')
+
+    // if (data.image?.[0]) {
+    //   formData.append('image', data.image[0])
+    // }
+
+    await createDepartment.mutateAsync(form_Data)
     router.push('/dashboard/departments/main')
   }
 
@@ -97,10 +102,10 @@ export default function AddMainDepartmentPage() {
                 </div>
 
                 <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="isActive" 
-                    {...methods.register('isActive')} 
-                    defaultChecked 
+                  <Checkbox
+                    id="isActive"
+                    {...methods.register('isActive')}
+                    defaultChecked
                   />
                   <Label htmlFor="isActive" className="cursor-pointer">
                     Active Department

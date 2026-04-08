@@ -59,7 +59,7 @@ export function useCreateMainDepartment() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (formData: FormData) => departmentService.createMain(formData),
+    mutationFn: (formData: any) => departmentService.createMain(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: DEPARTMENT_KEYS.main.lists() });
       toast.success('Main department created successfully');
@@ -104,7 +104,7 @@ export function useCreateSubDepartment() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (formData: FormData) => departmentService.createSub(formData),
+    mutationFn: (formData: any) => departmentService.createSub(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: DEPARTMENT_KEYS.sub.lists() });
       queryClient.invalidateQueries({ queryKey: [...DEPARTMENT_KEYS.all, 'sub', 'by-main'] });

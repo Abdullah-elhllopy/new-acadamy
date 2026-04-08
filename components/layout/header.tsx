@@ -51,6 +51,11 @@ export function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
+                  <Link href="/advisory-board" className="w-full cursor-pointer">
+                    {currentLang.value === 'ar' ? 'المجلس الاستشاري' : 'Advisory Board'}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Link href="/our-partners" className="w-full cursor-pointer">
                     {t('ourPartners')}
                   </Link>
@@ -60,7 +65,22 @@ export function Header() {
                     {t('ourCustomers')}
                   </Link>
                 </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild>
+                  <Link href="/our-methodology" className="w-full cursor-pointer">
+                    {currentLang.value === 'ar' ? 'منهجيتنا' : 'Our Methodology'}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/consulting-services" className="w-full cursor-pointer">
+                    {currentLang.value === 'ar' ? 'الخدمات الاستشارية' : 'Consulting Services'}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/fields-of-work" className="w-full cursor-pointer">
+                    {currentLang.value === 'ar' ? 'مجالات العمل' : 'Fields of Work'}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Link href="/articles" className="w-full cursor-pointer">
                     {t('articles')}
                   </Link>
@@ -132,6 +152,11 @@ export function Header() {
                     {t('beTrainer')}
                   </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/careers" className="w-full cursor-pointer">
+                    {currentLang.value === 'ar' ? 'الوظائف' : 'Careers'}
+                  </Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </nav>
@@ -182,6 +207,12 @@ export function Header() {
                   </Link>
                   <Link href="/be-trainer" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
                     {t('beTrainer')}
+                  </Link>
+                  <Link href="/careers" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
+                    {currentLang.value === 'ar' ? 'الوظائف' : 'Careers'}
+                  </Link>
+                  <Link href="/consulting-services" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
+                    {currentLang.value === 'ar' ? 'الخدمات الاستشارية' : 'Consulting Services'}
                   </Link>
                   <Button
                     className="rounded-full h-11 bg-primary hover:bg-secondary text-white font-medium mt-4"

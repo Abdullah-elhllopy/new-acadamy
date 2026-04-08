@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { use, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus, ArrowLeft } from 'lucide-react'
 import { useSubDepartmentsByMain, useDeleteSubDepartment, useMainDepartment } from '@/hooks/api'
@@ -14,10 +14,11 @@ import { Skeleton } from '@/components/ui/skeleton'
 import Link from 'next/link'
 import type { SubDepartment } from '@/services/api'
 
-export default function SubDepartmentsPage({ params }: { params: { mainDepartmentId: string } }) {
-  const router = useRouter()
-  const { data: mainDepartment, isLoading: mainLoading } = useMainDepartment(params.mainDepartmentId)
-  const { data: subDepartments, isLoading } = useSubDepartmentsByMain(params.mainDepartmentId)
+export default function SubDepartmentsPage({ params }: { params: Promise<{ mainDepartmentId: string }> }) {
+  const router = useRouter();
+  const {mainDepartmentId} = use(params)
+  const { data: mainDepartment, isLoading: mainLoading } = useMainDepartment(mainDepartmentId)
+  const { data: subDepartments, isLoading } = useSubDepartmentsByMain(mainDepartmentId)
   const deleteSubDepartment = useDeleteSubDepartment()
   
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
@@ -74,14 +75,14 @@ export default function SubDepartmentsPage({ params }: { params: { mainDepartmen
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Departments', href: '/dashboard/departments/main' },
           { label: 'Main Departments', href: '/dashboard/departments/main' },
-          { label: mainDepartment?.mainDepartmentName || 'Sub Departments', href: `/dashboard/departments/${params.mainDepartmentId}/sub` },
+          { label: mainDepartment?.name || 'Sub Departments', href: `/dashboard/departments/${mainDepartmentId}/sub` },
         ]}
-        title={`Sub Departments - ${mainDepartment?.mainDepartmentName || ''}`}
+        title={`Sub Departments `}
       >
         <div className="flex gap-2">
           <BackButton href="/dashboard/departments/main" text="Back to Main Departments" />
           <Button asChild>
-            <Link href={`/dashboard/departments/${params.mainDepartmentId}/sub/add`}>
+            <Link href={`/dashboard/departments/${mainDepartmentId}/sub/add`}>
               <Plus className="mr-2 h-4 w-4" />
               Add Sub Department
             </Link>
@@ -102,7 +103,7 @@ export default function SubDepartmentsPage({ params }: { params: { mainDepartmen
             description: 'Get started by creating your first sub department',
             action: {
               label: 'Add Sub Department',
-              href: `/dashboard/departments/${params.mainDepartmentId}/sub/add`,
+              href: `/dashboard/departments/${mainDepartmentId}/sub/add`,
             },
           }}
         />
