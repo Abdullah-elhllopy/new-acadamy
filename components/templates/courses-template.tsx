@@ -19,6 +19,7 @@ import Loader from '../shared/loader/loader'
 import { Hero } from '../sections/hero'
 import { ContentLayout, Layout } from '@/layout/page-layout'
 import { TitleContainer } from '../shared/title'
+import { DataStateHandler } from '../shared/data-state-handler'
 
 interface CoursesTemplateProps {
   type: 'presence' | 'online' | 'live'
@@ -85,7 +86,7 @@ export function CoursesTemplate({
       {/* Header Section */}
       <Hero breadcrumbItems={breadcrumbs}>
         <React.Fragment>
-          <TitleContainer title={isArabic ? title.ar : title.en} subtitle={isArabic ? description.ar : description.en}/>
+          <TitleContainer title={isArabic ? title.ar : title.en} subtitle={isArabic ? description.ar : description.en} />
 
 
           <Tabs
@@ -100,11 +101,11 @@ export function CoursesTemplate({
 
               {departments.map(dept => (
                 <TabsTrigger
-                  key={dept.id}
-                  value={dept.id}
+                  key={dept.departmentID}
+                  value={`${dept.departmentID}`}
                   className="rounded-full bg-background max-w-fit"
                 >
-                  <span suppressHydrationWarning>{isArabic ? dept.nameAr : dept.name}</span>
+                  <span suppressHydrationWarning>{dept.name}</span>
                 </TabsTrigger>
               ))}
             </TabsList>
@@ -187,33 +188,34 @@ export function CoursesTemplate({
         </div>
 
         {/* Courses Grid */}
-        {loading ? (
-          <Loader />
-        ) : filteredCourses.length > 0 ? (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {filteredCourses.map((course) => (
-                <ProgramCard
-                  key={course.id}
-                  program={course}
-                  language={isArabic ? 'ar' : 'en'}
-                />
-              ))}
-            </div>
+        <DataStateHandler listLoaderProps = {{showHeader : false , showFilters : false ,}} isLoading={loading} >
+          {filteredCourses.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                {filteredCourses.map((course) => (
+                  <ProgramCard
+                    key={course.id}
+                    program={course}
+                    language={isArabic ? 'ar' : 'en'}
+                  />
+                ))}
+              </div>
 
-            {/* Pagination */}
-            {pagination.totalPages > 1 && (
-              <Pagination
-                currentPage={pagination.page}
-                totalPages={pagination.totalPages}
-                onPageChange={setPage}
-              />
-            )}
-          </>
-        ) : (
-          <EmptyState title={'مسح البحث'} description={''}            // type={searchQuery ? 'no-results' : 'no-courses'}
-          />
-        )}
+              {/* Pagination */}
+              {pagination.totalPages > 1 && (
+                <Pagination
+                  currentPage={pagination.page}
+                  totalPages={pagination.totalPages}
+                  onPageChange={setPage}
+                />
+              )}
+            </>
+          ) : (
+            <EmptyState title={'مسح البحث'} description={''}            // type={searchQuery ? 'no-results' : 'no-courses'}
+            />
+          )}
+        </DataStateHandler>
+
       </ContentLayout>
     </Layout>
   )

@@ -5,13 +5,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { Program, Trainer } from '@/shared/types'
 import { useCourses as useCoursesAPI, useCoursesFilterByBool } from '@/hooks/api/use-courses'
 import { useMainDepartments, useSubDepartmentsByMain } from '@/hooks/api/use-departments'
-
-export interface Department {
-    id: string
-    name: string
-    nameAr: string
-    icon?: string
-}
+import { MainDepartment, SubDepartment } from '@/services/api'
 
 export interface PaginationParams {
     page: number
@@ -35,8 +29,8 @@ interface UseCoursesOptions {
 
 interface UseCoursesReturn {
     courses: Program[]
-    departments: Department[]
-    subDepartments: Department[]
+    departments: MainDepartment[]
+    subDepartments: SubDepartment[]
     loading: boolean
     error: Error | null
     pagination: PaginationParams & { totalPages: number }
@@ -62,8 +56,8 @@ export function useCourses({ type, initialFilters }: UseCoursesOptions): UseCour
 
     // Fetch all courses (we'll filter by type client-side)
     const { data: coursesData, isLoading: coursesLoading, error: coursesError } = useCoursesAPI()
-    const { data: departmentsData, isLoading: deptLoading } = useMainDepartments()
-    const { data: subDepartmentsData, isLoading: subDeptLoading } = useSubDepartmentsByMain(activeDepartment || '')
+    const { data: departments, isLoading: deptLoading } = useMainDepartments()
+    const { data: subDepartments, isLoading: subDeptLoading } = useSubDepartmentsByMain(activeDepartment || '')
 
     // Transform API data
     const courses = useMemo(() => {
@@ -124,26 +118,6 @@ export function useCourses({ type, initialFilters }: UseCoursesOptions): UseCour
         } as Program))
     }, [coursesData, activeDepartment, activeSubDepartment, type])
 
-    const departments = useMemo(() => {
-        if (!departmentsData || !Array.isArray(departmentsData)) return []
-        return departmentsData.map((dept: any) => ({
-            id: dept.departmentID || dept.id,
-            name: dept.name,
-            nameAr: dept.name,
-            icon: undefined
-        }))
-    }, [departmentsData])
-
-    const subDepartments = useMemo(() => {
-        if (!subDepartmentsData || !Array.isArray(subDepartmentsData)) return []
-        return subDepartmentsData.map((dept: any) => ({
-            id: dept.subDepartmentId || dept.id,
-            name: dept.subDepartmentName || dept.name,
-            nameAr: dept.subDepartmentName || dept.name
-        }))
-    }, [subDepartmentsData])
-
-    // Update pagination total
     useEffect(() => {
         setPagination(prev => ({ ...prev, total: courses.length }))
     }, [courses.length])
@@ -185,8 +159,8 @@ export function useCourses({ type, initialFilters }: UseCoursesOptions): UseCour
 
     return {
         courses,
-        departments,
-        subDepartments,
+        departments : departments || [],
+        subDepartments :subDepartments || [],
         loading,
         error,
         pagination: {
