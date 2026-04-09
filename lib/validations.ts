@@ -227,27 +227,6 @@ export const sliderSchema = z.object({
 
 export type SliderFormData = z.infer<typeof sliderSchema>
 
-export const aboutUsSchema = z.object({
-  name: z.string().min(2, 'Company name is required'),
-  email: z.string().email('Invalid email address'),
-  phone: z.string().min(5, 'Phone is required'),
-  aboutUs: z.string().min(10, 'About us text is required'),
-  address: z.string().min(2, 'Address is required'),
-  ourVision: z.string().optional(),
-  ourMessage: z.string().optional(),
-  workingHours: z.string().optional(),
-  workingFrom: z.string().optional(),
-  workingTo: z.string().optional(),
-  link: z.string().optional(),
-  facebook: z.string().optional(),
-  linkedin: z.string().optional(),
-  twitter: z.string().optional(),
-  instgram: z.string().optional(),
-  image: z.any().optional(),
-  pdf: z.any().optional(),
-})
-
-export type AboutUsFormData = z.infer<typeof aboutUsSchema>
 
 export const teamMemberSchema = z.object({
   name: z.string().min(2, 'Name is required'),

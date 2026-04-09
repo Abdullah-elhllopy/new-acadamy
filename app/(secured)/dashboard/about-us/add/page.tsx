@@ -3,50 +3,48 @@
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowLeft } from 'lucide-react'
 import { useAddAboutUs } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
-import { DashboardHero, Hero } from '@/components/sections/hero'
-import { BackButton, Button } from '@/components/ui/button'
+import { DashboardHero } from '@/components/sections/hero'
+import { BackButton } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { aboutUsSchema, type AboutUsFormData } from '@/lib/validations'
-import Link from 'next/link'
+import { AboutUs, OurValue } from '@/services/api'
+import { AboutUsForm } from '@/components/forms/AboutUsForm'
+import { aboutUsSchema } from '@/lib/validations/about-us'
 
 export default function AddAboutUsPage() {
   const router = useRouter()
   const addAboutUs = useAddAboutUs()
 
-  const form = useForm<AboutUsFormData>({
+  const form = useForm<AboutUs>({
     resolver: zodResolver(aboutUsSchema),
     defaultValues: {
       name: '', email: '', phone: '', aboutUs: '', address: '',
-      ourVision: '', ourMessage: '', workingHours: '', workingFrom: '', workingTo: '', link: '',
+      ourVision: '', ourMessage: '', workingHours: '',
       facebook: 'https://', linkedin: 'https://', twitter: 'https://', instgram: 'https://',
     },
   })
 
-  const onSubmit = async (data: AboutUsFormData) => {
+  const onSubmit = async (data: AboutUs, ourValues: OurValue[]) => {
     const formData = new FormData()
     formData.append('Name', data.name)
-    formData.append('Email', data.email)
     formData.append('Phone', data.phone)
+    formData.append('Email', data.email)
     formData.append('AboutUs', data.aboutUs)
     formData.append('Address', data.address)
     if (data.ourVision) formData.append('OurVision', data.ourVision)
     if (data.ourMessage) formData.append('OurMessage', data.ourMessage)
     if (data.workingHours) formData.append('WorkingHours', data.workingHours)
-    if (data.workingFrom) formData.append('WorkingFrom', data.workingFrom)
-    if (data.workingTo) formData.append('WorkingTo', data.workingTo)
-    if (data.link) formData.append('Link', data.link)
-    if (data.facebook) formData.append('Facebook', data.facebook)
     if (data.linkedin) formData.append('Linkedin', data.linkedin)
+    if (data.facebook) formData.append('Facebook', data.facebook)
     if (data.twitter) formData.append('Twitter', data.twitter)
     if (data.instgram) formData.append('Instgram', data.instgram)
     if (data.image?.[0]) formData.append('Imagefile', data.image[0])
     if (data.pdf?.[0]) formData.append('PdfFile', data.pdf[0])
+    
+    ourValues.forEach(item => {
+      formData.append('OurValues', JSON.stringify(item))
+    })
 
     await addAboutUs.mutateAsync(formData)
     router.push('/dashboard/about-us')
@@ -68,97 +66,12 @@ export default function AddAboutUsPage() {
       <ContentLayout>
         <Card>
           <CardContent className="pt-6">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {(
-                    [
-                      { name: 'name', label: 'Company Name' },
-                      { name: 'email', label: 'Email', type: 'email' },
-                      { name: 'phone', label: 'Phone' },
-                      { name: 'address', label: 'Address' },
-                      { name: 'ourVision', label: 'Vision' },
-                      { name: 'ourMessage', label: 'Message' },
-                      { name: 'workingHours', label: 'Working Hours' },
-                      { name: 'workingFrom', label: 'Working From (Time)' },
-                      { name: 'workingTo', label: 'Working To (Time)' },
-                      { name: 'link', label: 'Website Link' },
-                      { name: 'facebook', label: 'Facebook' },
-                      { name: 'linkedin', label: 'LinkedIn' },
-                      { name: 'twitter', label: 'Twitter' },
-                      { name: 'instgram', label: 'Instagram' },
-                    ] as { name: keyof AboutUsFormData; label: string; type?: string }[]
-                  ).map(({ name, label, type }) => (
-                    <FormField
-                      key={name}
-                      control={form.control}
-                      name={name}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{label}</FormLabel>
-                          <FormControl>
-                            <Input type={type || 'text'} {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  ))}
-                </div>
-
-                <FormField
-                  control={form.control}
-                  name="aboutUs"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>About Us</FormLabel>
-                      <FormControl>
-                        <Textarea rows={4} {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <FormField
-                    control={form.control}
-                    name="image"
-                    render={({ field: { value, onChange, ...field } }) => (
-                      <FormItem>
-                        <FormLabel>Company Logo</FormLabel>
-                        <FormControl>
-                          <Input type="file" accept="image/*" onChange={(e) => onChange(e.target.files)} {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="pdf"
-                    render={({ field: { value, onChange, ...field } }) => (
-                      <FormItem>
-                        <FormLabel>Profile PDF</FormLabel>
-                        <FormControl>
-                          <Input type="file" accept=".pdf" onChange={(e) => onChange(e.target.files)} {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="flex justify-start gap-4">
-                  <Button type="button" variant="outline" asChild>
-                    <Link href="/dashboard/about-us">Cancel</Link>
-                  </Button>
-                  <Button type="submit" disabled={addAboutUs.isPending}>
-                    {addAboutUs.isPending ? 'Saving...' : 'Add Info'}
-                  </Button>
-                </div>
-              </form>
-            </Form>
+            <AboutUsForm
+              form={form}
+              onSubmit={onSubmit}
+              isSubmitting={addAboutUs.isPending}
+              submitText="اضافة"
+            />
           </CardContent>
         </Card>
       </ContentLayout>

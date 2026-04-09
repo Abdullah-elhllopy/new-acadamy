@@ -10,6 +10,7 @@ import { Hero } from '@/components/sections/hero'
 import { Title } from '@/components/shared/title'
 import { useAboutUs } from '@/hooks/api/use-about-us'
 import { ABOUT_US_DATA } from '@/data/about-data'
+import { AcademyStats } from '@/components/sections/home/academy-stats'
 
 interface ValueCardProps {
   title: string
@@ -161,7 +162,7 @@ export default function AboutUsPage() {
         </div>
       </ContentLayout>
 
-      <ContentLayout className="py-12">
+      {/* <ContentLayout className="py-12">
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -189,7 +190,8 @@ export default function AboutUsPage() {
             </div>
           ))}
         </section>
-      </ContentLayout>
+      </ContentLayout> */}
+      <AcademyStats />
     </Layout>
   )
 }

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { aboutUsService, Value } from '@/services/api';
+import { aboutUsService, OurValue } from '@/services/api';
 import { toast } from 'sonner';
 
 export const ABOUT_US_KEYS = {
@@ -48,7 +48,7 @@ export function useAddValue() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (value: Value) => aboutUsService.addValue(value),
+    mutationFn: (value: OurValue) => aboutUsService.addValue(value),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ABOUT_US_KEYS.detail() });
       toast.success('Value added successfully');

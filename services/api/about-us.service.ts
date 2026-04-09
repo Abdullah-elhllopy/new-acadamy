@@ -3,7 +3,7 @@ import { endpoints } from './config';
 
 export interface AboutUs {
   id?: string;
-  phone?: string;
+  phone: string;
   email: string;
   aboutUs: string;
   pdf?: string;
@@ -18,14 +18,15 @@ export interface AboutUs {
   ourMessage?: string;
   workingFrom?: number;
   workingTo?: number;
-  address?: string;
+  address: string;
   workingHours?: string;
-  ourValues?: Value[];
+  ourValues?: OurValue[];
 }
 
-export interface Value {
-  title?: string;
-  description?: string;
+export interface OurValue {
+  id:number;
+  title: string;
+  description: string;
 }
 
 class AboutUsService {
@@ -41,7 +42,7 @@ class AboutUsService {
     return apiClient.postFormData<AboutUs>(endpoints.aboutUs.update, formData);
   }
 
-  async addValue(value: Value): Promise<void> {
+  async addValue(value: OurValue): Promise<void> {
     const formData = new FormData();
     if (value.title) formData.append('Title', value.title);
     if (value.description) formData.append('Description', value.description);
