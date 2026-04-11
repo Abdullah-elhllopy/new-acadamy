@@ -13,6 +13,10 @@ import {
   Briefcase,
   UserCheck,
   FileText,
+  Search,
+  Settings,
+  FileCode,
+  BarChart3,
   type LucideIcon
 } from 'lucide-react'
 
@@ -206,6 +210,44 @@ export const dashboardNavigation: NavSection[] = [
         label: 'Manage Learning Outcomes',
         labelAr: 'إدارة مخرجات التعلم',
         href: '/dashboard/lectures/add-what-will-learn'
+      },
+    ],
+  },
+  {
+    id: 'seo-analytics',
+    label: 'SEO & Analytics',
+    labelAr: 'تحسين محركات البحث والتحليلات',
+    icon: Search,
+    items: [
+      {
+        label: 'SEO Manager',
+        labelAr: 'إدارة تحسين محركات البحث',
+        href: '/dashboard/seo',
+        icon: Search
+      },
+      {
+        label: 'Content Manager',
+        labelAr: 'إدارة المحتوى',
+        href: '/dashboard/content',
+        icon: FileText
+      },
+      {
+        label: 'Sitemap',
+        labelAr: 'خريطة الموقع',
+        href: '/dashboard/sitemap',
+        icon: FileCode
+      },
+      {
+        label: 'Robots.txt',
+        labelAr: 'ملف Robots',
+        href: '/dashboard/robots',
+        icon: FileCode
+      },
+      {
+        label: 'Analytics Settings',
+        labelAr: 'إعدادات التحليلات',
+        href: '/dashboard/settings/analytics',
+        icon: BarChart3
       },
     ],
   }
