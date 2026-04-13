@@ -4,25 +4,27 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useTranslate } from '@/locales/use-locales'
+import { useAuth } from '@/shared/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { toast } from 'sonner'
-import { Mail, Lock, User, Building2, ArrowRight } from 'lucide-react'
+import { Mail, Lock, User, Building2, ArrowRight, Phone } from 'lucide-react'
 import { UserRole } from '@/shared/constants/roles'
 
 export default function SignupPage() {
   const router = useRouter()
   const { t } = useTranslate('signup')
-  const [isLoading, setIsLoading] = useState(false)
+  const { register, isLoading } = useAuth()
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
+    phone: '',
     role: UserRole.TRAINEE,
     company: '',
   })
@@ -56,17 +58,26 @@ export default function SignupPage() {
       return
     }
 
-    setIsLoading(true)
     try {
-      // Simulate signup
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      const result = await register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+        phone: formData.phone,
+        role: formData.role,
+      })
       
-      toast.success(t('success.accountCreated'))
-      router.push('/login')
+      if (result.success) {
+        toast.success(t('success.accountCreated'))
+        setTimeout(() => {
+          router.push('/login')
+        }, 500)
+      } else {
+        toast.error(result.error || t('errors.accountCreationFailed'))
+      }
     } catch (err) {
       toast.error(t('errors.accountCreationFailed'))
-    } finally {
-      setIsLoading(false)
     }
   }
 

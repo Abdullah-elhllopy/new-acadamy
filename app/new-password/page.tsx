@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useLanguage } from '@/shared/hooks/useLanguage'
+import { useAuth } from '@/shared/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form, FormField } from '@/components/forms'
@@ -16,18 +17,50 @@ export default function NewPasswordPage() {
   const { language } = useLanguage()
   const isArabic = language === 'ar'
   const router = useRouter()
+  const { resetPassword } = useAuth()
   const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState('')
+  const [code, setCode] = useState('')
   const methods = useForm<NewPasswordData>({
     resolver: zodResolver(newPasswordSchema)
   })
 
+  useEffect(() => {
+    // Get email and code from sessionStorage
+    const storedEmail = sessionStorage.getItem('reset_email')
+    const storedCode = sessionStorage.getItem('reset_code')
+    
+    if (!storedEmail || !storedCode) {
+      toast.error(isArabic ? 'الرجاء إكمال خطوات استعادة كلمة المرور' : 'Please complete password recovery steps')
+      router.push('/forget-password')
+      return
+    }
+    
+    setEmail(storedEmail)
+    setCode(storedCode)
+  }, [router, isArabic])
+
   const handleSubmit = async (data: NewPasswordData) => {
     setLoading(true)
-    setTimeout(() => {
-      toast.success(isArabic ? 'تم تغيير كلمة المرور بنجاح' : 'Password changed successfully')
-      router.push('/confirmation-message')
+    try {
+      const result = await resetPassword(email, code, data.newPassword, data.confirmPassword)
+      
+      if (result.success) {
+        toast.success(isArabic ? 'تم تغيير كلمة المرور بنجاح' : 'Password changed successfully')
+        // Clear sessionStorage
+        sessionStorage.removeItem('reset_email')
+        sessionStorage.removeItem('reset_code')
+        setTimeout(() => {
+          router.push('/login')
+        }, 500)
+      } else {
+        toast.error(result.error || (isArabic ? 'فشل تغيير كلمة المرور' : 'Failed to change password'))
+      }
+    } catch (err) {
+      toast.error(isArabic ? 'حدث خطأ ما' : 'Something went wrong')
+    } finally {
       setLoading(false)
-    }, 1000)
+    }
   }
 
   return (

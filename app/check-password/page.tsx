@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useLanguage } from '@/shared/hooks/useLanguage'
+import { useAuth } from '@/shared/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -14,18 +15,47 @@ export default function CheckPasswordPage() {
   const { language } = useLanguage()
   const isArabic = language === 'ar'
   const router = useRouter()
-  const [tempPassword, setTempPassword] = useState('')
+  const { checkCode } = useAuth()
+  const [code, setCode] = useState('')
+  const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
+  const [tempPassword , setTempPassword] = useState('')
+  useEffect(() => {
+    // Get email from sessionStorage
+    const storedEmail = sessionStorage.getItem('reset_email')
+    if (!storedEmail) {
+      toast.error(isArabic ? 'الرجاء البدء من صفحة نسيت كلمة المرور' : 'Please start from forgot password page')
+      router.push('/forget-password')
+      return
+    }
+    setEmail(storedEmail)
+  }, [router, isArabic])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
+    
+    if (!code) {
+      toast.error(isArabic ? 'الرجاء إدخال رمز التحقق' : 'Please enter verification code')
+      return
+    }
 
-    setTimeout(() => {
-      toast.success(isArabic ? 'تم التحقق بنجاح' : 'Verification successful')
-      router.push('/new-password')
+    setLoading(true)
+    try {
+      const result = await checkCode(email, code)
+      
+      if (result.success) {
+        toast.success(isArabic ? 'تم التحقق بنجاح' : 'Verification successful')
+        // Store code for next step
+        sessionStorage.setItem('reset_code', code)
+        router.push('/new-password')
+      } else {
+        toast.error(result.error || (isArabic ? 'رمز التحقق غير صحيح' : 'Invalid verification code'))
+      }
+    } catch (err) {
+      toast.error(isArabic ? 'حدث خطأ ما' : 'Something went wrong')
+    } finally {
       setLoading(false)
-    }, 1000)
+    }
   }
 
   return (

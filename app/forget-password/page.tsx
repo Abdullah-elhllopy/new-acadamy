@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useLanguage } from '@/shared/hooks/useLanguage'
+import { useAuth } from '@/shared/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form, FormField } from '@/components/forms'
@@ -16,6 +17,7 @@ export default function ForgetPasswordPage() {
   const { language } = useLanguage()
   const isArabic = language === 'ar'
   const router = useRouter()
+  const { forgotPassword } = useAuth()
   const [loading, setLoading] = useState(false)
   const methods = useForm<ForgetPasswordData>({
     resolver: zodResolver(forgetPasswordSchema)
@@ -23,11 +25,22 @@ export default function ForgetPasswordPage() {
 
   const handleSubmit = async (data: ForgetPasswordData) => {
     setLoading(true)
-    setTimeout(() => {
-      toast.success(isArabic ? 'تم إرسال رابط إعادة تعيين كلمة المرور' : 'Password reset link sent')
-      router.push('/check-password')
+    try {
+      const result = await forgotPassword(data.email)
+      
+      if (result.success) {
+        toast.success(isArabic ? 'تم إرسال رمز التحقق إلى بريدك الإلكتروني' : 'Verification code sent to your email')
+        // Store email in sessionStorage for next step
+        sessionStorage.setItem('reset_email', data.email)
+        router.push('/check-password')
+      } else {
+        toast.error(result.error || (isArabic ? 'فشل إرسال رمز التحقق' : 'Failed to send verification code'))
+      }
+    } catch (err) {
+      toast.error(isArabic ? 'حدث خطأ ما' : 'Something went wrong')
+    } finally {
       setLoading(false)
-    }, 1000)
+    }
   }
 
   return (

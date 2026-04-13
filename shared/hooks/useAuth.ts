@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { User } from '@/shared/types'
 import { UserRole, ROLE_PERMISSIONS } from '@/shared/constants/roles'
+import { UserService } from '@/services/api/user.service'
 
 interface AuthState {
   user: User | null
@@ -35,7 +36,9 @@ export const useAuth = () => {
           error: null,
         })
       } catch (err) {
-        console.log('[v0] Failed to parse stored user data')
+        console.log('[Auth] Failed to parse stored user data')
+        localStorage.removeItem('auth_token')
+        localStorage.removeItem('auth_user')
         setAuth((prev) => ({ ...prev, isLoading: false }))
       }
     } else {
@@ -48,23 +51,28 @@ export const useAuth = () => {
   const login = async (email: string, password: string) => {
     setAuth((prev) => ({ ...prev, isLoading: true, error: null }))
     try {
-      // Mock login - replace with actual API call
-      const mockUser: User = {
-        id: '1',
-        email,
-        name: email.split('@')[0],
-        role: UserRole.TRAINEE,
+      const response = await UserService.login({
+        userEmail: email,
+        userPassword: password,
+      })
+      
+      // Map API user to app user format
+      const user: User = {
+        id: response.user.id,
+        email: response.user.userEmail,
+        name: response.user.userFullName,
+        role: (response.user.type as UserRole) || UserRole.TRAINEE,
+        phone: response.user.userPhone,
         createdAt: new Date(),
         updatedAt: new Date(),
       }
-      const mockToken = 'mock-token-' + Date.now()
       
-      localStorage.setItem('auth_token', mockToken)
-      localStorage.setItem('auth_user', JSON.stringify(mockUser))
+      localStorage.setItem('auth_token', response.token)
+      localStorage.setItem('auth_user', JSON.stringify(user))
       
       setAuth({
-        user: mockUser,
-        token: mockToken,
+        user,
+        token: response.token,
         isLoading: false,
         error: null,
       })
@@ -77,6 +85,73 @@ export const useAuth = () => {
         isLoading: false,
         error: errorMessage,
       }))
+      return { success: false, error: errorMessage }
+    }
+  }
+
+  const register = async (data: {
+    name: string
+    email: string
+    password: string
+    confirmPassword: string
+    phone?: string
+    role?: string
+  }) => {
+    setAuth((prev) => ({ ...prev, isLoading: true, error: null }))
+    try {
+      await UserService.register({
+        userFullName: data.name,
+        userEmail: data.email,
+        userPassword: data.password,
+        userConfirmPassword: data.confirmPassword,
+        userPhone: data.phone,
+        type: data.role,
+      })
+      
+      setAuth((prev) => ({ ...prev, isLoading: false }))
+      return { success: true }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Registration failed'
+      setAuth((prev) => ({
+        ...prev,
+        isLoading: false,
+        error: errorMessage,
+      }))
+      return { success: false, error: errorMessage }
+    }
+  }
+
+  const forgotPassword = async (email: string) => {
+    try {
+      await UserService.forgotPassword({ userEmail: email })
+      return { success: true }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to send reset code'
+      return { success: false, error: errorMessage }
+    }
+  }
+
+  const checkCode = async (email: string, code: string) => {
+    try {
+      const response = await UserService.checkCode({ userEmail: email, code })
+      return { success: response.isValid }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Invalid code'
+      return { success: false, error: errorMessage }
+    }
+  }
+
+  const resetPassword = async (email: string, code: string, newPassword: string, confirmPassword: string) => {
+    try {
+      await UserService.resetPassword({
+        userEmail: email,
+        code,
+        newPassword,
+        confirmPassword,
+      })
+      return { success: true }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to reset password'
       return { success: false, error: errorMessage }
     }
   }
@@ -111,6 +186,10 @@ export const useAuth = () => {
     hasRole,
     hasPermission,
     login,
+    register,
+    forgotPassword,
+    checkCode,
+    resetPassword,
     logout,
   }
 }
