@@ -50,6 +50,14 @@ export interface UpdatePasswordRequest {
   newPassword: string;
 }
 
+export interface EditUserRequest {
+  id: string;
+  userFullName?: string;
+  userEmail?: string;
+  userPhone?: string;
+  type?: string;
+}
+
 export const UserService = {
   async getAll(): Promise<User[]> {
     const response = await apiClient.get<User[]>(endpoints.users.getAll);
@@ -85,6 +93,11 @@ export const UserService = {
 
   async updatePassword(data: UpdatePasswordRequest): Promise<void> {
     await apiClient.post(endpoints.users.updatePassword, data);
+  },
+
+  async editUser(data: EditUserRequest): Promise<User> {
+    const response = await apiClient.post<User>(`${endpoints.users.getById(data.id)}`, data);
+    return response;
   },
 
   async delete(id: string): Promise<void> {

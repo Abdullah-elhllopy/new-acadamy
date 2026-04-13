@@ -1,16 +1,13 @@
 'use client';
 
-// import { DataTable } from '@/components/data-table';
 import { useUsers, useDeleteUser } from '@/hooks/api/use-users';
-// import { ColumnDef } from '@tanstack/react-table';
 import { User } from '@/services/api/user.service';
 import { Button } from '@/components/ui/button';
-import { Trash2 } from 'lucide-react';
-// import { ConfirmDeleteDialog } from '@/components/confirm-delete-dialog';
+import { Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import { DataTable, tableActions, type DataTableColumn } from '@/components/dashboard/data-table'
+import { DataTable, type DataTableColumn } from '@/components/dashboard/data-table'
 import { ConfirmDeleteDialog } from '@/components/dashboard';
-
+import Link from 'next/link';
 
 export function UsersTable() {
   const { data: users, isLoading } = useUsers();
@@ -43,19 +40,35 @@ export function UsersTable() {
           '-'
         ),
     },
-    // {
-    //   accessorKey: 'actions',
-    //   header: 'Actions',
-    //   cell: (row) => (
-    //     <Button
-    //       variant="ghost"
-    //       size="icon"
-    //       onClick={() => setDeleteId(row.id)}
-    //     >
-    //       <Trash2 className="h-4 w-4 text-destructive" />
-    //     </Button>
-    //   ),
-    // },
+    {
+      accessorKey: 'type',
+      header: 'Role',
+      cell: (row) => row.type || 'Trainee',
+    },
+    {
+      // accessorKey: 'actions',
+      header: 'Actions',
+      cell: (row) => (
+        <div className="flex gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            asChild
+          >
+            <Link href={`/dashboard/users/edit/${row.id}`}>
+              <Pencil className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setDeleteId(row.id)}
+          >
+            <Trash2 className="h-4 w-4 text-destructive" />
+          </Button>
+        </div>
+      ),
+    },
   ];
 
   return (

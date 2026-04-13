@@ -11,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Menu, Globe, ChevronDown } from 'lucide-react'
+import { Menu, Globe, ChevronDown, LayoutDashboardIcon } from 'lucide-react'
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -128,7 +128,7 @@ export function Header() {
                     {t('imagesCenter')}
                   </Link>
                 </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild>
                   <Link href="/my-certificates" className="w-full cursor-pointer">
                     {t('myCertificates')}
                   </Link>
@@ -162,6 +162,14 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <Link href={'/my-dashboard'}>
+              <button
+                className="inline-flex items-center justify-center rounded-full w-11 h-11 border border-muted-foreground bg-white hover:bg-primary hover:text-white hover:border-primary transition-colors"
+                aria-label="Toggle language"
+              >
+                <LayoutDashboardIcon className="w-5 h-5" />
+              </button>
+            </Link>
             <button
               onClick={() => onChangeLang(currentLang.value === 'en' ? 'ar' : 'en')}
               className="inline-flex items-center justify-center rounded-full w-11 h-11 border border-muted-foreground bg-white hover:bg-primary hover:text-white hover:border-primary transition-colors"

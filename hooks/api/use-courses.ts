@@ -25,6 +25,13 @@ export function useCourse(id: string) {
     enabled: !!id,
   });
 }
+export function useUserCourses(id: string) {
+  return useQuery({
+    queryKey: COURSE_KEYS.detail(id),
+    queryFn: () => courseService.getCoursesByUserId(id),
+    enabled: !!id,
+  });
+}
 
 export function useCoursesFilterByName(name: string) {
   return useQuery({

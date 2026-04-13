@@ -115,6 +115,10 @@ class CourseService {
   async delete(id: string): Promise<void> {
     return apiClient.delete<void>(endpoints.courses.delete(id));
   }
+
+  async getCoursesByUserId(userId: string): Promise<Course[]> {
+    return apiClient.get<Course[]>(`/api/Course/GetCoursesByUserId/${userId}`);
+  }
 }
 
 export const courseService = new CourseService();
