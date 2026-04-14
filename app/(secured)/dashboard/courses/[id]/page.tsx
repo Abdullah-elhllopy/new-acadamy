@@ -25,10 +25,14 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
       course
         ? {
             courseName: course.courseName || '',
+            courseNameAr: course.courseNameAr || '',
             courseDescription: course.courseDescripTion || '',
+            courseDescriptionAr: course.courseDescripTionAr || '',
             courseStartDate: course.courseStartDate?.split('T')[0] || '',
             place: course.place || '',
+            placeAr: course.placeAr || '',
             placeSub: course.placeSub || '',
+            placeSubAr: course.placeSubAr || '',
             courseType: course.courseType || '',
             courseCost: String(course.courseCost || ''),
             courseNumberOfHours: String(course.courseNumberOfHours || ''),
@@ -36,11 +40,16 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
             numberOfWeeks: String(course.numberOfWeeks || ''),
             numberOfMonths: String(course.numberOfMonths || ''),
             courseContent: course.courseContent || '',
+            courseContentAr: course.courseContentAr || '',
             mainDebId: course.mainDebId || '',
             subDebId: course.subDebId || '',
-            instructorIDs: course.ourinstructors?.map((t: any) => t.instructorid) || [],
-            wwwl: course.wwwl?.map((text: string, index: number) => ({
+            instructorIDs: course.instructorIDs|| [],
+            wwwl: course.wwwlText?.map((text: string, index: number) => ({
               id: `${index}-${Date.now()}`,
+              text: text
+            })) || [],
+            wwwlAr: course.wwwlTextAr?.map((text: string, index: number) => ({
+              id: `ar-${index}-${Date.now()}`,
               text: text
             })) || [],
             now: course.now || false,
@@ -50,10 +59,14 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
           }
         : {
             courseName: '',
+            courseNameAr: '',
             courseDescription: '',
+            courseDescriptionAr: '',
             courseStartDate: '',
             place: '',
+            placeAr: '',
             placeSub: '',
+            placeSubAr: '',
             courseType: '',
             courseCost: '',
             courseNumberOfHours: '',
@@ -61,10 +74,12 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
             numberOfWeeks: '',
             numberOfMonths: '',
             courseContent: '',
+            courseContentAr: '',
             mainDebId: '',
             subDebId: '',
             instructorIDs: [],
             wwwl: [],
+            wwwlAr: [],
             now: false,
             soon: false,
             recommended: false,
@@ -78,7 +93,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
     resolver: zodResolver(courseSchema),
     defaultValues,
   })
-
+  console.log(methods.formState.errors)
   useEffect(() => {
     if (course) {
       methods.reset(defaultValues)
@@ -89,18 +104,23 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
     const formData = new FormData()
 
     formData.append('CourseName', data.courseName)
+    formData.append('CourseNameAr', data.courseNameAr)
     formData.append('CourseDescripTion', data.courseDescription)
+    formData.append('CourseDescripTionAr', data.courseDescriptionAr)
     formData.append('CourseStartDate', data.courseStartDate)
     formData.append('Place', data.place)
+    formData.append('PlaceAr', data.placeAr)
     formData.append('Coursetype', data.courseType)
     formData.append('CourseCost', data.courseCost)
     formData.append('CourseNumberOfHours', data.courseNumberOfHours)
 
     if (data.placeSub) formData.append('PlaceSub', data.placeSub)
+    if (data.placeSubAr) formData.append('PlaceSubAr', data.placeSubAr)
     if (data.language) formData.append('Language', data.language)
     if (data.numberOfWeeks) formData.append('NumberOfWeeks', data.numberOfWeeks)
     if (data.numberOfMonths) formData.append('NumberOfMonths', data.numberOfMonths)
     if (data.courseContent) formData.append('CourseContent', data.courseContent)
+    if (data.courseContentAr) formData.append('CourseContentAr', data.courseContentAr)
 
     formData.append('Now', data.now ? 'true' : 'false')
     formData.append('Soon', data.soon ? 'true' : 'false')
@@ -119,6 +139,12 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
     if (data.wwwl && data.wwwl.length > 0) {
       data.wwwl.forEach(item => {
         formData.append('WWWLText', item.text)
+      })
+    }
+
+    if (data.wwwlAr && data.wwwlAr.length > 0) {
+      data.wwwlAr.forEach(item => {
+        formData.append('WWWLTextAr', item.text)
       })
     }
 

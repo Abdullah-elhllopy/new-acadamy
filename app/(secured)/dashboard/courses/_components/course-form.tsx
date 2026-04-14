@@ -36,6 +36,7 @@ export function CourseForm({
   const subDepId = methods.watch('subDebId')
   const instructorIDs = methods.watch('instructorIDs') || []
   const wwwl = methods.watch('wwwl') || []
+  const wwwlAr = methods.watch('wwwlAr') || []
 
   const { data: mainDepartments } = useMainDepartments()
   const { data: subDepartments } = useSubDepartmentsByMain(mainDepId || '')
@@ -71,8 +72,14 @@ export function CourseForm({
             <div className="grid gap-4 md:grid-cols-2">
               <FormField
                 name="courseName"
-                label="Course Name"
+                label="Course Name (English)"
                 placeholder="Enter course name"
+                required
+              />
+              <FormField
+                name="courseNameAr"
+                label="Course Name (Arabic)"
+                placeholder="أدخل اسم الدورة"
                 required
               />
               <FormSelect
@@ -85,22 +92,41 @@ export function CourseForm({
               />
             </div>
 
-            <FormField
-              name="courseDescription"
-              label="Description"
-              type="textarea"
-              placeholder="Enter course description"
-              rows={4}
-              required
-            />
+            <div className="grid gap-4 md:grid-cols-2">
+              <FormField
+                name="courseDescription"
+                label="Description (English)"
+                type="textarea"
+                placeholder="Enter course description"
+                rows={4}
+                required
+              />
+              <FormField
+                name="courseDescriptionAr"
+                label="Description (Arabic)"
+                type="textarea"
+                placeholder="أدخل وصف الدورة"
+                rows={4}
+                required
+              />
+            </div>
 
-            <FormField
-              name="courseContent"
-              label="Course Content"
-              type="textarea"
-              placeholder="Enter detailed course content"
-              rows={6}
-            />
+            <div className="grid gap-4 md:grid-cols-2">
+              <FormField
+                name="courseContent"
+                label="Course Content (English)"
+                type="textarea"
+                placeholder="Enter detailed course content"
+                rows={6}
+              />
+              <FormField
+                name="courseContentAr"
+                label="Course Content (Arabic)"
+                type="textarea"
+                placeholder="أدخل محتوى الدورة التفصيلي"
+                rows={6}
+              />
+            </div>
           </CardContent>
         </Card>
 
@@ -132,14 +158,28 @@ export function CourseForm({
             <div className="grid gap-4 md:grid-cols-2">
               <FormField
                 name="place"
-                label="Place"
+                label="Place (English)"
                 placeholder="Enter location"
                 required
               />
               <FormField
+                name="placeAr"
+                label="Place (Arabic)"
+                placeholder="أدخل الموقع"
+                required
+              />
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <FormField
                 name="placeSub"
-                label="Sub Location"
+                label="Sub Location (English)"
                 placeholder="Enter sub location"
+              />
+              <FormField
+                name="placeSubAr"
+                label="Sub Location (Arabic)"
+                placeholder="أدخل الموقع الفرعي"
               />
             </div>
           </CardContent>
@@ -231,10 +271,37 @@ export function CourseForm({
         </Card>
 
         {/* What Will You Learn */}
-        <WhatWillLearn
-          items={wwwl}
-          onChange={(items) => methods.setValue('wwwl', items)}
-        />
+        {/* <Card>
+          <CardHeader>
+            <CardTitle>What Will You Learn (English)</CardTitle>
+          </CardHeader>
+          <CardContent> */}
+        <div className='flex md:flex-row flex-col  items-center w-full gap-3 flex-wrap'>
+          <WhatWillLearn
+            items={wwwl}
+            onChange={(items) => methods.setValue('wwwl', items)}
+            type='(English)'
+          />
+          <WhatWillLearn
+            items={wwwlAr}
+            onChange={(items) => methods.setValue('wwwlAr', items)}
+            type='(Arabic)'
+          />
+        </div>
+        {/* </CardContent>
+        </Card> */}
+
+        {/* <Card>
+          <CardHeader>
+            <CardTitle>What Will You Learn (Arabic)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <WhatWillLearn
+              items={wwwlAr}
+              onChange={(items) => methods.setValue('wwwlAr', items)}
+            />
+          </CardContent>
+        </Card> */}
 
         {/* Media Files */}
         <Card>

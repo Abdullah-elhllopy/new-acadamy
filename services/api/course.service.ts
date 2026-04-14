@@ -13,12 +13,16 @@ export interface CoursesResponse {
 export interface Course {
   courseId: string;
   courseName: string;
+  courseNameAr?: string;
   courseDescripTion: string;
+  courseDescripTionAr?: string;
   courseStartDate: string;
   numberOfWeeks?: number;
   numberOfMonths?: number;
   place: string;
+  placeAr?: string;
   placeSub?: string;
+  placeSubAr?: string;
   coursetype?: string; // حضورى/مباشرة/عبر الإنترنت
   courseSpecies?: string; // Offline/Online (from API)
   courseType?: string; // Department type GUID
@@ -35,6 +39,7 @@ export interface Course {
   instructorIDs?: string[];
   ourinstructors?: any[]; // Populated instructor objects from API
   courseContent?: string;
+  courseContentAr?: string;
   mainDebId?: string;
   subDebId?: string;
   now?: boolean;
@@ -42,6 +47,7 @@ export interface Course {
   recommended?: boolean;
   soon?: boolean;
   wwwlText?: string[];
+  wwwlTextAr?: string[];
   wwwl?: any[]; // What Will Learn objects from API
   relatedCourses?: any[];
   courseLectures?: any[];
@@ -71,7 +77,7 @@ class CourseService {
   }
 
   async getById(id: string): Promise<Course> {
-    return apiClient.get<Course>(endpoints.courses.getById(id));
+    return apiClient.get<Course>(endpoints.courses.getByIdDashboard(id));
   }
 
   async findByName(name: string): Promise<Course[]> {

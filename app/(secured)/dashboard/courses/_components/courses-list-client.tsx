@@ -43,9 +43,14 @@ export default function CoursesListClient() {
       header: 'Course Name',
       accessorKey: 'courseName',
       cell: (course)  => (
-        <Link href={`/dashboard/courses/${course.courseId}`} className="text-blue-600 hover:underline">
-          {course.courseName}
-        </Link>
+        <div className="flex flex-col">
+          <Link href={`/dashboard/courses/${course.courseId}`} className="text-blue-600 hover:underline">
+            {course.courseName}
+          </Link>
+          {course.courseNameAr && (
+            <span className="text-xs text-muted-foreground">{course.courseNameAr}</span>
+          )}
+        </div>
       ),
     },
     {

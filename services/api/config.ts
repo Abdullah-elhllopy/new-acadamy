@@ -43,6 +43,7 @@ export const endpoints = {
   courses: {
     getAll: '/api/Course/All-Courses',
     getById: (id: string) => `/api/Course/get-Course/${id}`,
+    getByIdDashboard: (id: string) => `/api/Course/get-Course-Dashboard/${id}`,
     findByName: (name: string) => `/api/Course/Find-Course/${name}`,
     filterByName: '/api/Course/Filter-Courses-by-name',
     filterByCategory: '/api/Course/Filter-Courses-by-category',

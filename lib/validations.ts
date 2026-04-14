@@ -61,10 +61,14 @@ export type PasswordChangeData = z.infer<typeof passwordChangeSchema>
 
 export const courseSchema = z.object({
   courseName: z.string().min(2, 'Course name is required'),
+  courseNameAr: z.string().min(2, 'Course name (Arabic) is required'),
   courseDescription: z.string().min(10, 'Description must be at least 10 characters'),
+  courseDescriptionAr: z.string().min(10, 'Description (Arabic) must be at least 10 characters'),
   courseStartDate: z.string().min(1, 'Start date is required'),
   place: z.string().min(2, 'Place is required'),
+  placeAr: z.string().min(2, 'Place (Arabic) is required'),
   placeSub: z.string().optional(),
+  placeSubAr: z.string().optional(),
   courseType: z.string().min(2, 'Course type is required'), // حضورى/مباشرة/عبر الإنترنت
   courseCost: z.string().min(1, 'Cost is required'),
   courseNumberOfHours: z.string().min(1, 'Number of hours is required'),
@@ -72,10 +76,15 @@ export const courseSchema = z.object({
   numberOfWeeks: z.string().optional(),
   numberOfMonths: z.string().optional(),
   courseContent: z.string().optional(),
+  courseContentAr: z.string().optional(),
   mainDebId: z.string().optional(),
   subDebId: z.string().optional(),
   instructorIDs: z.array(z.string()).optional(),
   wwwl: z.array(z.object({
+    id: z.string(),
+    text: z.string()
+  })).optional(),
+  wwwlAr: z.array(z.object({
     id: z.string(),
     text: z.string()
   })).optional(),

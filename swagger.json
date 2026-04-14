@@ -425,6 +425,29 @@
                 }
             }
         },
+        "/api/Course/get-Course-Dashboard/{id}": {
+            "get": {
+                "tags": [
+                    "Course"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
         "/api/Course/Find-Course/{name}": {
             "get": {
                 "tags": [
@@ -542,11 +565,13 @@
                                 "required": [
                                     "CourseCost",
                                     "CourseDescripTion",
+                                    "CourseDescripTionAr",
                                     "CourseName",
                                     "CourseNumberOfHours",
                                     "CourseStartDate",
                                     "Coursetype",
-                                    "Place"
+                                    "Place",
+                                    "PlaceAr"
                                 ],
                                 "type": "object",
                                 "properties": {
@@ -557,7 +582,14 @@
                                     "CourseName": {
                                         "type": "string"
                                     },
+                                    "CourseNameAr": {
+                                        "type": "string"
+                                    },
                                     "CourseDescripTion": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "CourseDescripTionAr": {
                                         "type": "string",
                                         "default": ""
                                     },
@@ -579,13 +611,22 @@
                                         "type": "string",
                                         "default": ""
                                     },
+                                    "PlaceAr": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
                                     "PlaceSub": {
                                         "type": "string",
                                         "default": ""
                                     },
-                                    "Coursetype": {
+                                    "PlaceSubAr": {
                                         "type": "string",
                                         "default": ""
+                                    },
+                                    "Coursetype": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "default": 0
                                     },
                                     "Language": {
                                         "type": "string",
@@ -622,6 +663,10 @@
                                         }
                                     },
                                     "CourseContent": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "CourseContentAr": {
                                         "type": "string",
                                         "default": ""
                                     },
@@ -665,6 +710,12 @@
                                         "items": {
                                             "type": "string"
                                         }
+                                    },
+                                    "WWWLTextAr": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
                                     }
                                 }
                             },
@@ -675,7 +726,13 @@
                                 "CourseName": {
                                     "style": "form"
                                 },
+                                "CourseNameAr": {
+                                    "style": "form"
+                                },
                                 "CourseDescripTion": {
+                                    "style": "form"
+                                },
+                                "CourseDescripTionAr": {
                                     "style": "form"
                                 },
                                 "CourseStartDate": {
@@ -690,7 +747,13 @@
                                 "Place": {
                                     "style": "form"
                                 },
+                                "PlaceAr": {
+                                    "style": "form"
+                                },
                                 "PlaceSub": {
+                                    "style": "form"
+                                },
+                                "PlaceSubAr": {
                                     "style": "form"
                                 },
                                 "Coursetype": {
@@ -721,6 +784,9 @@
                                     "style": "form"
                                 },
                                 "CourseContent": {
+                                    "style": "form"
+                                },
+                                "CourseContentAr": {
                                     "style": "form"
                                 },
                                 "MainDebId": {
@@ -755,11 +821,26 @@
                                 },
                                 "WWWLText": {
                                     "style": "form"
+                                },
+                                "WWWLTextAr": {
+                                    "style": "form"
                                 }
                             }
                         }
                     }
                 },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Get-Course-Types": {
+            "get": {
+                "tags": [
+                    "Course"
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -838,11 +919,13 @@
                                 "required": [
                                     "CourseCost",
                                     "CourseDescripTion",
+                                    "CourseDescripTionAr",
                                     "CourseName",
                                     "CourseNumberOfHours",
                                     "CourseStartDate",
                                     "Coursetype",
-                                    "Place"
+                                    "Place",
+                                    "PlaceAr"
                                 ],
                                 "type": "object",
                                 "properties": {
@@ -853,7 +936,14 @@
                                     "CourseName": {
                                         "type": "string"
                                     },
+                                    "CourseNameAr": {
+                                        "type": "string"
+                                    },
                                     "CourseDescripTion": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "CourseDescripTionAr": {
                                         "type": "string",
                                         "default": ""
                                     },
@@ -875,13 +965,22 @@
                                         "type": "string",
                                         "default": ""
                                     },
+                                    "PlaceAr": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
                                     "PlaceSub": {
                                         "type": "string",
                                         "default": ""
                                     },
-                                    "Coursetype": {
+                                    "PlaceSubAr": {
                                         "type": "string",
                                         "default": ""
+                                    },
+                                    "Coursetype": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "default": 0
                                     },
                                     "Language": {
                                         "type": "string",
@@ -918,6 +1017,10 @@
                                         }
                                     },
                                     "CourseContent": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "CourseContentAr": {
                                         "type": "string",
                                         "default": ""
                                     },
@@ -961,6 +1064,12 @@
                                         "items": {
                                             "type": "string"
                                         }
+                                    },
+                                    "WWWLTextAr": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
                                     }
                                 }
                             },
@@ -971,7 +1080,13 @@
                                 "CourseName": {
                                     "style": "form"
                                 },
+                                "CourseNameAr": {
+                                    "style": "form"
+                                },
                                 "CourseDescripTion": {
+                                    "style": "form"
+                                },
+                                "CourseDescripTionAr": {
                                     "style": "form"
                                 },
                                 "CourseStartDate": {
@@ -986,7 +1101,13 @@
                                 "Place": {
                                     "style": "form"
                                 },
+                                "PlaceAr": {
+                                    "style": "form"
+                                },
                                 "PlaceSub": {
+                                    "style": "form"
+                                },
+                                "PlaceSubAr": {
                                     "style": "form"
                                 },
                                 "Coursetype": {
@@ -1017,6 +1138,9 @@
                                     "style": "form"
                                 },
                                 "CourseContent": {
+                                    "style": "form"
+                                },
+                                "CourseContentAr": {
                                     "style": "form"
                                 },
                                 "MainDebId": {
@@ -1050,6 +1174,9 @@
                                     "style": "form"
                                 },
                                 "WWWLText": {
+                                    "style": "form"
+                                },
+                                "WWWLTextAr": {
                                     "style": "form"
                                 }
                             }

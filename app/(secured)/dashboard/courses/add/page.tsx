@@ -19,10 +19,14 @@ export default function AddCoursePage() {
     resolver: zodResolver(courseSchema),
     defaultValues: {
       courseName: '',
+      courseNameAr: '',
       courseDescription: '',
+      courseDescriptionAr: '',
       courseStartDate: '',
       place: '',
+      placeAr: '',
       placeSub: '',
+      placeSubAr: '',
       courseType: '',
       courseCost: '',
       courseNumberOfHours: '',
@@ -30,10 +34,12 @@ export default function AddCoursePage() {
       numberOfWeeks: '',
       numberOfMonths: '',
       courseContent: '',
+      courseContentAr: '',
       mainDebId: '',
       subDebId: '',
       instructorIDs: [],
       wwwl: [],
+      wwwlAr: [],
       now: false,
       soon: false,
       recommended: false,
@@ -45,18 +51,23 @@ export default function AddCoursePage() {
     const formData = new FormData()
     
     formData.append('CourseName', data.courseName)
+    formData.append('CourseNameAr', data.courseNameAr)
     formData.append('CourseDescripTion', data.courseDescription)
+    formData.append('CourseDescripTionAr', data.courseDescriptionAr)
     formData.append('CourseStartDate', data.courseStartDate)
     formData.append('Place', data.place)
+    formData.append('PlaceAr', data.placeAr)
     formData.append('Coursetype', data.courseType)
     formData.append('CourseCost', data.courseCost)
     formData.append('CourseNumberOfHours', data.courseNumberOfHours)
 
     if (data.placeSub) formData.append('PlaceSub', data.placeSub)
+    if (data.placeSubAr) formData.append('PlaceSubAr', data.placeSubAr)
     if (data.language) formData.append('Language', data.language)
     if (data.numberOfWeeks) formData.append('NumberOfWeeks', data.numberOfWeeks)
     if (data.numberOfMonths) formData.append('NumberOfMonths', data.numberOfMonths)
     if (data.courseContent) formData.append('CourseContent', data.courseContent)
+    if (data.courseContentAr) formData.append('CourseContentAr', data.courseContentAr)
 
     formData.append('Now', data.now ? 'true' : 'false')
     formData.append('Soon', data.soon ? 'true' : 'false')
@@ -75,6 +86,12 @@ export default function AddCoursePage() {
     if (data.wwwl && data.wwwl.length > 0) {
       data.wwwl.forEach(item => {
         formData.append('WWWLText', item.text)
+      })
+    }
+
+    if (data.wwwlAr && data.wwwlAr.length > 0) {
+      data.wwwlAr.forEach(item => {
+        formData.append('WWWLTextAr', item.text)
       })
     }
 

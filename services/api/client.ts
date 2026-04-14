@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { API_BASE_URL } from './config';
+import { I18LANG } from '@/shared/constants/constant';
 
 class ApiClient {
   private client: AxiosInstance;
@@ -23,6 +24,10 @@ class ApiClient {
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
+        const lang = this.getLang();
+        if(lang){
+          config.headers['Accept-Language'] = lang;
+        }
         return config;
       },
       (error) => Promise.reject(error)
@@ -45,7 +50,12 @@ class ApiClient {
     }
     return null;
   }
-
+  private getLang(): string | null {
+      if (typeof window !== 'undefined') {
+      return localStorage.getItem(I18LANG);
+    }
+    return null;
+  }
   private handleUnauthorized(): void {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('token');
@@ -55,7 +65,7 @@ class ApiClient {
 
   async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     const response = await this.client.get<T>(url, config);
-    
+
     return response.data;
   }
 

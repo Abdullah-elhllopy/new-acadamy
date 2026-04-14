@@ -14,10 +14,11 @@ interface WhatWillLearnItem {
 
 interface WhatWillLearnProps {
   items: WhatWillLearnItem[]
-  onChange: (items: WhatWillLearnItem[]) => void
+  onChange: (items: WhatWillLearnItem[]) => void;
+  type ?: string
 }
 
-export function WhatWillLearn({ items, onChange }: WhatWillLearnProps) {
+export function WhatWillLearn({ items, onChange ,type }: WhatWillLearnProps) {
   const [inputValue, setInputValue] = useState('')
 
   const handleAdd = () => {
@@ -44,9 +45,9 @@ export function WhatWillLearn({ items, onChange }: WhatWillLearnProps) {
   }
 
   return (
-    <Card>
+    <Card className='flex-1 w-full'>
       <CardHeader>
-        <CardTitle>What Will You Learn</CardTitle>
+        <CardTitle>What Will You Learn {type} </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Add New Item */}
