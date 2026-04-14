@@ -12,6 +12,10 @@ import { useMainDepartments, useSubDepartmentsByMain } from '@/hooks/api/use-dep
 import { useTrainers } from '@/hooks/api/use-trainers'
 import { MultiSelect } from '@/components/ui/multi-select'
 import Link from 'next/link'
+import { API_BASE_URL } from '@/services/api'
+import { useState } from 'react'
+import { ImageIcon, Video, FileText, X } from 'lucide-react'
+import Image from 'next/image'
 
 interface CourseFormProps {
   methods: UseFormReturn<CourseFormData>
@@ -37,6 +41,50 @@ export function CourseForm({
   const instructorIDs = methods.watch('instructorIDs') || []
   const wwwl = methods.watch('wwwl') || []
   const wwwlAr = methods.watch('wwwlAr') || []
+
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [videoPreview, setVideoPreview] = useState<string | null>(null)
+  const [removedImage, setRemovedImage] = useState(false)
+  const [removedVideo, setRemovedVideo] = useState(false)
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const url = URL.createObjectURL(file)
+      setVideoPreview(url)
+    }
+  }
+
+  const clearImage = () => {
+    setImagePreview(null)
+    setRemovedImage(true)
+    const input = document.getElementById('image') as HTMLInputElement
+    if (input) {
+      input.value = ''
+    }
+    methods.setValue('image', undefined)
+  }
+
+  const clearVideo = () => {
+    setVideoPreview(null)
+    setRemovedVideo(true)
+    const input = document.getElementById('video') as HTMLInputElement
+    if (input) {
+      input.value = ''
+    }
+    methods.setValue('video', undefined)
+  }
 
   const { data: mainDepartments } = useMainDepartments()
   const { data: subDepartments } = useSubDepartmentsByMain(mainDepId || '')
@@ -288,70 +336,154 @@ export function CourseForm({
             type='(Arabic)'
           />
         </div>
-        {/* </CardContent>
-        </Card> */}
-
-        {/* <Card>
-          <CardHeader>
-            <CardTitle>What Will You Learn (Arabic)</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <WhatWillLearn
-              items={wwwlAr}
-              onChange={(items) => methods.setValue('wwwlAr', items)}
-            />
-          </CardContent>
-        </Card> */}
-
-        {/* Media Files */}
         <Card>
           <CardHeader>
             <CardTitle>{isEdit ? 'Update Media Files' : 'Media Files'}</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 flex md:flex-row flex-col gap-2 ">
-            <div className="space-y-2 flex-1">
-              <Label htmlFor="image">
-                Course Image {isEdit && '(leave empty to keep current)'}
-              </Label>
-              <Input
-                id="image"
-                type="file"
-                accept="image/*"
-                {...methods.register('image')}
-              />
-              {isEdit && currentFiles.image && (
-                <p className="text-sm text-muted-foreground">Current: {currentFiles.image}</p>
-              )}
-            </div>
+          <CardContent className="space-y-4">
+            <div className="grid gap-6 md:grid-cols-3">
+              {/* Image Upload */}
+              <div className="space-y-2">
+                <Label htmlFor="image">Course Image</Label>
+                {(imagePreview || (isEdit && currentFiles.image && !removedImage)) ? (
+                  <div className="relative group">
+                    <div 
+                      className="relative w-full h-48 rounded-lg overflow-hidden border-2 border-dashed border-gray-300 cursor-pointer hover:border-primary transition-colors"
+                      onClick={() => document.getElementById('image')?.click()}
+                    >
+                      <Image
+                        src={imagePreview || `${API_BASE_URL}/${currentFiles.image}`}
+                        alt="Course preview"
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <ImageIcon className="w-8 h-8 text-white" />
+                        <span className="text-white ml-2">Click to change</span>
+                      </div>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="icon"
+                      className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        clearImage()
+                      }}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ) : (
+                  <div 
+                    className="w-full h-48 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors"
+                    onClick={() => document.getElementById('image')?.click()}
+                  >
+                    <ImageIcon className="w-12 h-12 text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-500">Click to upload image</p>
+                  </div>
+                )}
+                <Input
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  {...methods.register('image', {
+                    onChange: (e) => handleImageChange(e)
+                  })}
+                />
+              </div>
 
-            <div className="space-y-2 flex-1">
-              <Label htmlFor="video">
-                Course Video {isEdit && '(leave empty to keep current)'}
-              </Label>
-              <Input
-                id="video"
-                type="file"
-                accept="video/*"
-                {...methods.register('video')}
-              />
-              {isEdit && currentFiles.video && (
-                <p className="text-sm text-muted-foreground">Current: {currentFiles.video}</p>
-              )}
-            </div>
+              {/* Video Upload */}
+              <div className="space-y-2">
+                <Label htmlFor="video">Course Video</Label>
+                {(videoPreview || (isEdit && currentFiles.video && !removedVideo)) ? (
+                  <div className="relative group">
+                    <div 
+                      className="relative w-full h-48 rounded-lg overflow-hidden border-2 border-dashed border-gray-300 cursor-pointer hover:border-primary transition-colors bg-black"
+                      onClick={() => document.getElementById('video')?.click()}
+                    >
+                      {videoPreview ? (
+                        <video
+                          src={videoPreview}
+                          className="w-full h-full object-cover"
+                          controls={false}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Video className="w-12 h-12 text-gray-400" />
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <Video className="w-8 h-8 text-white" />
+                        <span className="text-white ml-2">Click to change</span>
+                      </div>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="icon"
+                      className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        clearVideo()
+                      }}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ) : (
+                  <div 
+                    className="w-full h-48 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors"
+                    onClick={() => document.getElementById('video')?.click()}
+                  >
+                    <Video className="w-12 h-12 text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-500">Click to upload video</p>
+                  </div>
+                )}
+                <Input
+                  id="video"
+                  type="file"
+                  accept="video/*"
+                  className="hidden"
+                  {...methods.register('video', {
+                    onChange: (e) => handleVideoChange(e)
+                  })}
+                />
+              </div>
 
-            <div className="space-y-2 flex-1">
-              <Label htmlFor="pdf">
-                Course PDF {isEdit && '(leave empty to keep current)'}
-              </Label>
-              <Input
-                id="pdf"
-                type="file"
-                accept=".pdf"
-                {...methods.register('pdf')}
-              />
-              {isEdit && currentFiles.pdf && (
-                <p className="text-sm text-muted-foreground">Current: {currentFiles.pdf}</p>
-              )}
+              {/* PDF Upload */}
+              <div className="space-y-2">
+                <Label htmlFor="pdf">Course PDF</Label>
+                {isEdit && currentFiles.pdf ? (
+                  <div className="relative group">
+                    <div 
+                      className="w-full h-48 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors"
+                      onClick={() => document.getElementById('pdf')?.click()}
+                    >
+                      <FileText className="w-12 h-12 text-gray-400 mb-2" />
+                      <p className="text-sm text-gray-500 text-center px-2">Current PDF</p>
+                      <p className="text-xs text-muted-foreground mt-1">Click to change</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div 
+                    className="w-full h-48 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors"
+                    onClick={() => document.getElementById('pdf')?.click()}
+                  >
+                    <FileText className="w-12 h-12 text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-500">Click to upload PDF</p>
+                  </div>
+                )}
+                <Input
+                  id="pdf"
+                  type="file"
+                  accept=".pdf"
+                  className="hidden"
+                  {...methods.register('pdf')}
+                />
+              </div>
             </div>
           </CardContent>
         </Card>

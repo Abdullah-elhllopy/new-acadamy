@@ -78,7 +78,7 @@ export function ProgramCard({ program, language, className }: ProgramCardProps) 
             <div className="relative h-52 bg-muted">
               {image ? (
                 <Image 
-                  src={`${API_BASE_URL}${image}`} 
+                  src={`${API_BASE_URL}/${image}`} 
                   alt={title} 
                   fill 
                   className="object-cover" 
