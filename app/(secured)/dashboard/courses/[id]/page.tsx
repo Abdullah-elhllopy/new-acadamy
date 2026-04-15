@@ -4,7 +4,7 @@ import { useMemo, useEffect, use } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useCourse, useUpdateCourse } from '@/hooks/api'
+import { useCourse, useCourseForDashboard, useUpdateCourse } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
 import { DashboardHero, Hero } from '@/components/sections/hero'
 import { BackButton, Button } from '@/components/ui/button'
@@ -17,7 +17,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
   const router = useRouter()
   const { id } = use(params)
 
-  const { data: course, isLoading } = useCourse(id)
+  const { data: course, isLoading } = useCourseForDashboard(id)
   const updateCourse = useUpdateCourse()
 
   const defaultValues = useMemo<CourseFormData>(

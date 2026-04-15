@@ -17,11 +17,18 @@ export function useCourses() {
     // select: (data) => data.allCoursesDetails,
   });
 }
-
-export function useCourse(id: string) {
+export function useCourse(id : string){
   return useQuery({
     queryKey: COURSE_KEYS.detail(id),
     queryFn: () => courseService.getById(id),
+    enabled: !!id,
+  });
+
+}
+export function useCourseForDashboard(id: string) {
+  return useQuery({
+    queryKey: COURSE_KEYS.detail(id),
+    queryFn: () => courseService.getByIdForDashBoard(id),
     enabled: !!id,
   });
 }

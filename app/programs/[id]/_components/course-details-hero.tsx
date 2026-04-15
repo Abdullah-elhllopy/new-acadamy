@@ -4,6 +4,9 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { ChevronRight, Download } from 'lucide-react'
+import { Hero } from '@/components/sections/hero'
+import { TitleContainer } from '@/components/shared/title'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
 
 interface CourseDetailsHeroProps {
   courseType: string
@@ -23,26 +26,17 @@ export function CourseDetailsHero({
   handleOpenCLick
 }: CourseDetailsHeroProps) {
   return (
-    <section className="bg-hero-bg text-white py-10 px-4 md:px-20 mb-20">
-      <nav className="flex items-center gap-2 text-white mb-8" dir="rtl">
-        <Link href="/" className="hover:text-link-hover transition-base">
-          الصفحة الرئيسية
-        </Link>
-        <ChevronRight className="w-4 h-4" />
-        <Link href="/programs" className="hover:text-link-hover transition-base">
-          جميع برامجنا
-        </Link>
-        <ChevronRight className="w-4 h-4" />
-        <span className="text-muted-foreground">دورات عبر الإنترنت</span>
-      </nav>
-
-      <div className="grid grid-cols-1 lg:grid-cols-[45%_10%_45%] gap-8 items-start">
-        <div>
-          <Badge className="mb-5 bg-white text-primary hover:bg-white px-3 py-2 rounded-2xl">
+    <Hero className='bg-hero-bg  mb-20 text-white' linkClassName = {'text-white hover:text-white'} breadcrumbItems={[
+      { label: 'الرئيسية', href: '/' },
+      { label: 'جميع برامجنا', href: '/programs' },
+      { label: courseName },
+    ]}>
+      <div className="flex justify-between">
+        <div className='flex flex-col gap-5'>
+          <Badge className=" bg-white text-primary hover:bg-white px-3 py-2 rounded-2xl">
             {courseType}
           </Badge>
-          <h1 className="text-4xl font-bold mb-5">{courseName}</h1>
-          <p className="text-white mb-8 leading-relaxed">{description}</p>
+          <TitleContainer titleClassName='text-white' subtitleClassName='text-white' title={courseName} subtitle={description} />
           {pdfUrl && (
             <Button onClick={handleOpenCLick} className="bg-white text-primary hover:bg-white/90 rounded-full h-auto py-3 px-6">
               <span className="font-bold">تحميل بيانات الدورة</span>
@@ -50,18 +44,24 @@ export function CourseDetailsHero({
             </Button>
           )}
         </div>
-        <div />
+        {/* <div /> */}
         <div>
           {videoUrl && (
-            <div className="relative w-full h-75 md:h-87.5 bg-slate-800 rounded-lg overflow-hidden">
-              <video controls className="w-full h-full object-cover">
-                <source src={videoUrl} type="video/mp4" />
-                هذا المتصفح لا يدعم هذا النوع من الفيديوهات
-              </video>
+            <div className="relative w-full md:w-150 h-75 md:h-87.5 bg-slate-800 rounded-lg overflow-hidden">
+              {/* <video src={videoUrl} controls className="w-full h-full object-cover"> */}
+              <iframe
+                src={videoUrl}
+                title={courseName}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                loading="lazy"
+              />
+
             </div>
           )}
         </div>
       </div>
-    </section>
+    </Hero>
   )
 }

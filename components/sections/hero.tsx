@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { Title, TitleContainer } from '../shared/title'
 
 
-export function Hero({ breadcrumbItems, title, className, children }: { breadcrumbItems?: BreadcrumbItem[], title?: string, className?: string, children?: React.ReactNode }) {
+export function Hero({ breadcrumbItems, title, className, children ,linkClassName}: {linkClassName ?:string; breadcrumbItems?: BreadcrumbItem[], title?: string, className?: string, children?: React.ReactNode }) {
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -14,7 +14,7 @@ export function Hero({ breadcrumbItems, title, className, children }: { breadcru
       className={cn("relative bg-muted py-12  overflow-hidden container mx-auto px-4 md:px-6 lg:px-8 xl:px-20  flex flex-col gap-4", className)}
     >
 
-      {breadcrumbItems && <Breadcrumb items={breadcrumbItems} />}
+      {breadcrumbItems && <Breadcrumb linkClassName={linkClassName}  items={breadcrumbItems} />}
       {title && <Title title={title} />}
       {children}
 

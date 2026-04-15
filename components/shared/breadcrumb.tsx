@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import { useLanguage } from '@/shared/hooks/useLanguage'
+import { cn } from '@/lib/utils'
 
 export interface BreadcrumbItem {
   label: string
@@ -11,11 +12,11 @@ export interface BreadcrumbItem {
 
 interface BreadcrumbProps {
   items: BreadcrumbItem[]
-  isArabic?: boolean
-  className?: string
+  className?: string;
+  linkClassName?: string;
 }
 
-export function Breadcrumb({ items, isArabic, className = '' }: BreadcrumbProps) {
+export function Breadcrumb({ items,  className = '',linkClassName }: BreadcrumbProps) {
   const { isRTL } = useLanguage()
   const Separator = () => (
     <ChevronRight className={`w-4 h-4 text-muted-foreground ${isRTL ? 'rotate-180' : ''}`} />
@@ -28,12 +29,12 @@ export function Breadcrumb({ items, isArabic, className = '' }: BreadcrumbProps)
           {item.href ? (
             <Link
               href={item.href}
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className={cn("text-muted-foreground hover:text-foreground transition-colors",linkClassName)}
             >
               <span suppressHydrationWarning>{item.label}</span>
             </Link>
           ) : (
-            <span className="text-foreground font-medium" suppressHydrationWarning>{item.label}</span>
+            <span className={ ` ${linkClassName ? "text-muted-foreground " : "text-foreground"}  font-medium` }suppressHydrationWarning>{item.label}</span>
           )}
           {index < items.length - 1 && <Separator />}
         </div>

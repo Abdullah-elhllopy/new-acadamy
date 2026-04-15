@@ -68,7 +68,7 @@ class LectureService {
   }
 
   async getCourseWithLectures(courseId: string): Promise<CourseWithLectures> {
-    return apiClient.get<CourseWithLectures>(endpoints.lectures.getByCourseId(courseId));
+    return apiClient.get<CourseWithLectures>(endpoints.courses.getById(courseId));
   }
 
   async getLecturesByChapter(chapterId: string): Promise<Lecture[]> {

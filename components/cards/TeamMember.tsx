@@ -19,7 +19,7 @@ const TeamMember = ({ trainer }: { trainer: Trainer }) => {
     <Card key={id} className="pt-0 pb-4 rounded-t-[15px] border-0 ">
       <div className="relative shadow-none h-60 bg-muted">
         <Image
-          src={image ? `${API_BASE_URL}${image}` : 'https://plus.unsplash.com/premium_photo-1689568158814-3b8e9c1a9618?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29uYXxlbnwwfHwwfHx8MA%3D%3D'}
+          src={image ? `${API_BASE_URL}/${image}` : 'https://plus.unsplash.com/premium_photo-1689568158814-3b8e9c1a9618?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29uYXxlbnwwfHwwfHx8MA%3D%3D'}
           alt={name}
           fill
           className="object-contain w-full h-full rounded-t-[15px]"

@@ -10,7 +10,7 @@ export interface CoursesResponse {
   ourInstructors: any[];
 }
 
-export interface Course {
+export interface CourseDashboard {
   courseId: string;
   courseName: string;
   courseNameAr?: string;
@@ -53,6 +53,44 @@ export interface Course {
   courseLectures?: any[];
   allcomments?: any[];
 }
+export interface Course {
+  courseId: string;
+  courseName: string;
+  courseDescripTion: string;
+  courseStartDate: string;
+  numberOfWeeks?: number;
+  numberOfMonths?: number;
+  place: string;
+  placeSub?: string;
+  coursetype?: string; // حضورى/مباشرة/عبر الإنترنت
+  courseSpecies?: string; // Offline/Online (from API)
+  courseType?: string; // Department type GUID
+  language?: string;
+  video?: string;
+  image?: string;
+  coursepdf?: string;
+  institutionID?: string;
+  institutionName?: string;
+  institutionimage?: string;
+  institutionDescription?: string;
+  courseCost: number;
+  courseNumberOfHours: number;
+  instructorIDs?: string[];
+  ourinstructors?: any[]; // Populated instructor objects from API
+  courseContent?: string;
+  mainDebId?: string;
+  subDebId?: string;
+  now?: boolean;
+  mostSellenig?: boolean;
+  recommended?: boolean;
+  soon?: boolean;
+  wwwlText?: string[];
+  wwwl?: any[]; // What Will Learn objects from API
+  relatedCourses?: any[];
+  courseLectures?: any[];
+  allcomments?: any[];
+  capacity ?:string
+}
 
 export interface CourseFilterByCategory {
   categoryIds: string[];
@@ -75,9 +113,11 @@ class CourseService {
   async getAll(): Promise<CoursesResponse> {
     return apiClient.get<CoursesResponse>(endpoints.courses.getAll);
   }
-
-  async getById(id: string): Promise<Course> {
-    return apiClient.get<Course>(endpoints.courses.getByIdDashboard(id));
+  async getById (id: string): Promise<Course> {
+    return apiClient.get<Course>(endpoints.courses.getById(id));
+  }
+  async getByIdForDashBoard(id: string): Promise<CourseDashboard> {
+    return apiClient.get<CourseDashboard>(endpoints.courses.getByIdDashboard(id));
   }
 
   async findByName(name: string): Promise<Course[]> {

@@ -141,7 +141,6 @@ export const endpoints = {
   lectures: {
     getAll: '/api/Lecture/All-Lectures',
     getById: (id: string) => `/api/Lecture/get-Lecture/${id}`,
-    getByCourseId: (courseId: string) => `/api/Course/get-Course/${courseId}`,
     getByChapterId: (chapterId: string) => `/api/Lecture/get-Lectures-By-Chapter/${chapterId}`,
     create: '/api/Lecture/Create-Lecture',
     createChapter: '/api/Lecture/Create',

@@ -19,29 +19,29 @@ export const Title = ({ title, className }: { title: string; className?: string 
 
 
 
-export const Subtitle = ({ subtitle }: { subtitle: string }) => {
+export const Subtitle = ({ subtitle ,className}: { subtitle: string , className?:string }) => {
     return (
         <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className={cn(
-                "text-lg text-muted-foreground",
+                "text-lg text-muted-foreground",className
             )}
         >
             {subtitle}
         </motion.p>
     )
 }
-export const TitleContainer = ({ title, subtitle , children }: { title: string; subtitle?: string; children?: React.ReactNode }) => {
+export const TitleContainer = ({ title, subtitle, children, titleClassName, subtitleClassName }: { title: string; subtitle?: string; children?: React.ReactNode, titleClassName?: string, subtitleClassName?: string }) => {
     return <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className={"max-w-2xl flex flex-col gap-4"}
     >
-        <Title title={title} />
-        {subtitle && <Subtitle subtitle={subtitle} />}
+        <Title className={titleClassName}  title={title} />
+        {subtitle && <Subtitle subtitle={subtitle} className={subtitleClassName}  />}
         {children}
     </motion.div>
 }

@@ -52,7 +52,12 @@ export function Header() {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/advisory-board" className="w-full cursor-pointer">
-                    {currentLang.value === 'ar' ? 'المجلس الاستشاري' : 'Advisory Board'}
+                    {t("advisory-board")}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/case-studies" className="w-full cursor-pointer">
+                    {t("case-studies")}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
@@ -67,17 +72,17 @@ export function Header() {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/our-methodology" className="w-full cursor-pointer">
-                    {currentLang.value === 'ar' ? 'منهجيتنا' : 'Our Methodology'}
+                    {t("our-methodology")}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/consulting-services" className="w-full cursor-pointer">
-                    {currentLang.value === 'ar' ? 'الخدمات الاستشارية' : 'Consulting Services'}
+                    {t("consulting-services")}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/fields-of-work" className="w-full cursor-pointer">
-                    {currentLang.value === 'ar' ? 'مجالات العمل' : 'Fields of Work'}
+                    {t("fields-of-Work")}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>

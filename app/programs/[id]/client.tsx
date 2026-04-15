@@ -2,6 +2,7 @@
 
 import { use, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useCourse } from '@/hooks/api/use-courses'
 import { CourseReviews } from './_components/course-reviews'
 import { CourseDetailsHero } from './_components/course-details-hero'
 import { CourseDetailsSidebar } from './_components/course-details-sidebar'
@@ -20,6 +21,8 @@ import { LocationMap } from '@/components/programs/location-map'
 import { PDFDownloadModal } from '@/components/programs/pdf-download-modal'
 import { useTranslate } from '@/locales'
 import { useLanguage } from '@/shared/hooks/useLanguage'
+import { Skeleton } from '@/components/ui/skeleton'
+import { DataStateHandler } from '@/components/shared/data-state-handler'
 
 const mockCourse = {
   id: '1',
@@ -29,7 +32,7 @@ const mockCourse = {
   courseStartDate: '15 يناير 2024',
   courseNumberOfHours: 30,
   numberOfMonths: 3,
-  video: '/placeholder-video.mp4',
+  video: 'https://www.youtube.com/embed/qzGxK6Uiu04?si=3mh81NuzeCCubncS',
   coursepdf: '/course-details.pdf',
   wwwl: [
     'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة',
@@ -207,18 +210,51 @@ export default function CourseDetailClient({ params }: { params: Promise<{ id: s
   const { id } = use(params)
   const router = useRouter()
   const [currentUser, setCurrentUser] = useState(true)
-  const { isArabic } = useLanguage()
   const { t } = useTranslate('programs')
   const [showPDFModal, setShowPDFModal] = useState(false)
+
+  const { data: course, isLoading, error, refetch } = useCourse(id)
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="px-4 md:px-20 py-20">
+          <Skeleton className="h-96 w-full mb-8" />
+          <div className="grid grid-cols-1 lg:grid-cols-[44%_10%_45%] gap-8">
+            <div className="space-y-8">
+              <Skeleton className="h-64 w-full" />
+              <Skeleton className="h-64 w-full" />
+            </div>
+            <div />
+            <Skeleton className="h-96 w-full" />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error || !course) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="px-4 md:px-20 py-20">
+          <DataStateHandler
+            isLoading={isLoading}
+            error={error}
+            onRetry={refetch}
+          />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-background">
       <CourseDetailsHero
-        courseType="عبر الإنترنت"
-        courseName={mockCourse.courseName}
-        description={mockCourse.courseDescription}
-        videoUrl={mockCourse.video}
-        pdfUrl={mockCourse.coursepdf}
+        courseType={course.courseSpecies || course.coursetype || 'عبر الإنترنت'}
+        courseName={course.courseName}
+        description={course.courseDescripTion}
+        videoUrl={course.video || mockCourse.video}
+        pdfUrl={course.coursepdf || mockCourse.coursepdf}
         handleOpenCLick={() => setShowPDFModal(true)}
       />
 
@@ -230,28 +266,30 @@ export default function CourseDetailClient({ params }: { params: Promise<{ id: s
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <WhatYouWillLearn objectives={mockCourse.wwwl} />
-            <CourseLectures lectures={mockCourse.courseLectures} />
-            <CourseTrainers trainers={mockCourse.ourinstructors} />
+            <WhatYouWillLearn objectives={course.wwwl?.map(w => typeof w === 'string' ? w : w.wwwlcontent) || []} />
+            <CourseLectures lectures={course.courseLectures ? course.courseLectures.length > 0 ? course.courseLectures : mockCourse.courseLectures : mockCourse.courseLectures} />
+            <CourseTrainers trainers={course.ourinstructors || mockCourse.ourinstructors} />
 
-            {/* Provider */}
-            <div>
-              <h2 className="text-4xl font-bold text-primary mb-10">مقدمة من</h2>
-              <div className="flex items-start gap-6 mb-6">
-                <SimpleAvatar
-                  src={mockCourse.provider.avatar}
-                  alt={mockCourse.provider.name}
-                  className="w-24 h-24 text-2xl  bg-muted-foreground"
-                />
-                <div>
-                  <h4 className="text-3xl font-bold text-primary mb-1">{mockCourse.provider.name}</h4>
-                  <p className="text-hero-bg text-lg">{mockCourse.provider.university}</p>
+            {course.institutionName && (
+              <div>
+                <h2 className="text-4xl font-bold text-primary mb-10">مقدمة من</h2>
+                <div className="flex items-start gap-6 mb-6">
+                  <SimpleAvatar
+                    src={course.institutionimage}
+                    alt={course.institutionName}
+                    className="w-24 h-24 text-2xl bg-muted-foreground"
+                  />
+                  <div>
+                    <h4 className="text-3xl font-bold text-primary mb-1">{course.institutionName}</h4>
+                  </div>
                 </div>
+                {course.institutionDescription && (
+                  <p className="text-primary leading-relaxed">{course.institutionDescription}</p>
+                )}
               </div>
-              <p className="text-primary leading-relaxed">{mockCourse.provider.description}</p>
-            </div>
+            )}
 
-            <CourseReviews reviews={mockCourse.reviews} />
+            <CourseReviews reviews={course.allcomments ? course.allcomments.length ? 0 ? course.allcomments : mockCourse.reviews : mockCourse.reviews : mockCourse.reviews} />
           </motion.div>
 
           <div />
@@ -262,17 +300,17 @@ export default function CourseDetailClient({ params }: { params: Promise<{ id: s
             transition={{ duration: 0.6 }}
           >
             <CourseDetailsSidebar
-              price={mockCourse.courseCost}
+              price={course.courseCost}
               currency="جنيه مصرى"
-              startDate={mockCourse.courseStartDate}
-              hours={mockCourse.courseNumberOfHours}
-              months={mockCourse.numberOfMonths}
-              location="عبر الإنترنت"
+              startDate={course.courseStartDate}
+              hours={course.courseNumberOfHours}
+              months={course.numberOfMonths || 0}
+              location={course.place}
               isAuthenticated={currentUser}
               onEnroll={() => router.push('/payment/1')}
               onLogin={() => router.push('/login')}
-              onRequestProgram={() => router.push(`/apply-for-program/${mockCourse.id}`)}
-              courseId={mockCourse.id}
+              onRequestProgram={() => router.push(`/apply-for-program/${course.courseId}`)}
+              courseId={course.courseId}
             />
           </motion.div>
         </div>
@@ -280,25 +318,25 @@ export default function CourseDetailClient({ params }: { params: Promise<{ id: s
       <ContentLayout>
         <div className="space-y-12">
           {/* Program Header */}
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <h1 className="text-4xl font-bold">
-              {mockCourse.courseName}
+              {course.courseName}
             </h1>
             <p className="text-lg text-gray-600">
-              {mockCourse.courseDescription}
+              {course.courseDescripTion}
             </p>
             <div className="flex flex-wrap items-center gap-4">
               <CertificateBadge type="professional" />
-              <span className="text-lg font-semibold text-primary">{mockCourse.courseCost} SR</span>
+              <span className="text-lg font-semibold text-primary">{course.courseCost} SR</span>
             </div>
-          </div>
+          </div> */}
 
           {/* Social Share Bar */}
-          <div className="border-t border-b py-4">
+          {/* <div className="border-t border-b py-4">
             <SocialShareBar
-              title={mockCourse.courseName}
+              title={course.courseName}
             />
-          </div>
+          </div> */}
 
           {/* Sessions Section */}
           <SessionsSection sessions={mockCourse.sessions} />
@@ -315,21 +353,27 @@ export default function CourseDetailClient({ params }: { params: Promise<{ id: s
             <div>
               <h3 className="text-xl font-bold mb-4">{t('details')}</h3>
               <ul className="space-y-3 text-gray-700">
-                <li><strong>{t('duration')}:</strong> {mockCourse.duration} {t('hours')}</li>
-                <li><strong>{t('capacity')}:</strong> {mockCourse.capacity} {t('seats')}</li>
-                <li><strong>{t('instructor')}:</strong> {mockCourse.trainer.nameEn}</li>
-                <li><strong>{t('location')}:</strong> {mockCourse.location}</li>
+                <li><strong>{t('duration')}:</strong> {course.courseNumberOfHours} {t('hours')}</li>
+                <li><strong>{t('capacity')}:</strong> {course.capacity || 'N/A'} {t('seats')}</li>
+                {course.ourinstructors && course.ourinstructors.length > 0 && (
+                  <li><strong>{t('instructor')}:</strong> {course.ourinstructors[0].instructorname}</li>
+                )}
+                <li><strong>{t('location')}:</strong> {course.place}</li>
               </ul>
             </div>
             <div>
               <h3 className="text-xl font-bold mb-4">{t('objectives')}</h3>
               <ul className="space-y-2 text-gray-700">
-                {mockCourse.objectives.map((obj, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <span className="text-primary mt-1">•</span>
-                    <span>{obj}</span>
-                  </li>
-                ))}
+                {course.wwwl && course.wwwl.length > 0 ? (
+                  course.wwwl.map((obj, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <span className="text-primary mt-1">•</span>
+                      <span>{typeof obj === 'string' ? obj : obj.wwwlcontent}</span>
+                    </li>
+                  ))
+                ) : (
+                  <li className="text-gray-500">No objectives available</li>
+                )}
               </ul>
             </div>
           </div>
@@ -337,11 +381,11 @@ export default function CourseDetailClient({ params }: { params: Promise<{ id: s
       </ContentLayout>
       <ArticlesSection />
 
-      <RelatedCourses courses={mockCourse.relatedCourses} language="ar" />
+      <RelatedCourses courses={course.relatedCourses ? course.relatedCourses.length > 0 ? course.relatedCourses : mockCourse.relatedCourses : mockCourse.relatedCourses} language="ar" />
       <PDFDownloadModal
         isOpen={showPDFModal}
         onClose={() => setShowPDFModal(false)}
-        courseTitle={mockCourse.courseName}
+        courseTitle={course.courseName}
       />
     </div>
   )

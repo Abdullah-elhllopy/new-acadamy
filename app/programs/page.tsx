@@ -271,7 +271,6 @@ export default function ProgramsPage() {
                 { label: t('home'), href: '/' },
                 { label: t('allCourses') }
               ]}
-              isArabic={isArabic}
               className="text-white"
             />
             <Button className="bg-hero-bg hover:bg-hero-hover rounded-full px-6">
