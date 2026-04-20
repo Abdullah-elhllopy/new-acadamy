@@ -48,6 +48,8 @@ export const endpoints = {
     filterByName: '/api/Course/Filter-Courses-by-name',
     filterByCategory: '/api/Course/Filter-Courses-by-category',
     filterByBool: '/api/Course/Filter-Courses-by-bool',
+    getFilteredPaged: '/api/Course/Filtered-Paged-Courses',
+    getCourseTypes: '/api/Course/Get-Course-Types',
     create: '/api/Course/Create-Course',
     update: '/api/Course/Update-Course',
     addWWWL: '/api/Course/Add-WWWL',

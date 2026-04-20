@@ -10,7 +10,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useMainDepartments, useSubDepartmentsByMain } from '@/hooks/api/use-departments'
 import { useTrainers } from '@/hooks/api/use-trainers'
+import { useCourseTypes } from '@/hooks/api/use-courses'
 import { MultiSelect } from '@/components/ui/multi-select'
+import { MapPicker } from '@/components/forms/map-picker'
 import Link from 'next/link'
 import { API_BASE_URL } from '@/services/api'
 import { useState } from 'react'
@@ -89,6 +91,7 @@ export function CourseForm({
   const { data: mainDepartments } = useMainDepartments()
   const { data: subDepartments } = useSubDepartmentsByMain(mainDepId || '')
   const { data: trainers } = useTrainers()
+  const { data: courseTypes } = useCourseTypes()
 
   const trainersOptions = trainers?.map(trainer => ({
     value: trainer.instructorid,
@@ -106,6 +109,12 @@ export function CourseForm({
     value: dep.subDepartmentId || '',
     label: dep.subDepartmentName || '',
     labelAr: dep.subDepartmentName || ''
+  })) || []
+
+  const courseTypeOptions = courseTypes?.map(type => ({
+    value: String(type.value),
+    label: type.text,
+    labelAr: type.text
   })) || []
 
   return (
@@ -133,9 +142,7 @@ export function CourseForm({
               <FormSelect
                 name="courseType"
                 label="Course Type"
-                options={[{ value: 'Online', label: 'Online', labelAr: 'أونلاين' },
-                { value: 'Offline', label: 'Offline', labelAr: 'محلية' },
-                { value: 'Hybrid', label: 'Hybrid', labelAr: 'هجينة' }]}
+                options={courseTypeOptions}
                 required
               />
             </div>
@@ -230,6 +237,16 @@ export function CourseForm({
                 placeholder="أدخل الموقع الفرعي"
               />
             </div>
+
+            <MapPicker
+              latitude={methods.watch('placeLocationLat')}
+              longitude={methods.watch('placeLocationLong')}
+              onLocationChange={(lat, lng) => {
+                methods.setValue('placeLocationLat', lat)
+                methods.setValue('placeLocationLong', lng)
+              }}
+              error={methods.formState.errors.placeLocationLat?.message || methods.formState.errors.placeLocationLong?.message}
+            />
           </CardContent>
         </Card>
 

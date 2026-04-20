@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { courseService, Course, CourseFilterByCategory, CourseFilterByBool, WWWL } from '@/services/api';
+import { courseService, Course, CourseFilterByCategory, CourseFilterByBool, WWWL, FilteredPagedCoursesRequest } from '@/services/api';
 import { toast } from 'sonner';
 
 export const COURSE_KEYS = {
@@ -123,5 +123,20 @@ export function useAddWWWL() {
     onError: (error: Error) => {
       toast.error(error.message || 'Failed to add learning outcome');
     },
+  });
+}
+
+export function useFilteredPagedCourses(request: FilteredPagedCoursesRequest) {
+  return useQuery({
+    queryKey: [...COURSE_KEYS.lists(), 'filtered-paged', request],
+    queryFn: () => courseService.getFilteredPaged(request),
+  });
+}
+
+export function useCourseTypes() {
+  return useQuery({
+    queryKey: [...COURSE_KEYS.all, 'types'],
+    queryFn: () => courseService.getCourseTypes(),
+    staleTime : Infinity
   });
 }

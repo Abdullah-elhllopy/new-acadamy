@@ -3,9 +3,9 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { Program, Trainer } from '@/shared/types'
-import { useCourses as useCoursesAPI, useCoursesFilterByBool } from '@/hooks/api/use-courses'
+import { useFilteredPagedCourses } from '@/hooks/api/use-courses'
 import { useMainDepartments, useSubDepartmentsByMain } from '@/hooks/api/use-departments'
-import { MainDepartment, SubDepartment } from '@/services/api'
+import { MainDepartment, SubDepartment, Course } from '@/services/api'
 
 export interface PaginationParams {
     page: number
@@ -23,7 +23,7 @@ export interface CourseFilters {
 
 
 interface UseCoursesOptions {
-    type: 'presence' | 'online' | 'live'
+    type?: 'presence' | 'online' | 'live'
     initialFilters?: CourseFilters
 }
 
@@ -54,50 +54,35 @@ export function useCourses({ type, initialFilters }: UseCoursesOptions): UseCour
     })
     const [filters, setFilters] = useState<CourseFilters>(initialFilters || {})
 
-    // Fetch all courses (we'll filter by type client-side)
-    const { data: coursesData, isLoading: coursesLoading, error: coursesError } = useCoursesAPI()
+    // Fetch paginated courses with filters
+    const { data: apiResponse, isLoading: coursesLoading, error: coursesError } = useFilteredPagedCourses({
+        pageNumber: pagination.page,
+        pageSize: pagination.limit,
+        mainDepartmentId: activeDepartment || undefined,
+        subDepartmentId: activeSubDepartment || undefined,
+    })
+
     const { data: departments, isLoading: deptLoading } = useMainDepartments()
-    const { data: subDepartments, isLoading: subDeptLoading } = useSubDepartmentsByMain(activeDepartment || '')
+    const { data: subDepartments } = useSubDepartmentsByMain(activeDepartment || '')
 
-    // Transform API data
+    // Transform API data to Program format
     const courses = useMemo(() => {
-        if (!coursesData?.allCoursesDetails) return []
-        let filtered = coursesData.allCoursesDetails
-
-        // Filter by course type
-        if (type === 'presence') {
-            filtered = filtered.filter(c => c.courseType?.toLowerCase() === 'offline')
-        } else if (type === 'online') {
-            filtered = filtered.filter(c => c.courseType?.toLowerCase() === 'online')
-        } else if (type === 'live') {
-            filtered = filtered.filter(c => c.courseType?.includes('مباشر'))
-        }
-
-        // Filter by department
-        if (activeDepartment) {
-            filtered = filtered.filter(c => c.mainDebId === activeDepartment)
-        }
-
-        // Filter by sub-department
-        if (activeSubDepartment) {
-            filtered = filtered.filter(c => c.subDebId === activeSubDepartment)
-        }
-
-        // Map Course to Program
-        return filtered.map(course => ({
+        if (!apiResponse?.rows) return []
+        
+        return apiResponse.rows.map((course: any) => ({
             id: course.courseId,
             titleEn: course.courseName,
             titleAr: course.courseName,
             descriptionEn: course.courseDescripTion,
             descriptionAr: course.courseDescripTion,
-            category: course.mainDebId || '',
-            trainer: course.ourinstructors?.[0] ? {
-                id: course.ourinstructors[0].instructorId || '',
-                nameEn: course.ourinstructors[0].instructorName || '',
-                nameAr: course.ourinstructors[0].instructorNameAr || '',
+            category: '',
+            trainer: course.instructorid ? {
+                id: course.instructorid,
+                nameEn: course.instructorname || '',
+                nameAr: course.instructorname || '',
                 rating: 0,
                 reviewCount: 0,
-                photo: course.ourinstructors[0].instructorImage
+                photo: course.instructorimage
             } : {
                 id: '',
                 nameEn: '',
@@ -110,17 +95,23 @@ export function useCourses({ type, initialFilters }: UseCoursesOptions): UseCour
             duration: course.courseNumberOfHours,
             capacity: 0,
             image: course.image,
-            objectives: course.wwwlText || [],
-            createdAt: new Date(),
+            objectives: [],
+            createdAt: new Date(course.courseStartDate),
             updatedAt: new Date(),
             courseType: course.courseType,
             status: (course.now ? 'in-progress' : course.soon ? 'upcoming' : 'completed') as 'in-progress' | 'upcoming' | 'completed'
         } as Program))
-    }, [coursesData, activeDepartment, activeSubDepartment, type])
+    }, [apiResponse])
 
+    // Update pagination when API response changes
     useEffect(() => {
-        setPagination(prev => ({ ...prev, total: courses.length }))
-    }, [courses.length])
+        if (apiResponse) {
+            setPagination(prev => ({
+                ...prev,
+                total: apiResponse.totalCount || 0
+            }))
+        }
+    }, [apiResponse])
 
     // Reset sub-department when department changes
     useEffect(() => {

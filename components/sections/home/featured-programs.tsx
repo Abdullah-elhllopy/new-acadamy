@@ -25,28 +25,28 @@ export function FeaturedPrograms() {
   const { data: newCourses, isLoading: loadingNew } = useCoursesFilterByBool(
     {
       now: true,
-      mostSelling: false,
-      recommended: false,
-      soon: false,
+      mostSelling: null,
+      recommended: null,
+      soon: null,
     },
     { enabled: loadedTabs.has('new') }
   )
 
   const { data: mostWantedCourses, isLoading: loadingMostWanted } = useCoursesFilterByBool(
     {
-      now: false,
+      now: null,
       mostSelling: true,
-      recommended: false,
-      soon: false,
+      recommended: null,
+      soon: null,
     },
     { enabled: loadedTabs.has('mostWanted') }
   )
 
   const { data: soonCourses, isLoading: loadingSoon } = useCoursesFilterByBool(
     {
-      now: false,
-      mostSelling: false,
-      recommended: false,
+      now: null,
+      mostSelling: null,
+      recommended: null,
       soon: true,
     },
     { enabled: loadedTabs.has('soon') }
@@ -54,10 +54,10 @@ export function FeaturedPrograms() {
 
   const { data: recommendedCourses, isLoading: loadingRecommended } = useCoursesFilterByBool(
     {
-      now: false,
-      mostSelling: false,
+      now: null,
+      mostSelling: null,
       recommended: true,
-      soon: false,
+      soon: null,
     },
     { enabled: loadedTabs.has('recommended') }
   )

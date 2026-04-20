@@ -100,25 +100,25 @@ export function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuItem asChild>
-                  <Link href="/all-programs" className="w-full cursor-pointer">
+                  <Link href="/all-courses" className="w-full cursor-pointer">
                     {t('allPrograms')}
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                {/* <DropdownMenuItem asChild>
                   <Link href="/programs" className="w-full cursor-pointer">
                     {'البرامج التدريبية'}
                   </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                </DropdownMenuItem> */}
+                {/* <DropdownMenuItem asChild>
                   <Link href="/presence-courses" className="w-full cursor-pointer">
                     {t('presenceCourses')}
                   </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                </DropdownMenuItem> */}
+                {/* <DropdownMenuItem asChild>
                   <Link href="/online-courses" className="w-full cursor-pointer">
                     {t('onlineCourses')}
                   </Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -206,9 +206,9 @@ export function Header() {
                   <Link href="/our-team" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
                     {t('ourTeam')}
                   </Link>
-                  <Link href="/programs" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
+                  {/* <Link href="/programs" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
                     {t('allPrograms')}
-                  </Link>
+                  </Link> */}
                   <Link href="/trainers" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
                     {t('trainers')}
                   </Link>

@@ -390,6 +390,68 @@
                 }
             }
         },
+        "/api/Course/Filtered-Courses": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FilterCoursesVM"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FilterCoursesVM"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FilterCoursesVM"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/Filtered-Paged-Courses": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FilterPagedCoursesVM"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FilterPagedCoursesVM"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FilterPagedCoursesVM"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
         "/api/Course/All-Courses": {
             "get": {
                 "tags": [
@@ -623,6 +685,14 @@
                                         "type": "string",
                                         "default": ""
                                     },
+                                    "PlaceLocationLat": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "PlaceLocationLong": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
                                     "Coursetype": {
                                         "type": "integer",
                                         "format": "int32",
@@ -669,10 +739,6 @@
                                     "CourseContentAr": {
                                         "type": "string",
                                         "default": ""
-                                    },
-                                    "MainDebId": {
-                                        "type": "string",
-                                        "format": "uuid"
                                     },
                                     "SubDebId": {
                                         "type": "string",
@@ -756,6 +822,12 @@
                                 "PlaceSubAr": {
                                     "style": "form"
                                 },
+                                "PlaceLocationLat": {
+                                    "style": "form"
+                                },
+                                "PlaceLocationLong": {
+                                    "style": "form"
+                                },
                                 "Coursetype": {
                                     "style": "form"
                                 },
@@ -787,9 +859,6 @@
                                     "style": "form"
                                 },
                                 "CourseContentAr": {
-                                    "style": "form"
-                                },
-                                "MainDebId": {
                                     "style": "form"
                                 },
                                 "SubDebId": {
@@ -977,6 +1046,14 @@
                                         "type": "string",
                                         "default": ""
                                     },
+                                    "PlaceLocationLat": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "PlaceLocationLong": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
                                     "Coursetype": {
                                         "type": "integer",
                                         "format": "int32",
@@ -1023,10 +1100,6 @@
                                     "CourseContentAr": {
                                         "type": "string",
                                         "default": ""
-                                    },
-                                    "MainDebId": {
-                                        "type": "string",
-                                        "format": "uuid"
                                     },
                                     "SubDebId": {
                                         "type": "string",
@@ -1110,6 +1183,12 @@
                                 "PlaceSubAr": {
                                     "style": "form"
                                 },
+                                "PlaceLocationLat": {
+                                    "style": "form"
+                                },
+                                "PlaceLocationLong": {
+                                    "style": "form"
+                                },
                                 "Coursetype": {
                                     "style": "form"
                                 },
@@ -1141,9 +1220,6 @@
                                     "style": "form"
                                 },
                                 "CourseContentAr": {
-                                    "style": "form"
-                                },
-                                "MainDebId": {
                                     "style": "form"
                                 },
                                 "SubDebId": {
@@ -2017,6 +2093,29 @@
                 }
             }
         },
+        "/api/Instructor/get-Instructor-Dashboard/{id}": {
+            "get": {
+                "tags": [
+                    "Instructor"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
         "/api/Instructor/Find-Instructor/{name}": {
             "get": {
                 "tags": [
@@ -2088,6 +2187,28 @@
                                     "Pdffile": {
                                         "type": "string",
                                         "format": "binary"
+                                    },
+                                    "NameAr": {
+                                        "type": "string"
+                                    },
+                                    "JobAr": {
+                                        "type": "string"
+                                    },
+                                    "Email": {
+                                        "type": "string"
+                                    },
+                                    "Phone": {
+                                        "type": "string"
+                                    },
+                                    "VideoUrl": {
+                                        "type": "string"
+                                    },
+                                    "Experience": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    },
+                                    "AboutAr": {
+                                        "type": "string"
                                     }
                                 }
                             },
@@ -2123,6 +2244,27 @@
                                     "style": "form"
                                 },
                                 "Pdffile": {
+                                    "style": "form"
+                                },
+                                "NameAr": {
+                                    "style": "form"
+                                },
+                                "JobAr": {
+                                    "style": "form"
+                                },
+                                "Email": {
+                                    "style": "form"
+                                },
+                                "Phone": {
+                                    "style": "form"
+                                },
+                                "VideoUrl": {
+                                    "style": "form"
+                                },
+                                "Experience": {
+                                    "style": "form"
+                                },
+                                "AboutAr": {
                                     "style": "form"
                                 }
                             }
@@ -2373,6 +2515,29 @@
                 }
             }
         },
+        "/api/MainDepartment/get-Department-Dashboard/{id}": {
+            "get": {
+                "tags": [
+                    "MainDepartment"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
         "/api/MainDepartment/Find-Department/{name}": {
             "get": {
                 "tags": [
@@ -2404,17 +2569,48 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/MainDepartmentVM"
+                                "$ref": "#/components/schemas/MainDepartmentDashboardVM"
                             }
                         },
                         "text/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/MainDepartmentVM"
+                                "$ref": "#/components/schemas/MainDepartmentDashboardVM"
                             }
                         },
                         "application/*+json": {
                             "schema": {
-                                "$ref": "#/components/schemas/MainDepartmentVM"
+                                "$ref": "#/components/schemas/MainDepartmentDashboardVM"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/MainDepartment/Update-Department": {
+            "post": {
+                "tags": [
+                    "MainDepartment"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MainDepartmentDashboardVM"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MainDepartmentDashboardVM"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MainDepartmentDashboardVM"
                             }
                         }
                     }
@@ -3591,6 +3787,18 @@
                 }
             }
         },
+        "/api/SubDepartment/All-Sub-Departments-Dashboard": {
+            "get": {
+                "tags": [
+                    "SubDepartment"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
         "/api/SubDepartment/Get-By-Main-Deb/{Id}": {
             "get": {
                 "tags": [
@@ -3615,6 +3823,29 @@
             }
         },
         "/api/SubDepartment/get-Sub-Department/{id}": {
+            "get": {
+                "tags": [
+                    "SubDepartment"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/SubDepartment/get-Sub-Department-Dashboard/{id}": {
             "get": {
                 "tags": [
                     "SubDepartment"
@@ -3668,17 +3899,48 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/MainDepartmentVM"
+                                "$ref": "#/components/schemas/CreateSubDepartmentVM"
                             }
                         },
                         "text/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/MainDepartmentVM"
+                                "$ref": "#/components/schemas/CreateSubDepartmentVM"
                             }
                         },
                         "application/*+json": {
                             "schema": {
-                                "$ref": "#/components/schemas/MainDepartmentVM"
+                                "$ref": "#/components/schemas/CreateSubDepartmentVM"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/SubDepartment/Update-Sub-Department": {
+            "post": {
+                "tags": [
+                    "SubDepartment"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateSubDepartmentVM"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateSubDepartmentVM"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateSubDepartmentVM"
                             }
                         }
                     }
@@ -4499,6 +4761,32 @@
                 },
                 "additionalProperties": false
             },
+            "CreateSubDepartmentVM": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "nameAr": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "descriptionAr": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "mainDepartmentId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
             "filter": {
                 "type": "object",
                 "properties": {
@@ -4545,6 +4833,78 @@
             "filterbool": {
                 "type": "object",
                 "properties": {
+                    "now": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "mostSellenig": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "recommended": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "soon": {
+                        "type": "boolean",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "FilterCoursesVM": {
+                "type": "object",
+                "properties": {
+                    "mainDepartmentId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "nullable": true
+                    },
+                    "subDepartmentId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "nullable": true
+                    },
+                    "now": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "mostSellenig": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "recommended": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "soon": {
+                        "type": "boolean",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "FilterPagedCoursesVM": {
+                "type": "object",
+                "properties": {
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "mainDepartmentId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "nullable": true
+                    },
+                    "subDepartmentId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "nullable": true
+                    },
                     "now": {
                         "type": "boolean",
                         "nullable": true
@@ -4616,7 +4976,7 @@
                 },
                 "additionalProperties": false
             },
-            "MainDepartmentVM": {
+            "MainDepartmentDashboardVM": {
                 "type": "object",
                 "properties": {
                     "departmentID": {
@@ -4628,6 +4988,14 @@
                         "nullable": true
                     },
                     "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "nameAr": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "descriptionAr": {
                         "type": "string",
                         "nullable": true
                     }
@@ -4664,6 +5032,36 @@
                         "format": "uuid"
                     },
                     "courseId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "UpdateSubDepartmentVM": {
+                "type": "object",
+                "properties": {
+                    "subDepartmentId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "nameAr": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "descriptionAr": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "mainDepartmentId": {
                         "type": "string",
                         "format": "uuid"
                     }

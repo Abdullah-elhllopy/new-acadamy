@@ -69,7 +69,17 @@ export const courseSchema = z.object({
   placeAr: z.string().min(2, 'Place (Arabic) is required'),
   placeSub: z.string().optional(),
   placeSubAr: z.string().optional(),
-  courseType: z.string().min(2, 'Course type is required'), // حضورى/مباشرة/عبر الإنترنت
+  placeLocationLat: z.string().optional().refine((val) => {
+    if (!val) return true;
+    const num = parseFloat(val);
+    return !isNaN(num) && num >= -90 && num <= 90;
+  }, 'Latitude must be between -90 and 90'),
+  placeLocationLong: z.string().optional().refine((val) => {
+    if (!val) return true;
+    const num = parseFloat(val);
+    return !isNaN(num) && num >= -180 && num <= 180;
+  }, 'Longitude must be between -180 and 180'),
+  courseType: z.string().min(1, 'Course type is required'),
   courseCost: z.string().min(1, 'Cost is required'),
   courseNumberOfHours: z.string().min(1, 'Number of hours is required'),
   language: z.string().optional(),
@@ -78,7 +88,7 @@ export const courseSchema = z.object({
   courseContent: z.string().optional(),
   courseContentAr: z.string().optional(),
   mainDebId: z.string().optional(),
-  subDebId: z.string().optional(),
+  subDebId: z.string().min(1, 'Sub department is required'),
   instructorIDs: z.array(z.string()).optional(),
   wwwl: z.array(z.object({
     id: z.string(),

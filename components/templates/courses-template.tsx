@@ -15,14 +15,13 @@ import { useCourses } from '@/shared/hooks/use-courses'
 import { ProgramCard } from '../cards/program-card'
 import { Pagination } from '../shared/pagination'
 import { SubDepartmentNav } from '../shared/sub-department-nav'
-import Loader from '../shared/loader/loader'
 import { Hero } from '../sections/hero'
 import { ContentLayout, Layout } from '@/layout/page-layout'
 import { TitleContainer } from '../shared/title'
 import { DataStateHandler } from '../shared/data-state-handler'
 
 interface CoursesTemplateProps {
-  type: 'presence' | 'online' | 'live'
+  type?: 'presence' | 'online' | 'live'
   title: { en: string; ar: string }
   description: { en: string; ar: string }
   showFilters?: boolean
@@ -37,8 +36,7 @@ export function CoursesTemplate({
   showFilters = true,
   showBreadcrumb = true
 }: CoursesTemplateProps) {
-  const { language } = useLanguage()
-  const isArabic = language === 'ar'
+  const { isArabic } = useLanguage()
   const [searchQuery, setSearchQuery] = useState('')
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
@@ -182,8 +180,8 @@ export function CoursesTemplate({
         {/* Results Count */}
         <div className={cn("mb-6 text-muted-foreground")} suppressHydrationWarning>
           {isArabic
-            ? `عرض ${filteredCourses.length} من ${pagination.total} دورة`
-            : `Showing ${filteredCourses.length} of ${pagination.total} courses`
+            ? `عرض ${courses.length} من ${pagination.total} دورة`
+            : `Showing ${courses.length} of ${pagination.total} courses`
           }
         </div>
 

@@ -97,16 +97,37 @@ export interface CourseFilterByCategory {
 }
 
 export interface CourseFilterByBool {
+  now?: boolean | null;
+  mostSelling?: boolean | null;
+  recommended?: boolean | null;
+  soon?: boolean | null;
+}
+
+export interface FilteredPagedCoursesRequest {
+  pageNumber: number;
+  pageSize: number;
+  mainDepartmentId?: string;
+  subDepartmentId?: string;
   now?: boolean;
-  mostSelling?: boolean;
+  mostSellenig?: boolean;
   recommended?: boolean;
   soon?: boolean;
+}
+
+export interface FilteredPagedCoursesResponse {
+  rows: Course[];
+  totalCount: number;
 }
 
 export interface WWWL {
   wwwlid?: string;
   wwwlcontent: string;
   courseid: string;
+}
+
+export interface CourseType {
+  value: number;
+  text: string;
 }
 
 class CourseService {
@@ -164,6 +185,15 @@ class CourseService {
 
   async getCoursesByUserId(userId: string): Promise<Course[]> {
     return apiClient.get<Course[]>(`/api/Course/GetCoursesByUserId/${userId}`);
+  }
+
+  async getFilteredPaged(request: FilteredPagedCoursesRequest): Promise<FilteredPagedCoursesResponse> {
+    return apiClient.post<FilteredPagedCoursesResponse>(endpoints.courses.getFilteredPaged, request);
+  }
+
+  async getCourseTypes(): Promise<CourseType[]> {
+    const response = await apiClient.get<{data : CourseType[]}>(endpoints.courses.getCourseTypes);
+    return response.data || [];
   }
 }
 

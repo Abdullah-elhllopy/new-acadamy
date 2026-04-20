@@ -27,6 +27,8 @@ export default function AddCoursePage() {
       placeAr: '',
       placeSub: '',
       placeSubAr: '',
+      placeLocationLat: '',
+      placeLocationLong: '',
       courseType: '',
       courseCost: '',
       courseNumberOfHours: '',
@@ -63,6 +65,8 @@ export default function AddCoursePage() {
 
     if (data.placeSub) formData.append('PlaceSub', data.placeSub)
     if (data.placeSubAr) formData.append('PlaceSubAr', data.placeSubAr)
+    if (data.placeLocationLat) formData.append('PlaceLocationLat', data.placeLocationLat)
+    if (data.placeLocationLong) formData.append('PlaceLocationLong', data.placeLocationLong)
     if (data.language) formData.append('Language', data.language)
     if (data.numberOfWeeks) formData.append('NumberOfWeeks', data.numberOfWeeks)
     if (data.numberOfMonths) formData.append('NumberOfMonths', data.numberOfMonths)
@@ -74,7 +78,6 @@ export default function AddCoursePage() {
     formData.append('Recommended', data.recommended ? 'true' : 'false')
     formData.append('MostSellenig', data.mostSelling ? 'true' : 'false')
 
-    if (data.mainDebId) formData.append('MainDebId', data.mainDebId)
     if (data.subDebId) formData.append('SubDebId', data.subDebId)
     
     if (data.instructorIDs && data.instructorIDs.length > 0) {
