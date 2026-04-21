@@ -2,6 +2,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Program, Trainer } from '@/shared/types'
 import { useFilteredPagedCourses } from '@/hooks/api/use-courses'
 import { useMainDepartments, useSubDepartmentsByMain } from '@/hooks/api/use-departments'
@@ -45,7 +46,9 @@ interface UseCoursesReturn {
 }
 
 export function useCourses({ type, initialFilters }: UseCoursesOptions): UseCoursesReturn {
-    const [activeDepartment, setActiveDepartment] = useState<string | null>(null)
+    const searchParams = useSearchParams()
+    const departmentId = searchParams.get('category')
+    const [activeDepartment, setActiveDepartment] = useState<string | null>(departmentId || null)
     const [activeSubDepartment, setActiveSubDepartment] = useState<string | null>(null)
     const [pagination, setPagination] = useState<PaginationParams>({
         page: 1,
@@ -55,10 +58,10 @@ export function useCourses({ type, initialFilters }: UseCoursesOptions): UseCour
     const [filters, setFilters] = useState<CourseFilters>(initialFilters || {})
 
     // Fetch paginated courses with filters
-    const { data: apiResponse, isLoading: coursesLoading, error: coursesError } = useFilteredPagedCourses({
+    const { data: apiResponse, isLoading: coursesLoading, error: coursesError, refetch } = useFilteredPagedCourses({
         pageNumber: pagination.page,
         pageSize: pagination.limit,
-        mainDepartmentId: activeDepartment || undefined,
+        mainDepartmentId: activeDepartment || departmentId ||  undefined,
         subDepartmentId: activeSubDepartment || undefined,
     })
 
@@ -68,7 +71,7 @@ export function useCourses({ type, initialFilters }: UseCoursesOptions): UseCour
     // Transform API data to Program format
     const courses = useMemo(() => {
         if (!apiResponse?.rows) return []
-        
+
         return apiResponse.rows.map((course: any) => ({
             id: course.courseId,
             titleEn: course.courseName,
@@ -150,8 +153,8 @@ export function useCourses({ type, initialFilters }: UseCoursesOptions): UseCour
 
     return {
         courses,
-        departments : departments || [],
-        subDepartments :subDepartments || [],
+        departments: departments || [],
+        subDepartments: subDepartments || [],
         loading,
         error,
         pagination: {
@@ -165,6 +168,6 @@ export function useCourses({ type, initialFilters }: UseCoursesOptions): UseCour
         setFilters: updateFilters,
         selectDepartment,
         selectSubDepartment,
-        refresh: () => {}
+        refresh: refetch
     }
 }

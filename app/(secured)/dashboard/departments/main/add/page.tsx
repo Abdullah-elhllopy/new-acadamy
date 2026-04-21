@@ -3,18 +3,12 @@
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowLeft } from 'lucide-react'
 import { useCreateMainDepartment } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
 import { DashboardHero } from '@/components/sections/hero'
-import { Form, FormField } from '@/components/forms'
-import { BackButton, Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Checkbox } from '@/components/ui/checkbox'
+import { BackButton } from '@/components/ui/button'
 import { mainDepartmentSchema, type MainDepartmentFormData } from '@/lib/validations'
-import Link from 'next/link'
+import { MainDepartmentForm } from '../../_components/main-department-form'
 
 export default function AddMainDepartmentPage() {
   const router = useRouter()
@@ -24,33 +18,22 @@ export default function AddMainDepartmentPage() {
     resolver: zodResolver(mainDepartmentSchema),
     defaultValues: {
       mainDepartmentName: '',
+      mainDepartmentNameAr: '',
       mainDepartmentDescription: '',
+      mainDepartmentDescriptionAr: '',
       isActive: true,
     },
   })
 
   const onSubmit = async (data: MainDepartmentFormData) => {
-    // const formData = new FormData()
-    const form_Data = {
-      "name": data.mainDepartmentName,
-      "mainDeptId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "description": data.mainDepartmentDescription,
-      "isActive": data.isActive
+    const payload = {
+      name: data.mainDepartmentName,
+      nameAr: data.mainDepartmentNameAr,
+      description: data.mainDepartmentDescription || '',
+      descriptionAr: data.mainDepartmentDescriptionAr || '',
     }
-    // formData.append('name', data.mainDepartmentName)
-    // formData.append('mainDeptId', '3fa85f64-5717-4562-b3fc-2c963f66afa6')
 
-    // if (data.mainDepartmentDescription) {
-    //   formData.append('description', data.mainDepartmentDescription)
-    // }
-
-    // formData.append('isActive', data.isActive ? 'true' : 'false')
-
-    // if (data.image?.[0]) {
-    //   formData.append('image', data.image[0])
-    // }
-
-    await createDepartment.mutateAsync(form_Data)
+    await createDepartment.mutateAsync(payload)
     router.push('/dashboard/departments/main')
   }
 
@@ -69,61 +52,12 @@ export default function AddMainDepartmentPage() {
       </DashboardHero>
 
       <ContentLayout>
-        <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Department Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <FormField
-                  name="mainDepartmentName"
-                  label="Department Name"
-                  placeholder="Enter main department name"
-                  required
-                />
-
-                <FormField
-                  name="mainDepartmentDescription"
-                  label="Description"
-                  type="textarea"
-                  placeholder="Enter department description (optional)"
-                  rows={4}
-                />
-
-                <div className="space-y-2">
-                  <Label htmlFor="image">Department Image</Label>
-                  <Input
-                    id="image"
-                    type="file"
-                    accept="image/*"
-                    {...methods.register('image')}
-                  />
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="isActive"
-                    {...methods.register('isActive')}
-                    defaultChecked
-                  />
-                  <Label htmlFor="isActive" className="cursor-pointer">
-                    Active Department
-                  </Label>
-                </div>
-              </CardContent>
-            </Card>
-
-            <div className="flex justify-start gap-4">
-              <Button type="button" variant="outline" asChild>
-                <Link href="/dashboard/departments/main">Cancel</Link>
-              </Button>
-              <Button type="submit" disabled={createDepartment.isPending}>
-                {createDepartment.isPending ? 'Creating...' : 'Create Main Department'}
-              </Button>
-            </div>
-          </div>
-        </Form>
+        <MainDepartmentForm
+          methods={methods}
+          onSubmit={onSubmit}
+          isLoading={createDepartment.isPending}
+          isEdit={false}
+        />
       </ContentLayout>
     </>
   )

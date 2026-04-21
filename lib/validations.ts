@@ -69,14 +69,14 @@ export const courseSchema = z.object({
   placeAr: z.string().min(2, 'Place (Arabic) is required'),
   placeSub: z.string().optional(),
   placeSubAr: z.string().optional(),
-  placeLocationLat: z.string().optional().refine((val) => {
+  placeLocationLat: z.number().optional().refine((val) => {
     if (!val) return true;
-    const num = parseFloat(val);
+    const num = typeof val === 'string' ? parseFloat(val) : val;
     return !isNaN(num) && num >= -90 && num <= 90;
   }, 'Latitude must be between -90 and 90'),
-  placeLocationLong: z.string().optional().refine((val) => {
+  placeLocationLong: z.number().optional().refine((val) => {
     if (!val) return true;
-    const num = parseFloat(val);
+    const num = typeof val === 'string' ? parseFloat(val) : val;
     return !isNaN(num) && num >= -180 && num <= 180;
   }, 'Longitude must be between -180 and 180'),
   courseType: z.string().min(1, 'Course type is required'),
@@ -221,16 +221,19 @@ export type RatingFormData = z.infer<typeof ratingSchema>
 
 export const mainDepartmentSchema = z.object({
   mainDepartmentName: z.string().min(2, 'Department name is required'),
+  mainDepartmentNameAr: z.string().min(2, 'Department name (Arabic) is required'),
   mainDepartmentDescription: z.string().optional(),
+  mainDepartmentDescriptionAr: z.string().optional(),
   isActive: z.boolean().optional(),
-  image: z.any().optional(),
 })
 
 export type MainDepartmentFormData = z.infer<typeof mainDepartmentSchema>
 
 export const subDepartmentSchema = z.object({
   subDepartmentName: z.string().min(2, 'Sub department name is required'),
+  subDepartmentNameAr: z.string().min(2, 'Sub department name (Arabic) is required'),
   subDepartmentDescription: z.string().optional(),
+  subDepartmentDescriptionAr: z.string().optional(),
   mainDepartmentId: z.string().min(1, 'Main department is required'),
   isActive: z.boolean().optional(),
 })

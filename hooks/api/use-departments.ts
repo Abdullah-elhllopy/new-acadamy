@@ -32,6 +32,14 @@ export function useMainDepartment(id: string) {
   });
 }
 
+export function useMainDepartmentDashboard(id: string) {
+  return useQuery({
+    queryKey: [...DEPARTMENT_KEYS.main.detail(id), 'dashboard'],
+    queryFn: () => departmentService.getMainByIdDashboard(id),
+    enabled: !!id,
+  });
+}
+
 export function useSubDepartments() {
   return useQuery({
     queryKey: DEPARTMENT_KEYS.sub.lists(),
@@ -43,6 +51,14 @@ export function useSubDepartment(id: string) {
   return useQuery({
     queryKey: DEPARTMENT_KEYS.sub.detail(id),
     queryFn: () => departmentService.getSubById(id),
+    enabled: !!id,
+  });
+}
+
+export function useSubDepartmentDashboard(id: string) {
+  return useQuery({
+    queryKey: [...DEPARTMENT_KEYS.sub.detail(id), 'dashboard'],
+    queryFn: () => departmentService.getSubByIdDashboard(id),
     enabled: !!id,
   });
 }
@@ -74,7 +90,7 @@ export function useUpdateMainDepartment() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (formData: FormData) => departmentService.updateMain(formData),
+    mutationFn: (data: any) => departmentService.updateMain(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: DEPARTMENT_KEYS.main.lists() });
       toast.success('Main department updated successfully');
@@ -120,9 +136,10 @@ export function useUpdateSubDepartment() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (formData: FormData) => departmentService.updateSub(formData),
+    mutationFn: (data: any) => departmentService.updateSub(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: DEPARTMENT_KEYS.sub.lists() });
+      queryClient.invalidateQueries({ queryKey: [...DEPARTMENT_KEYS.all, 'sub', 'by-main'] });
       toast.success('Sub department updated successfully');
     },
     onError: (error: Error) => {

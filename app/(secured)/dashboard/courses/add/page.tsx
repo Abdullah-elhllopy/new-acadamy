@@ -9,6 +9,7 @@ import { DashboardHero } from '@/components/sections/hero'
 import { BackButton } from '@/components/ui/button'
 import { courseSchema, type CourseFormData } from '@/lib/validations'
 import { CourseForm } from '../_components/course-form'
+import { Form } from '@/components/forms'
 
 export default function AddCoursePage() {
   const router = useRouter()
@@ -27,8 +28,8 @@ export default function AddCoursePage() {
       placeAr: '',
       placeSub: '',
       placeSubAr: '',
-      placeLocationLat: '',
-      placeLocationLong: '',
+      placeLocationLat: undefined,
+      placeLocationLong:undefined,
       courseType: '',
       courseCost: '',
       courseNumberOfHours: '',
@@ -51,7 +52,7 @@ export default function AddCoursePage() {
 
   const onSubmit = async (data: CourseFormData) => {
     const formData = new FormData()
-    
+
     formData.append('CourseName', data.courseName)
     formData.append('CourseNameAr', data.courseNameAr)
     formData.append('CourseDescripTion', data.courseDescription)
@@ -65,8 +66,8 @@ export default function AddCoursePage() {
 
     if (data.placeSub) formData.append('PlaceSub', data.placeSub)
     if (data.placeSubAr) formData.append('PlaceSubAr', data.placeSubAr)
-    if (data.placeLocationLat) formData.append('PlaceLocationLat', data.placeLocationLat)
-    if (data.placeLocationLong) formData.append('PlaceLocationLong', data.placeLocationLong)
+    if (data.placeLocationLat) formData.append('PlaceLocationLat', `${data.placeLocationLat}`)
+    if (data.placeLocationLong) formData.append('PlaceLocationLong', `${data.placeLocationLong}`)
     if (data.language) formData.append('Language', data.language)
     if (data.numberOfWeeks) formData.append('NumberOfWeeks', data.numberOfWeeks)
     if (data.numberOfMonths) formData.append('NumberOfMonths', data.numberOfMonths)
@@ -79,7 +80,7 @@ export default function AddCoursePage() {
     formData.append('MostSellenig', data.mostSelling ? 'true' : 'false')
 
     if (data.subDebId) formData.append('SubDebId', data.subDebId)
-    
+
     if (data.instructorIDs && data.instructorIDs.length > 0) {
       data.instructorIDs.forEach(trainerId => {
         formData.append('InstructorIDs', trainerId)
@@ -120,12 +121,12 @@ export default function AddCoursePage() {
       </DashboardHero>
 
       <ContentLayout>
-        <CourseForm
-          methods={methods}
-          onSubmit={onSubmit}
-          isLoading={createCourse.isPending}
-          isEdit={false}
-        />
+        <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
+          <CourseForm
+            isLoading={createCourse.isPending}
+            isEdit={false}
+          />
+        </Form>
       </ContentLayout>
     </>
   )

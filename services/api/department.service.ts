@@ -2,15 +2,13 @@ import { apiClient } from './client';
 import { endpoints } from './config';
 
 export interface MainDepartment {
-  // mainDepartmentId?: string;
-  // mainDepartmentName: string;
-  // mainDepartmentDescription?: string;
-  // mainDepartmentImage?: string;
   isActive?: boolean;
-  name : string;
-  departmentID ?:string;
-  description ?:string;
-  image : string;
+  name: string;
+  departmentID?: string;
+  description?: string;
+  image?: string;
+  nameAr?: string;
+  descriptionAr?: string;
 }
 
 export interface SubDepartment {
@@ -19,6 +17,10 @@ export interface SubDepartment {
   subDepartmentDescription?: string;
   mainDepartmentId: string;
   isActive?: boolean;
+  name?: string;
+  nameAr?: string;
+  description?: string;
+  descriptionAr?: string;
 }
 
 class DepartmentService {
@@ -32,13 +34,18 @@ class DepartmentService {
     return response.data;
   }
 
-  async createMain(formData: FormData): Promise<MainDepartment> {
-    const response = await apiClient.post<{ data: MainDepartment }>(endpoints.departments.createMain, formData);
+  async getMainByIdDashboard(id: string): Promise<MainDepartment> {
+    const response = await apiClient.get<{ data: MainDepartment }>(endpoints.departments.getMainByIdDashboard(id));
     return response.data;
   }
 
-  async updateMain(formData: FormData): Promise<MainDepartment> {
-    const response = await apiClient.postFormData<{ data: MainDepartment }>(endpoints.departments.updateMain, formData);
+  async createMain(data: any): Promise<MainDepartment> {
+    const response = await apiClient.post<{ data: MainDepartment }>(endpoints.departments.createMain, data);
+    return response.data;
+  }
+
+  async updateMain(data: any): Promise<MainDepartment> {
+    const response = await apiClient.post<{ data: MainDepartment }>(endpoints.departments.updateMain, data);
     return response.data;
   }
 
@@ -56,18 +63,23 @@ class DepartmentService {
     return response.data;
   }
 
-  async getSubByMainId(mainId: string): Promise<SubDepartment[]> {
-    const response = await apiClient.get<{ data: SubDepartment[] }>(endpoints.departments.getSubByMainId(mainId));
-    return response.data || [];
-  }
-
-  async createSub(formData: FormData): Promise<SubDepartment> {
-    const response = await apiClient.post<{ data: SubDepartment }>(endpoints.departments.createSub, formData);
+  async getSubByIdDashboard(id: string): Promise<SubDepartment> {
+    const response = await apiClient.get<{ data: SubDepartment }>(endpoints.departments.getSubByIdDashboard(id));
     return response.data;
   }
 
-  async updateSub(formData: FormData): Promise<SubDepartment> {
-    const response = await apiClient.postFormData<{ data: SubDepartment }>(endpoints.departments.updateSub, formData);
+  async getSubByMainId(mainId: string): Promise<SubDepartment[]> {
+    const response = await apiClient.get<SubDepartment[]>(endpoints.departments.getSubByMainId(mainId));
+    return response || [];
+  }
+
+  async createSub(data: any): Promise<SubDepartment> {
+    const response = await apiClient.post<{ data: SubDepartment }>(endpoints.departments.createSub, data);
+    return response.data;
+  }
+
+  async updateSub(data: any): Promise<SubDepartment> {
+    const response = await apiClient.post<{ data: SubDepartment }>(endpoints.departments.updateSub, data);
     return response.data;
   }
 

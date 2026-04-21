@@ -4,7 +4,7 @@ import { useMemo, useEffect, use } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useCourse, useCourseForDashboard, useUpdateCourse } from '@/hooks/api'
+import { useCourseForDashboard, useUpdateCourse } from '@/hooks/api'
 import { ContentLayout } from '@/layout/page-layout'
 import { DashboardHero, Hero } from '@/components/sections/hero'
 import { BackButton, Button } from '@/components/ui/button'
@@ -12,6 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { courseSchema, type CourseFormData } from '@/lib/validations'
 import { CourseForm } from '../_components/course-form'
 import Link from 'next/link'
+import { Form } from '@/components/forms'
 
 export default function EditCoursePage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
@@ -24,71 +25,71 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
     () =>
       course
         ? {
-            courseName: course.courseName || '',
-            courseNameAr: course.courseNameAr || '',
-            courseDescription: course.courseDescripTion || '',
-            courseDescriptionAr: course.courseDescripTionAr || '',
-            courseStartDate: course.courseStartDate?.split('T')[0] || '',
-            place: course.place || '',
-            placeAr: course.placeAr || '',
-            placeSub: course.placeSub || '',
-            placeSubAr: course.placeSubAr || '',
-            placeLocationLat: '',
-            placeLocationLong: '',
-            courseType: course.courseType || '',
-            courseCost: String(course.courseCost || ''),
-            courseNumberOfHours: String(course.courseNumberOfHours || ''),
-            language: course.language || '',
-            numberOfWeeks: String(course.numberOfWeeks || ''),
-            numberOfMonths: String(course.numberOfMonths || ''),
-            courseContent: course.courseContent || '',
-            courseContentAr: course.courseContentAr || '',
-            mainDebId: course.mainDebId || '',
-            subDebId: course.subDebId || '',
-            instructorIDs: course.instructorIDs|| [],
-            wwwl: course.wwwlText?.map((text: string, index: number) => ({
-              id: `${index}-${Date.now()}`,
-              text: text
-            })) || [],
-            wwwlAr: course.wwwlTextAr?.map((text: string, index: number) => ({
-              id: `ar-${index}-${Date.now()}`,
-              text: text
-            })) || [],
-            now: course.now || false,
-            soon: course.soon || false,
-            recommended: course.recommended || false,
-            mostSelling: course.mostSellenig || false,
-          }
+          courseName: course.courseName || '',
+          courseNameAr: course.courseNameAr || '',
+          courseDescription: course.courseDescripTion || '',
+          courseDescriptionAr: course.courseDescripTionAr || '',
+          courseStartDate: course.courseStartDate?.split('T')[0] || '',
+          place: course.place || '',
+          placeAr: course.placeAr || '',
+          placeSub: course.placeSub || '',
+          placeSubAr: course.placeSubAr || '',
+          placeLocationLat: course?.placeLocationLat || undefined,
+          placeLocationLong: course?.placeLocationLong || undefined,
+          courseType: course.courseType || '',
+          courseCost: String(course.courseCost || ''),
+          courseNumberOfHours: String(course.courseNumberOfHours || ''),
+          language: course.language || '',
+          numberOfWeeks: String(course.numberOfWeeks || ''),
+          numberOfMonths: String(course.numberOfMonths || ''),
+          courseContent: course.courseContent || '',
+          courseContentAr: course.courseContentAr || '',
+          mainDebId: course.mainDebId || '',
+          subDebId: course.subDebId || '',
+          instructorIDs: course.instructorIDs || [],
+          wwwl: course.wwwlText?.map((text: string, index: number) => ({
+            id: `${index}-${Date.now()}`,
+            text: text
+          })) || [],
+          wwwlAr: course.wwwlTextAr?.map((text: string, index: number) => ({
+            id: `ar-${index}-${Date.now()}`,
+            text: text
+          })) || [],
+          now: course.now || false,
+          soon: course.soon || false,
+          recommended: course.recommended || false,
+          mostSelling: course.mostSellenig || false,
+        }
         : {
-            courseName: '',
-            courseNameAr: '',
-            courseDescription: '',
-            courseDescriptionAr: '',
-            courseStartDate: '',
-            place: '',
-            placeAr: '',
-            placeSub: '',
-            placeSubAr: '',
-            placeLocationLat: '',
-            placeLocationLong: '',
-            courseType: '',
-            courseCost: '',
-            courseNumberOfHours: '',
-            language: '',
-            numberOfWeeks: '',
-            numberOfMonths: '',
-            courseContent: '',
-            courseContentAr: '',
-            mainDebId: '',
-            subDebId: '',
-            instructorIDs: [],
-            wwwl: [],
-            wwwlAr: [],
-            now: false,
-            soon: false,
-            recommended: false,
-            mostSelling: false,
-          },
+          courseName: '',
+          courseNameAr: '',
+          courseDescription: '',
+          courseDescriptionAr: '',
+          courseStartDate: '',
+          place: '',
+          placeAr: '',
+          placeSub: '',
+          placeSubAr: '',
+          placeLocationLat: undefined,
+          placeLocationLong: undefined,
+          courseType: '',
+          courseCost: '',
+          courseNumberOfHours: '',
+          language: '',
+          numberOfWeeks: '',
+          numberOfMonths: '',
+          courseContent: '',
+          courseContentAr: '',
+          mainDebId: '',
+          subDebId: '',
+          instructorIDs: [],
+          wwwl: [],
+          wwwlAr: [],
+          now: false,
+          soon: false,
+          recommended: false,
+          mostSelling: false,
+        },
     [course]
   )
 
@@ -97,10 +98,10 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
     resolver: zodResolver(courseSchema),
     defaultValues,
   })
-  console.log(methods.formState.errors)
+  
   useEffect(() => {
     if (course) {
-      methods.reset(defaultValues)
+      methods.reset(defaultValues, { keepDefaultValues: false })
     }
   }, [course, defaultValues, methods])
 
@@ -120,8 +121,8 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
 
     if (data.placeSub) formData.append('PlaceSub', data.placeSub)
     if (data.placeSubAr) formData.append('PlaceSubAr', data.placeSubAr)
-    if (data.placeLocationLat) formData.append('PlaceLocationLat', data.placeLocationLat)
-    if (data.placeLocationLong) formData.append('PlaceLocationLong', data.placeLocationLong)
+    if (data.placeLocationLat) formData.append('PlaceLocationLat', `${data.placeLocationLat}`)
+    if (data.placeLocationLong) formData.append('PlaceLocationLong', `${data.placeLocationLong}`)
     if (data.language) formData.append('Language', data.language)
     if (data.numberOfWeeks) formData.append('NumberOfWeeks', data.numberOfWeeks)
     if (data.numberOfMonths) formData.append('NumberOfMonths', data.numberOfMonths)
@@ -134,7 +135,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
     formData.append('MostSellenig', data.mostSelling ? 'true' : 'false')
 
     if (data.subDebId) formData.append('SubDebId', data.subDebId)
-    
+
     if (data.instructorIDs && data.instructorIDs.length > 0) {
       data.instructorIDs.forEach(trainerId => {
         formData.append('InstructorIDs', trainerId)
@@ -202,17 +203,17 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
       </DashboardHero>
 
       <ContentLayout>
-        <CourseForm
-          methods={methods}
-          onSubmit={onSubmit}
-          isLoading={updateCourse.isPending}
-          isEdit={true}
-          currentFiles={{
-            image: course.image,
-            video: course.video,
-            pdf: course.coursepdf,
-          }}
-        />
+        <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
+          <CourseForm
+            isLoading={updateCourse.isPending}
+            isEdit={true}
+            currentFiles={{
+              image: course.image,
+              video: course.video,
+              pdf: course.coursepdf,
+            }}
+          />
+        </Form >
       </ContentLayout>
     </>
   )

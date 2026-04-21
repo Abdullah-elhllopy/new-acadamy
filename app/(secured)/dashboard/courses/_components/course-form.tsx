@@ -1,6 +1,6 @@
 'use client'
 
-import { UseFormReturn } from 'react-hook-form'
+import { useFormContext, UseFormReturn } from 'react-hook-form'
 import { CourseFormData } from '@/lib/validations'
 import { Form, FormField, FormSelect, WhatWillLearn } from '@/components/forms'
 import { FormCheckbox } from '@/components/forms/form-checkbox'
@@ -15,13 +15,11 @@ import { MultiSelect } from '@/components/ui/multi-select'
 import { MapPicker } from '@/components/forms/map-picker'
 import Link from 'next/link'
 import { API_BASE_URL } from '@/services/api'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { ImageIcon, Video, FileText, X } from 'lucide-react'
 import Image from 'next/image'
 
 interface CourseFormProps {
-  methods: UseFormReturn<CourseFormData>
-  onSubmit: (data: CourseFormData) => Promise<void>
   isLoading?: boolean
   isEdit?: boolean
   currentFiles?: {
@@ -32,22 +30,27 @@ interface CourseFormProps {
 }
 
 export function CourseForm({
-  methods,
-  onSubmit,
   isLoading = false,
   isEdit = false,
   currentFiles = {}
 }: CourseFormProps) {
-  const mainDepId = methods.watch('mainDebId')
-  const subDepId = methods.watch('subDebId')
-  const instructorIDs = methods.watch('instructorIDs') || []
-  const wwwl = methods.watch('wwwl') || []
-  const wwwlAr = methods.watch('wwwlAr') || []
+  const {watch ,setValue ,formState ,register } =useFormContext()
+  const mainDepId = watch('mainDebId')
+  const instructorIDs = watch('instructorIDs') || []
+  const wwwl = watch('wwwl') || []
+  const wwwlAr = watch('wwwlAr') || []
 
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [videoPreview, setVideoPreview] = useState<string | null>(null)
   const [removedImage, setRemovedImage] = useState(false)
   const [removedVideo, setRemovedVideo] = useState(false)
+
+
+  const { data: mainDepartments } = useMainDepartments()
+  const { data: subDepartments } = useSubDepartmentsByMain(mainDepId || '')
+  const { data: trainers } = useTrainers()
+  const { data: courseTypes } = useCourseTypes()
+
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -75,7 +78,7 @@ export function CourseForm({
     if (input) {
       input.value = ''
     }
-    methods.setValue('image', undefined)
+    setValue('image', undefined)
   }
 
   const clearVideo = () => {
@@ -85,40 +88,38 @@ export function CourseForm({
     if (input) {
       input.value = ''
     }
-    methods.setValue('video', undefined)
+    setValue('video', undefined)
   }
 
-  const { data: mainDepartments } = useMainDepartments()
-  const { data: subDepartments } = useSubDepartmentsByMain(mainDepId || '')
-  const { data: trainers } = useTrainers()
-  const { data: courseTypes } = useCourseTypes()
 
-  const trainersOptions = trainers?.map(trainer => ({
-    value: trainer.instructorid,
-    label: trainer.name,
-    labelAr: trainer.name
-  })) || []
+  const trainersOptions = useMemo(() => {
+    return trainers?.map(trainer => ({
+      value: trainer.instructorid || '',
+      label: trainer.name || '',
+    })) || []
+  }, [trainers])
 
-  const mainDepsOptions = mainDepartments?.map(dep => ({
-    value: dep.departmentID || '',
-    label: dep.name || '',
-    labelAr: dep.name || ''
-  })) || []
+  const mainDepsOptions = useMemo(() => {
+    return mainDepartments?.map(dep => ({
+      value: dep.departmentID || '',
+      label: dep.name || '',
+    })) || []
+  }, [mainDepartments])
 
-  const subDepsOptions = subDepartments?.map(dep => ({
-    value: dep.subDepartmentId || '',
-    label: dep.subDepartmentName || '',
-    labelAr: dep.subDepartmentName || ''
-  })) || []
+  const subDepsOptions = useMemo(() => {
+    return subDepartments?.map(dep => ({
+      value: dep.subDepartmentId || '',
+      label: dep.name || '',
+    })) || []
+  }, [subDepartments])
 
-  const courseTypeOptions = courseTypes?.map(type => ({
-    value: String(type.value),
-    label: type.text,
-    labelAr: type.text
-  })) || []
-
+  const courseTypeOptions = useMemo(() => {
+    return courseTypes?.map(type => ({
+      value: String(type.value),
+      label: type.text,
+    })) || []
+  }, [courseTypes])
   return (
-    <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
       <div className="space-y-6">
         {/* Basic Information */}
         <Card>
@@ -239,13 +240,13 @@ export function CourseForm({
             </div>
 
             <MapPicker
-              latitude={methods.watch('placeLocationLat')}
-              longitude={methods.watch('placeLocationLong')}
+              latitude={watch('placeLocationLat')}
+              longitude={watch('placeLocationLong')}
               onLocationChange={(lat, lng) => {
-                methods.setValue('placeLocationLat', lat)
-                methods.setValue('placeLocationLong', lng)
+                setValue('placeLocationLat', lat)
+                setValue('placeLocationLong', lng)
               }}
-              error={methods.formState.errors.placeLocationLat?.message || methods.formState.errors.placeLocationLong?.message}
+              error={formState.errors.placeLocationLat?.message || formState.errors.placeLocationLong?.message as any}
             />
           </CardContent>
         </Card>
@@ -293,8 +294,8 @@ export function CourseForm({
                 options={mainDepsOptions}
                 required
                 onChange={(value: string) => {
-                  methods.setValue('mainDebId', value)
-                  methods.setValue('subDebId', '')
+                  setValue('mainDebId', value)
+                  setValue('subDebId', '')
                 }}
               />
 
@@ -312,7 +313,7 @@ export function CourseForm({
               <MultiSelect
                 options={trainersOptions}
                 selected={instructorIDs}
-                onChange={(selected) => methods.setValue('instructorIDs', selected)}
+                onChange={(selected) => setValue('instructorIDs', selected)}
                 placeholder="Select trainers..."
                 searchPlaceholder="Search trainers..."
               />
@@ -344,12 +345,12 @@ export function CourseForm({
         <div className='flex md:flex-row flex-col  items-center w-full gap-3 flex-wrap'>
           <WhatWillLearn
             items={wwwl}
-            onChange={(items) => methods.setValue('wwwl', items)}
+            onChange={(items) => setValue('wwwl', items)}
             type='(English)'
           />
           <WhatWillLearn
             items={wwwlAr}
-            onChange={(items) => methods.setValue('wwwlAr', items)}
+            onChange={(items) => setValue('wwwlAr', items)}
             type='(Arabic)'
           />
         </div>
@@ -364,7 +365,7 @@ export function CourseForm({
                 <Label htmlFor="image">Course Image</Label>
                 {(imagePreview || (isEdit && currentFiles.image && !removedImage)) ? (
                   <div className="relative group">
-                    <div 
+                    <div
                       className="relative w-full h-48 rounded-lg overflow-hidden border-2 border-dashed border-gray-300 cursor-pointer hover:border-primary transition-colors"
                       onClick={() => document.getElementById('image')?.click()}
                     >
@@ -393,7 +394,7 @@ export function CourseForm({
                     </Button>
                   </div>
                 ) : (
-                  <div 
+                  <div
                     className="w-full h-48 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors"
                     onClick={() => document.getElementById('image')?.click()}
                   >
@@ -406,7 +407,7 @@ export function CourseForm({
                   type="file"
                   accept="image/*"
                   className="hidden"
-                  {...methods.register('image', {
+                  {...register('image', {
                     onChange: (e) => handleImageChange(e)
                   })}
                 />
@@ -417,7 +418,7 @@ export function CourseForm({
                 <Label htmlFor="video">Course Video</Label>
                 {(videoPreview || (isEdit && currentFiles.video && !removedVideo)) ? (
                   <div className="relative group">
-                    <div 
+                    <div
                       className="relative w-full h-48 rounded-lg overflow-hidden border-2 border-dashed border-gray-300 cursor-pointer hover:border-primary transition-colors bg-black"
                       onClick={() => document.getElementById('video')?.click()}
                     >
@@ -451,7 +452,7 @@ export function CourseForm({
                     </Button>
                   </div>
                 ) : (
-                  <div 
+                  <div
                     className="w-full h-48 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors"
                     onClick={() => document.getElementById('video')?.click()}
                   >
@@ -464,7 +465,7 @@ export function CourseForm({
                   type="file"
                   accept="video/*"
                   className="hidden"
-                  {...methods.register('video', {
+                  {...register('video', {
                     onChange: (e) => handleVideoChange(e)
                   })}
                 />
@@ -475,7 +476,7 @@ export function CourseForm({
                 <Label htmlFor="pdf">Course PDF</Label>
                 {isEdit && currentFiles.pdf ? (
                   <div className="relative group">
-                    <div 
+                    <div
                       className="w-full h-48 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors"
                       onClick={() => document.getElementById('pdf')?.click()}
                     >
@@ -485,7 +486,7 @@ export function CourseForm({
                     </div>
                   </div>
                 ) : (
-                  <div 
+                  <div
                     className="w-full h-48 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors"
                     onClick={() => document.getElementById('pdf')?.click()}
                   >
@@ -498,7 +499,7 @@ export function CourseForm({
                   type="file"
                   accept=".pdf"
                   className="hidden"
-                  {...methods.register('pdf')}
+                  {...register('pdf')}
                 />
               </div>
             </div>
@@ -515,6 +516,5 @@ export function CourseForm({
           </Button>
         </div>
       </div>
-    </Form>
   )
 }

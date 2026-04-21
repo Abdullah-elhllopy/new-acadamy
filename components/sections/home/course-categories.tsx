@@ -59,7 +59,7 @@ export function CourseCategoriesSection() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <Link href={`/all-programs?category=${department.departmentID}`}>
+              <Link href={`/all-courses?category=${department.departmentID}`}>
                 <Card className="group hover:shadow-card-hover transition-all duration-300 cursor-pointer h-full">
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between mb-4">

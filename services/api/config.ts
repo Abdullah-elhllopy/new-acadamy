@@ -61,11 +61,13 @@ export const endpoints = {
   departments: {
     getAllMain: '/api/MainDepartment/All-Departments',
     getMainById: (id: string) => `/api/MainDepartment/get-Department/${id}`,
+    getMainByIdDashboard: (id: string) => `/api/MainDepartment/get-Department-Dashboard/${id}`,
     createMain: '/api/MainDepartment/Create-Department',
     updateMain: '/api/MainDepartment/Update-Department',
     deleteMain: (id: string) => `/api/MainDepartment/Delete-Department/${id}`,
     getAllSub: '/api/SubDepartment/All-Sub-Departments',
     getSubById: (id: string) => `/api/SubDepartment/get-Sub-Department/${id}`,
+    getSubByIdDashboard: (id: string) => `/api/SubDepartment/get-Sub-Department-Dashboard/${id}`,
     getSubByMainId: (mainId: string) => `/api/SubDepartment/Get-By-Main-Deb/${mainId}`,
     createSub: '/api/SubDepartment/Create-Sub-Department',
     updateSub: '/api/SubDepartment/Update-Sub-Department',

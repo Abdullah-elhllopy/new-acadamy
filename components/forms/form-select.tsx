@@ -53,8 +53,9 @@ export function FormSelect({
             </Label>
             
             <Select
+                key={`${name}-${value}`}
                 disabled={disabled}
-                value={value}
+                value={value || ''}
                 onValueChange={(val) => {
                     setValue(name, val, { shouldValidate: true })
                     onChange?.(val)

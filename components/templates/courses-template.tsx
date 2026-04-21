@@ -51,7 +51,8 @@ export function CoursesTemplate({
     activeSubDepartment,
     setPage,
     selectDepartment,
-    selectSubDepartment
+    selectSubDepartment,
+    refresh
   } = useCourses({ type })
 
   // Filter courses by search
@@ -186,7 +187,7 @@ export function CoursesTemplate({
         </div>
 
         {/* Courses Grid */}
-        <DataStateHandler listLoaderProps = {{showHeader : false , showFilters : false ,}} isLoading={loading} >
+        <DataStateHandler listLoaderProps = {{showHeader : false , showFilters : false ,}} isLoading={loading} error={error }onRetry={refresh} >
           {filteredCourses.length > 0 ? (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">

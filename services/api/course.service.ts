@@ -52,6 +52,8 @@ export interface CourseDashboard {
   relatedCourses?: any[];
   courseLectures?: any[];
   allcomments?: any[];
+  placeLocationLat?: number ;
+  placeLocationLong?: number;
 }
 export interface Course {
   courseId: string;
@@ -89,7 +91,9 @@ export interface Course {
   relatedCourses?: any[];
   courseLectures?: any[];
   allcomments?: any[];
-  capacity ?:string
+  capacity?: string;
+  placeLocationLat?: number ;
+  placeLocationLong?: number ;
 }
 
 export interface CourseFilterByCategory {
@@ -134,7 +138,7 @@ class CourseService {
   async getAll(): Promise<CoursesResponse> {
     return apiClient.get<CoursesResponse>(endpoints.courses.getAll);
   }
-  async getById (id: string): Promise<Course> {
+  async getById(id: string): Promise<Course> {
     return apiClient.get<Course>(endpoints.courses.getById(id));
   }
   async getByIdForDashBoard(id: string): Promise<CourseDashboard> {
@@ -156,7 +160,7 @@ class CourseService {
   }
 
   async filterByBool(filter: CourseFilterByBool): Promise<CoursesResponse> {
-    const response = await apiClient.post<{data : CoursesResponse}>(endpoints.courses.filterByBool, filter);
+    const response = await apiClient.post<{ data: CoursesResponse }>(endpoints.courses.filterByBool, filter);
     return response.data || [];
   }
 
@@ -192,7 +196,7 @@ class CourseService {
   }
 
   async getCourseTypes(): Promise<CourseType[]> {
-    const response = await apiClient.get<{data : CourseType[]}>(endpoints.courses.getCourseTypes);
+    const response = await apiClient.get<{ data: CourseType[] }>(endpoints.courses.getCourseTypes);
     return response.data || [];
   }
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus, Eye } from 'lucide-react'
 import { useMainDepartments, useDeleteMainDepartment } from '@/hooks/api'
@@ -24,7 +24,10 @@ export default function MainDepartmentsPage() {
   const handleViewSub = (department: MainDepartment) => {
     router.push(`/dashboard/departments/${department.departmentID}/sub`)
   }
+  const handleEdit = useCallback((department: MainDepartment)=>{
+    router.push(`/dashboard/departments/main/edit/${department.departmentID}`)
 
+  },[router])
   const handleDeleteClick = (department: MainDepartment) => {
     setSelectedDepartment(department)
     setDeleteDialogOpen(true)
@@ -53,15 +56,15 @@ export default function MainDepartmentsPage() {
       header: 'Description',
       cell: (dept) => dept.description || 'N/A',
     },
-    {
-      header: 'Status',
-      cell: (dept) => (
-        <StatusBadge
-          status={dept.isActive ? 'active' : 'inactive'}
-          label={dept.isActive ? 'Active' : 'Inactive'}
-        />
-      ),
-    },
+    // {
+    //   header: 'Status',
+    //   cell: (dept) => (
+    //     <StatusBadge
+    //       status={dept.isActive ? 'active' : 'inactive'}
+    //       label={dept.isActive ? 'Active' : 'Inactive'}
+    //     />
+    //   ),
+    // },
   ]
 
   return (
@@ -99,6 +102,7 @@ export default function MainDepartmentsPage() {
               icon: <Eye className="mr-2 h-4 w-4" />,
               onClick: handleViewSub,
             },
+            tableActions.edit(handleEdit),
             tableActions.delete(handleDeleteClick),
           ]}
           emptyState={{

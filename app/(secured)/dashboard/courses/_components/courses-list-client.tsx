@@ -47,9 +47,9 @@ export default function CoursesListClient() {
           <Link href={`/dashboard/courses/${course.courseId}`} className="text-blue-600 hover:underline">
             {course.courseName}
           </Link>
-          {course.courseNameAr && (
+          {/* {course.courseNameAr && (
             <span className="text-xs text-muted-foreground">{course.courseNameAr}</span>
-          )}
+          )} */}
         </div>
       ),
     },

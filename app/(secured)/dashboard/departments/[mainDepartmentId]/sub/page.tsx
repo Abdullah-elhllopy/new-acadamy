@@ -1,6 +1,6 @@
 'use client'
 
-import { use, useState } from 'react'
+import { use, useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus, ArrowLeft } from 'lucide-react'
 import { useSubDepartmentsByMain, useDeleteSubDepartment, useMainDepartment } from '@/hooks/api'
@@ -17,7 +17,6 @@ import type { SubDepartment } from '@/services/api'
 export default function SubDepartmentsPage({ params }: { params: Promise<{ mainDepartmentId: string }> }) {
   const router = useRouter();
   const {mainDepartmentId} = use(params)
-  const { data: mainDepartment, isLoading: mainLoading } = useMainDepartment(mainDepartmentId)
   const { data: subDepartments, isLoading } = useSubDepartmentsByMain(mainDepartmentId)
   const deleteSubDepartment = useDeleteSubDepartment()
   
@@ -28,7 +27,10 @@ export default function SubDepartmentsPage({ params }: { params: Promise<{ mainD
     setSelectedSubDepartment(subDept)
     setDeleteDialogOpen(true)
   }
+  const handleEdit = useCallback((subDept: SubDepartment)=>{
+    router.push(`/dashboard/departments/${subDept.mainDepartmentId}/sub/edit/${subDept.subDepartmentId}`)
 
+  },[router])
   const handleDeleteConfirm = async () => {
     if (selectedSubDepartment?.subDepartmentId) {
       await deleteSubDepartment.mutateAsync(selectedSubDepartment.subDepartmentId)
@@ -40,24 +42,24 @@ export default function SubDepartmentsPage({ params }: { params: Promise<{ mainD
   const columns: DataTableColumn<SubDepartment>[] = [
     {
       header: 'Sub Department Name',
-      accessorKey: 'subDepartmentName',
+      accessorKey: 'name',
     },
     {
       header: 'Description',
-      cell: (dept) => dept.subDepartmentDescription || 'N/A',
+      cell: (dept) => dept.description || 'N/A',
     },
-    {
-      header: 'Status',
-      cell: (dept) => (
-        <StatusBadge 
-          status={dept.isActive ? 'active' : 'inactive'} 
-          label={dept.isActive ? 'Active' : 'Inactive'} 
-        />
-      ),
-    },
+    // {
+    //   header: 'Status',
+    //   cell: (dept) => (
+    //     <StatusBadge 
+    //       status={dept.isActive ? 'active' : 'inactive'} 
+    //       label={dept.isActive ? 'Active' : 'Inactive'} 
+    //     />
+    //   ),
+    // },
   ]
 
-  if (mainLoading) {
+  if (isLoading) {
     return (
       <>
         <DashboardHero title="Loading..." />
@@ -75,7 +77,7 @@ export default function SubDepartmentsPage({ params }: { params: Promise<{ mainD
           { label: 'Dashboard', href: '/dashboard' },
           { label: 'Departments', href: '/dashboard/departments/main' },
           { label: 'Main Departments', href: '/dashboard/departments/main' },
-          { label: mainDepartment?.name || 'Sub Departments', href: `/dashboard/departments/${mainDepartmentId}/sub` },
+          { label: 'Sub Departments', href: `/dashboard/departments/${mainDepartmentId}/sub` },
         ]}
         title={`Sub Departments `}
       >
@@ -96,6 +98,7 @@ export default function SubDepartmentsPage({ params }: { params: Promise<{ mainD
           columns={columns}
           isLoading={isLoading}
           actions={[
+            tableActions.edit(handleEdit),
             tableActions.delete(handleDeleteClick),
           ]}
           emptyState={{
