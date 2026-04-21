@@ -5,17 +5,30 @@ import { useLanguage } from '@/shared/hooks/useLanguage'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Mail } from 'lucide-react'
+import { apiClient } from '@/services/api/client'
+import { endpoints } from '@/services/api/config'
+import { toast } from 'sonner'
 
 export function EmailSubscription() {
-  const { language } = useLanguage()
-  const isArabic = language === 'ar'
+  const { isArabic } = useLanguage()
   const [email, setEmail] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle subscription
-    console.log('Subscribe:', email)
-    setEmail('')
+    
+    if (!email) return
+    
+    setIsLoading(true)
+    try {
+      await apiClient.get(endpoints.subscribe.checkMail(email))
+      toast.success(isArabic ? 'تم الاشتراك بنجاح!' : 'Successfully subscribed!')
+      setEmail('')
+    } catch (error: any) {
+      toast.error(error.message || (isArabic ? 'فشل الاشتراك' : 'Subscription failed'))
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -39,9 +52,14 @@ export function EmailSubscription() {
               onChange={(e) => setEmail(e.target.value)}
               className="h-12 flex-1"
               required
+              disabled={isLoading}
             />
-            <Button type="submit" className="h-12 px-8 rounded-full bg-primary hover:bg-secondary">
-              {isArabic ? 'اشترك' : 'Subscribe'}
+            <Button 
+              type="submit" 
+              className="h-12 px-8 rounded-full bg-primary hover:bg-secondary"
+              disabled={isLoading}
+            >
+              {isLoading ? (isArabic ? 'جاري الاشتراك...' : 'Subscribing...') : (isArabic ? 'اشترك' : 'Subscribe')}
             </Button>
           </form>
         </div>

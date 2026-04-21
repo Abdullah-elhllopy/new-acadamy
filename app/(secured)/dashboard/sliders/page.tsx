@@ -11,6 +11,8 @@ import { toast } from 'sonner'
 import type { Slider } from '@/services/api/common.service'
 import { DataTable } from '@/components/dashboard/components'
 import { useSetState } from '@/hooks/use-set-state'
+import { API_BASE_URL } from '@/services/api'
+import Image from 'next/image'
 
 // Define filter interface
 interface SliderFilters {
@@ -58,10 +60,12 @@ export default function SlidersPage() {
       width: 120,
       align: 'center' as const,
       render: (slider: Slider) => slider.image ? (
-        <img 
-          src={slider.image} 
+        <Image 
+          src={`${API_BASE_URL}/${slider.image}`} 
           alt="" 
-          className="h-10 w-16 object-cover rounded-md mx-auto"
+          className=" object-cover rounded-md mx-auto"
+          width={90}
+          height={70}
         />
       ) : (
         <span className="text-muted-foreground">-</span>
@@ -107,7 +111,7 @@ export default function SlidersPage() {
       return matchesSearch 
     })
   }, [])
-
+  
   return (
     <>
       <DashboardHero

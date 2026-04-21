@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils'
 interface FormFieldProps<T extends FieldValues> {
   name: Path<T>
   label: string
-  type?: 'text' | 'email' | 'password' | 'tel' | 'textarea' | 'date' | 'number'
+  type?: 'text' | 'email' | 'password' | 'tel' | 'textarea' | 'date' | 'number' | 'url'
   placeholder?: string
   required?: boolean
   rows?: number

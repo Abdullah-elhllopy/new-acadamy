@@ -24,6 +24,14 @@ export function useTrainer(id: string) {
   });
 }
 
+export function useTrainerDashboard(id: string) {
+  return useQuery({
+    queryKey: [...TRAINER_KEYS.detail(id), 'dashboard'],
+    queryFn: () => trainerService.getByIdDashboard(id),
+    enabled: !!id,
+  });
+}
+
 export function useCreateTrainer() {
   const queryClient = useQueryClient();
 

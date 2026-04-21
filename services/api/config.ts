@@ -76,6 +76,7 @@ export const endpoints = {
   trainers: {
     getAll: '/api/Instructor/All-Instructors',
     getById: (id: string) => `/api/Instructor/get-Instructor/${id}`,
+    getByIdDashboard: (id: string) => `/api/Instructor/get-Instructor-Dashboard/${id}`,
     create: '/api/Instructor/Create-Instructor',
     update: '/api/Instructor/Update-Instructor',
     delete: (id: string) => `/api/Instructor/Delete-Instructor/${id}`,
@@ -190,7 +191,7 @@ export const endpoints = {
   },
   subscribe: {
     getAll: '/api/Subscribe/Get-all',
-    checkMail: '/api/Subscribe/Check-Mail',
+    checkMail: (email: string) => `/api/Subscribe/Check-Mail?mail=${encodeURIComponent(email)}`,
     delete: (id: string) => `/api/Subscribe/Delete-Subscribe/${id}`,
   },
   requests: {

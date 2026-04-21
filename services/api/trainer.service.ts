@@ -3,21 +3,25 @@ import { endpoints } from './config';
 import { Course } from './course.service';
 
 export interface Trainer {
-  email: string;
-  phone: string;
-  experience: string;
-  isActive: boolean;
   instructorid: string;
   name: string;
-  image: string | null;
+  nameAr: string;
   job: string;
+  jobAr: string;
   about: string;
+  aboutAr: string;
+  email: string;
+  phone: string;
+  videoUrl: string;
+  experience: number;
+  image: string | null;
   linkedin: string | null;
-  facbook: string | null;  // Note: "facebook" is misspelled in the data
-  instgram: string | null;  // Note: "instagram" is misspelled in the data
+  facbook: string | null;
+  instgram: string | null;
   twitter: string | null;
   pdf: string;
-  courseDetails ?: Course[];
+  isActive: boolean;
+  courseDetails?: Course[];
 }
 
 class TrainerService {
@@ -27,6 +31,10 @@ class TrainerService {
 
   async getById(id: string): Promise<Trainer> {
     return apiClient.get<Trainer>(endpoints.trainers.getById(id));
+  }
+
+  async getByIdDashboard(id: string): Promise<Trainer> {
+    return apiClient.get<Trainer>(endpoints.trainers.getByIdDashboard(id));
   }
 
   async create(formData: FormData): Promise<Trainer> {

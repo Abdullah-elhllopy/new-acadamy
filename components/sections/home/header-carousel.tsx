@@ -37,7 +37,7 @@ export function HeaderCarousel() {
     return (prev + 1) % (sliders?.length || 1)
   })
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + (sliders?.length || 1)) % (sliders?.length || 1))
-
+  
   if (isLoading) {
     return (
       <section className="relative h-125 md:h-150 bg-linear-to-br from-primary/20 to-secondary/20 overflow-hidden flex items-center justify-center">
@@ -74,7 +74,7 @@ export function HeaderCarousel() {
             className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'
               }`}
             style={{
-              backgroundImage: slide.image ? `url(${API_BASE_URL}${slide.image})` : undefined,
+              backgroundImage: slide.image ? `url('${API_BASE_URL}/${slide.image.replace(/\\/g, '/')}')` : 'none',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
