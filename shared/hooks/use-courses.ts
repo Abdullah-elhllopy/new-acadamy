@@ -61,7 +61,7 @@ export function useCourses({ type, initialFilters }: UseCoursesOptions): UseCour
     const { data: apiResponse, isLoading: coursesLoading, error: coursesError, refetch } = useFilteredPagedCourses({
         pageNumber: pagination.page,
         pageSize: pagination.limit,
-        mainDepartmentId: activeDepartment || departmentId ||  undefined,
+        mainDepartmentId: activeDepartment ||  undefined,
         subDepartmentId: activeSubDepartment || undefined,
     })
 
