@@ -30,6 +30,7 @@ export interface ArticleCardProps {
   language?: 'en' | 'ar'
 }
 
+
 export function ArticleCard({
   id,
   title,
