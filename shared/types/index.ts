@@ -1,14 +1,14 @@
 import { UserRole } from '@/shared/constants/roles'
 
 export interface User {
-  id: string
+  userId: string
   email: string
   name: string
   phone?: string
   role: UserRole
   avatar?: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export interface Program {

@@ -16,11 +16,11 @@ export function ProtectedRoute({
   requiredRoles,
 }: ProtectedRouteProps) {
   const router = useRouter()
-  const { isAuthenticated, isLoading, isHydrated, hasRole } = useAuth()
+  const { isAuthenticated, isLoading, hasRole } = useAuth()
 
   useEffect(() => {
     // Wait for hydration before checking auth
-    if (!isHydrated || isLoading) return
+    if ( isLoading) return
 
     if (!isAuthenticated) {
       router.push('/login')
@@ -30,10 +30,10 @@ export function ProtectedRoute({
     if (requiredRoles && !hasRole(requiredRoles)) {
       router.push('/unauthorized')
     }
-  }, [isHydrated, isLoading, isAuthenticated, requiredRoles, router, hasRole])
+  }, [isLoading, isAuthenticated, requiredRoles, router, hasRole])
 
   // Show loading while checking auth state
-  if (!isHydrated || isLoading) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Spinner className="w-8 h-8" />

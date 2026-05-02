@@ -212,9 +212,11 @@ export const endpoints = {
       removeUserFromCourse: '/api/Course/Remove-User-From-Course',
     },
     contact: {
-      getAll: '/api/ContactUs/All-Messages',
-      getById: (id: string) => `/api/ContactUs/get-Message/${id}`,
-      create: '/api/ContactUs/Send-Message',
+      getAll: '/api/Message/All-Messages',
+      getById: (id: string) => `/api/Message/Get-Message/${id}`,
+      create: '/api/Message/Add-Message',
+      delete: (id: string) => `/api/Message/Delete-Message${id}`,
+      search: (subject: string) => `/api/Message/Search-Messages/${subject}`,
     },
     emailSubscription: {
       getAll: '/api/EmailSubscription/All-Subscriptions',

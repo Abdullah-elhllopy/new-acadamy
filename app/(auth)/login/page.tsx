@@ -66,7 +66,7 @@ export default function LoginPage() {
                   {t('email')}
                 </Label>
                 <div className="relative">
-                  <Mail className="w-5 h-5 absolute top-3 start-3 text-muted-foreground pointer-events-none" />
+                  <Mail className="w-5 h-5 absolute top-3 inset-s-3 text-muted-foreground pointer-events-none" />
                   <Input
                     id="email"
                     type="email"
@@ -89,7 +89,7 @@ export default function LoginPage() {
                   </Link>
                 </div>
                 <div className="relative">
-                  <Lock className="w-5 h-5 absolute top-3 start-3 text-muted-foreground pointer-events-none" />
+                  <Lock className="w-5 h-5 absolute top-3 inset-s-3 text-muted-foreground pointer-events-none" />
                   <Input
                     id="password"
                     type="password"

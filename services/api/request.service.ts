@@ -30,10 +30,10 @@ export interface BeTrainerRequest {
 }
 
 export interface ContactMessage {
-  messageId?: string;
+  id?: string;
   fullName: string;
   email: string;
-  phone?: string;
+  phone: string;
   subject: string;
   message: string;
   createdAt?: string;
@@ -100,6 +100,14 @@ class RequestService {
 
   async createContactMessage(data: ContactMessage): Promise<ContactMessage> {
     return apiClient.post<ContactMessage>(endpoints.requests.contact.create, data);
+  }
+
+  async searchContactMessages(subject: string): Promise<ContactMessage[]> {
+    return apiClient.get<ContactMessage[]>(endpoints.requests.contact.search(subject));
+  }
+
+  async deleteContactMessage(id: string): Promise<void> {
+    return apiClient.get<void>(endpoints.requests.contact.delete(id));
   }
 
   async getAllEmailSubscriptions(): Promise<EmailSubscription[]> {

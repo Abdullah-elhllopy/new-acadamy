@@ -19,21 +19,24 @@ export interface UserFormData {
 }
 
 export interface LoginRequest {
-  userEmail: string;
-  userPassword: string;
+  emailAddress: string;
+  password: string;
 }
 
 export interface LoginResponse {
   token: string;
-  user: User;
+  userId: string;
+  email: string;
+  name: string;
+  role: string;
 }
 
 export interface ForgotPasswordRequest {
-  userEmail: string;
+  email: string;
 }
 
 export interface CheckCodeRequest {
-  userEmail: string;
+  email: string;
   code: string;
 }
 

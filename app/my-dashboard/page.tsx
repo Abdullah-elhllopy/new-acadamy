@@ -54,14 +54,12 @@ interface BookingMock {
 }
 
 export default function MyDashboardPage() {
-  const { language } = useLanguage()
-  const { user, isAuthenticated, isHydrated, logout } = useAuth()
+  const { isArabic } = useLanguage()
+  const { user, isAuthenticated, logout } = useAuth()
   const router = useRouter()
-  const isArabic = language === 'ar'
   const [activeTab, setActiveTab] = useState('overview')
-
-  const { data: coursesData, isLoading: isLoadingCourses } = useUserCourses(user?.id || '')
   const userId = 'user-001'
+  const { data: coursesData, isLoading: isLoadingCourses } = useUserCourses(user?.userId || '')
   const { data: certificates, isLoading, error, refetch } = useUserCertificates(userId)
 
   const enrolledCourses: EnrolledCourse[] = coursesData?.map(course => ({
@@ -93,7 +91,7 @@ export default function MyDashboardPage() {
     }
   ]
 
-  if (isHydrated && !isAuthenticated) {
+  if ( !isAuthenticated) {
     router.push('/login')
   }
 
@@ -146,7 +144,7 @@ export default function MyDashboardPage() {
     router.push(`/verify-certificate/${certId}`)
   }
 
-  if (!isHydrated || !user) {
+  if ( !user) {
     return (
       <Layout>
         <div className="container py-20">
@@ -363,7 +361,7 @@ export default function MyDashboardPage() {
                     label: isArabic ? 'تصفح البرامج' : 'Browse Programs',
                     href: '/all-programs'
                   }}
-                  language={language}
+                // language={language}
                 />
               )}
             </TabsContent>
@@ -404,7 +402,7 @@ export default function MyDashboardPage() {
                       label: isArabic ? 'تصفح الدورات' : 'Browse Courses',
                       href: '/all-programs'
                     }}
-                    language={language}
+                  // language={language}
                   />
                 )}
               </DataStateHandler>
@@ -472,7 +470,7 @@ export default function MyDashboardPage() {
                     label: isArabic ? 'تصفح البرامج' : 'Browse Programs',
                     href: '/all-programs'
                   }}
-                  language={language}
+                // language={language}
                 />
               )}
             </TabsContent>

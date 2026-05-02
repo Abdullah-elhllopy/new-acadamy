@@ -16,8 +16,7 @@ import { DashboardHero } from '@/components/sections/hero'
 
 
 export default function ArticlesListPage() {
-  const { language } = useLanguage()
-  const isArabic = language === 'ar'
+  const { isArabic } = useLanguage()
   const { data: articles, isLoading, error, refetch } = useArticles()
   const deleteArticle = useDeleteArticle()
   const [deleteId, setDeleteId] = useState<string | null>(null)

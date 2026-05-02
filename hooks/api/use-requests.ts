@@ -146,6 +146,30 @@ export function useCreateContactMessage() {
   });
 }
 
+export function useSearchContactMessages() {
+  return useMutation({
+    mutationFn: (subject: string) => requestService.searchContactMessages(subject),
+    onError: (error: Error) => {
+      toast.error(error.message || 'Failed to search messages');
+    },
+  });
+}
+
+export function useDeleteContactMessage() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => requestService.deleteContactMessage(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: REQUEST_KEYS.contact.lists() });
+      toast.success('Message deleted successfully');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Failed to delete message');
+    },
+  });
+}
+
 export function useEmailSubscriptions() {
   return useQuery({
     queryKey: REQUEST_KEYS.emailSubscription.lists(),

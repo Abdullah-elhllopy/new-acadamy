@@ -19,7 +19,6 @@ export default function CheckPasswordPage() {
   const [code, setCode] = useState('')
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
-  const [tempPassword , setTempPassword] = useState('')
   useEffect(() => {
     // Get email from sessionStorage
     const storedEmail = sessionStorage.getItem('reset_email')
@@ -68,24 +67,24 @@ export default function CheckPasswordPage() {
             </div>
           </div>
           <CardTitle className="text-2xl text-center">
-            {isArabic ? 'أدخل كلمة المرور المؤقتة' : 'Enter Temporary Password'}
+            {isArabic ? 'أدخل رمز التحقق' : 'Enter Verification Code'}
           </CardTitle>
           <p className="text-sm text-muted-foreground text-center mt-2">
             {isArabic
-              ? 'تحقق من بريدك الإلكتروني وأدخل كلمة المرور المؤقتة'
-              : 'Check your email and enter the temporary password'}
+              ? 'تحقق من بريدك الإلكتروني وأدخل رمز التحقق'
+              : 'Check your email and enter the verification code'}
           </p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <Label className={isArabic ? 'text-right block' : ''}>
-                {isArabic ? 'كلمة المرور المؤقتة' : 'Temporary Password'}
+                {isArabic ? 'رمز التحقق' : 'Verification Code'}
               </Label>
               <Input
                 type="text"
-                value={tempPassword}
-                onChange={(e) => setTempPassword(e.target.value)}
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
                 required
                 className={isArabic ? 'text-right' : ''}
               />

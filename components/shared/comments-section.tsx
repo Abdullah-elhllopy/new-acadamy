@@ -114,7 +114,7 @@ export function CommentsSection({ articleId }: CommentsSectionProps) {
                           })}
                         </p>
                       </div>
-                      {user?.id === comment.userId && (
+                      {user?.userId === comment.userId && (
                         <Button
                           size="sm"
                           variant="ghost"

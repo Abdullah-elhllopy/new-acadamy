@@ -13,6 +13,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { toast } from 'sonner'
 import { Mail, Lock, User, Building2, ArrowRight, Phone } from 'lucide-react'
 import { UserRole } from '@/shared/constants/roles'
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -20,12 +22,12 @@ export default function SignupPage() {
   const { register, isLoading } = useAuth()
 
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    phone: '',
-    role: UserRole.TRAINEE,
+    userFullName: '',
+    userEmail: '',
+    userPassword: '',
+    userConfirmPassword: '',
+    userPhone: '',
+    type: UserRole.TRAINEE,
     company: '',
   })
 
@@ -38,34 +40,34 @@ export default function SignupPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
+    if (!formData.userFullName || !formData.userEmail || !formData.userPassword || !formData.userConfirmPassword || !formData.userPhone) {
       toast.error(t('errors.fillAllFields'))
       return
     }
 
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.userPassword !== formData.userConfirmPassword) {
       toast.error(t('errors.passwordMismatch'))
       return
     }
 
-    if (formData.password.length < 6) {
+    if (formData.userPassword.length < 6) {
       toast.error(t('errors.passwordTooShort'))
       return
     }
 
-    if (formData.role === UserRole.CORPORATE_MANAGER && !formData.company) {
+    if (formData.type === UserRole.CORPORATE_MANAGER && !formData.company) {
       toast.error(t('errors.companyRequired'))
       return
     }
 
     try {
       const result = await register({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        confirmPassword: formData.confirmPassword,
-        phone: formData.phone,
-        role: formData.role,
+        userFullName: formData.userFullName,
+        userEmail: formData.userEmail,
+        userPassword: formData.userPassword,
+        userConfirmPassword: formData.userConfirmPassword,
+        userPhone: formData.userPhone,
+        type: formData.type,
       })
       
       if (result.success) {
@@ -104,13 +106,13 @@ export default function SignupPage() {
                     {t('fullName')}
                   </Label>
                   <div className="relative">
-                    <User className="w-4 h-4 absolute top-3 start-3 text-muted-foreground pointer-events-none" />
+                    <User className="w-4 h-4 absolute top-3 inset-s-3 text-muted-foreground pointer-events-none" />
                     <Input
-                      id="name"
+                      id="userFullName"
                       placeholder={t('fullNamePlaceholder')}
-                      value={formData.name}
+                      value={formData.userFullName}
                       onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
+                        setFormData({ ...formData, userFullName: e.target.value })
                       }
                       className="ps-10"
                       disabled={isLoading}
@@ -124,9 +126,9 @@ export default function SignupPage() {
                     {t('accountType')}
                   </Label>
                   <Select
-                    value={formData.role}
+                    value={formData.type}
                     onValueChange={(value) =>
-                      setFormData({ ...formData, role: value as UserRole })
+                      setFormData({ ...formData, type: value as UserRole })
                     }
                     disabled={isLoading}
                   >
@@ -144,13 +146,13 @@ export default function SignupPage() {
                 </div>
 
                 {/* Company (for corporate managers) */}
-                {formData.role === UserRole.CORPORATE_MANAGER && (
+                {formData.type === UserRole.CORPORATE_MANAGER && (
                   <div className="space-y-2">
                     <Label htmlFor="company">
                       {t('companyName')}
                     </Label>
                     <div className="relative">
-                      <Building2 className="w-4 h-4 absolute top-3 start-3 text-muted-foreground pointer-events-none" />
+                      <Building2 className="w-4 h-4 absolute top-3 inset-s-3 text-muted-foreground pointer-events-none" />
                       <Input
                         id="company"
                         placeholder={t('companyNamePlaceholder')}
@@ -171,19 +173,37 @@ export default function SignupPage() {
                     {t('email')}
                   </Label>
                   <div className="relative">
-                    <Mail className="w-4 h-4 absolute top-3 start-3 text-muted-foreground pointer-events-none" />
+                    <Mail className="w-4 h-4 absolute top-3 inset-s-3 text-muted-foreground pointer-events-none" />
                     <Input
-                      id="email"
+                      id="userEmail"
                       type="email"
                       placeholder={t('emailPlaceholder')}
-                      value={formData.email}
+                      value={formData.userEmail}
                       onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
+                        setFormData({ ...formData, userEmail: e.target.value })
                       }
                       className="ps-10"
                       disabled={isLoading}
                     />
                   </div>
+                </div>
+
+                {/* Phone */}
+                <div className="space-y-2">
+                  <Label htmlFor="userPhone">
+                    {t('phone') || 'Phone Number'}
+                  </Label>
+                  <PhoneInput
+                    country={'sa'}
+                    value={formData.userPhone}
+                    onChange={(phone) => setFormData({ ...formData, userPhone: phone })}
+                    inputClass="w-full h-10 px-3 py-2 text-sm border border-input bg-background ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    containerClass="w-full"
+                    buttonClass="bg-transparent border-r border-input"
+                    dropdownClass="bg-background border border-input"
+                    searchClass="bg-background border border-input"
+                    disabled={isLoading}
+                  />
                 </div>
 
                 {/* Password */}
@@ -192,14 +212,14 @@ export default function SignupPage() {
                     {t('password')}
                   </Label>
                   <div className="relative">
-                    <Lock className="w-4 h-4 absolute top-3 start-3 text-muted-foreground pointer-events-none" />
+                    <Lock className="w-4 h-4 absolute top-3 inset-s-3 text-muted-foreground pointer-events-none" />
                     <Input
-                      id="password"
+                      id="userPassword"
                       type="password"
                       placeholder={t('passwordPlaceholder')}
-                      value={formData.password}
+                      value={formData.userPassword}
                       onChange={(e) =>
-                        setFormData({ ...formData, password: e.target.value })
+                        setFormData({ ...formData, userPassword: e.target.value })
                       }
                       className="ps-10"
                       disabled={isLoading}
@@ -213,14 +233,14 @@ export default function SignupPage() {
                     {t('confirmPassword')}
                   </Label>
                   <div className="relative">
-                    <Lock className="w-4 h-4 absolute top-3 start-3 text-muted-foreground pointer-events-none" />
+                    <Lock className="w-4 h-4 absolute top-3 inset-s-3 text-muted-foreground pointer-events-none" />
                     <Input
-                      id="confirm-password"
+                      id="userConfirmPassword"
                       type="password"
                       placeholder={t('confirmPasswordPlaceholder')}
-                      value={formData.confirmPassword}
+                      value={formData.userConfirmPassword}
                       onChange={(e) =>
-                        setFormData({ ...formData, confirmPassword: e.target.value })
+                        setFormData({ ...formData, userConfirmPassword: e.target.value })
                       }
                       className="ps-10"
                       disabled={isLoading}
