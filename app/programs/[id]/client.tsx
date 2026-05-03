@@ -21,6 +21,7 @@ import { LocationMap } from '@/components/programs/location-map'
 import { PDFDownloadModal } from '@/components/programs/pdf-download-modal'
 import { useTranslate } from '@/locales'
 import { useLanguage } from '@/shared/hooks/useLanguage'
+import { useAuth } from '@/shared/hooks/useAuth'
 import { Skeleton } from '@/components/ui/skeleton'
 import { DataStateHandler } from '@/components/shared/data-state-handler'
 
@@ -209,7 +210,7 @@ const mockCourse = {
 export default function CourseDetailClient({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const router = useRouter()
-  const [currentUser, setCurrentUser] = useState(true)
+  const { isAuthenticated } = useAuth()
   const { t } = useTranslate('programs')
   const [showPDFModal, setShowPDFModal] = useState(false)
 
@@ -267,7 +268,7 @@ export default function CourseDetailClient({ params }: { params: Promise<{ id: s
             transition={{ duration: 0.6 }}
           >
             <WhatYouWillLearn objectives={course.wwwl?.map(w => typeof w === 'string' ? w : w.wwwlcontent) || []} />
-            <CourseLectures lectures={course.courseLectures ? course.courseLectures.length > 0 ? course.courseLectures : mockCourse.courseLectures : mockCourse.courseLectures} />
+            <CourseLectures lectures={course.courseLectures ? course.courseLectures : []} />
             <CourseTrainers trainers={course.ourinstructors || mockCourse.ourinstructors} />
 
             {course.institutionName && (
@@ -306,7 +307,7 @@ export default function CourseDetailClient({ params }: { params: Promise<{ id: s
               hours={course.courseNumberOfHours}
               months={course.numberOfMonths || 0}
               location={course.place}
-              isAuthenticated={currentUser}
+              isAuthenticated={isAuthenticated}
               onEnroll={() => router.push('/payment/1')}
               onLogin={() => router.push('/login')}
               onRequestProgram={() => router.push(`/apply-for-program/${course.courseId}`)}
@@ -343,9 +344,8 @@ export default function CourseDetailClient({ params }: { params: Promise<{ id: s
 
           {/* Location Map */}
           <LocationMap
-            address={mockCourse.location}
-            latitude={25.2048}
-            longitude={55.2708}
+            latitude={course.placeLocationLat?.toString() || undefined}
+            longitude={course.placeLocationLong?.toString() || undefined}
           />
 
           {/* Program Details */}

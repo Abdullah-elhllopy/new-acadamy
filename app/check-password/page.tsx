@@ -12,8 +12,7 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 
 export default function CheckPasswordPage() {
-  const { language } = useLanguage()
-  const isArabic = language === 'ar'
+  const { isArabic } = useLanguage()
   const router = useRouter()
   const { checkCode } = useAuth()
   const [code, setCode] = useState('')

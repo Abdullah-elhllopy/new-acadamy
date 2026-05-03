@@ -5,20 +5,20 @@ import { useTranslate } from '@/locales/use-locales'
 import { MapPin, Navigation } from 'lucide-react'
 
 interface LocationMapProps {
-  address: string
-  latitude?: number
-  longitude?: number
+  latitude?: string
+  longitude?: string
 }
 
-export function LocationMap({ address, latitude, longitude }: LocationMapProps) {
+export function LocationMap({ latitude, longitude }: LocationMapProps) {
   const { t } = useTranslate('programs')
 
   const handleGetDirections = () => {
     if (latitude && longitude) {
       window.open(`https://maps.google.com/?q=${latitude},${longitude}`, '_blank')
-    } else {
-      window.open(`https://maps.google.com/?q=${encodeURIComponent(address)}`, '_blank')
-    }
+    } 
+    // else {
+    //   window.open(`https://maps.google.com/?q=${encodeURIComponent(address)}`, '_blank')
+    // }
   }
 
   const mapEmbedUrl = latitude && longitude
@@ -47,7 +47,7 @@ export function LocationMap({ address, latitude, longitude }: LocationMapProps) 
       )}
 
       <div className="bg-gray-50 p-4 rounded-lg">
-        <p className="text-sm text-gray-700 mb-4">{address}</p>
+        {/* <p className="text-sm text-gray-700 mb-4">{address}</p> */}
         <Button
           onClick={handleGetDirections}
           variant="outline"

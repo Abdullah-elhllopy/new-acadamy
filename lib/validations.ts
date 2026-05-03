@@ -69,12 +69,12 @@ export const courseSchema = z.object({
   placeAr: z.string().min(2, 'Place (Arabic) is required'),
   placeSub: z.string().optional(),
   placeSubAr: z.string().optional(),
-  placeLocationLat: z.number().optional().refine((val) => {
+  placeLocationLat: z.string().optional().refine((val) => {
     if (!val) return true;
     const num = typeof val === 'string' ? parseFloat(val) : val;
     return !isNaN(num) && num >= -90 && num <= 90;
   }, 'Latitude must be between -90 and 90'),
-  placeLocationLong: z.number().optional().refine((val) => {
+  placeLocationLong: z.string().optional().refine((val) => {
     if (!val) return true;
     const num = typeof val === 'string' ? parseFloat(val) : val;
     return !isNaN(num) && num >= -180 && num <= 180;

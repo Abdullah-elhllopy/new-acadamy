@@ -52,8 +52,8 @@ export interface CourseDashboard {
   relatedCourses?: any[];
   courseLectures?: any[];
   allcomments?: any[];
-  placeLocationLat?: number ;
-  placeLocationLong?: number;
+  placeLocationLat?: string;
+  placeLocationLong?: string;
 }
 export interface Course {
   courseId: string;

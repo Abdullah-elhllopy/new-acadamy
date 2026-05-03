@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useTranslate } from '@/locales/use-locales'
+import { useAuth } from '@/shared/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import {
@@ -11,11 +12,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Menu, Globe, ChevronDown, LayoutDashboardIcon } from 'lucide-react'
+import { Menu, Globe, ChevronDown, LayoutDashboardIcon, User, LogOut } from 'lucide-react'
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const { t, currentLang, onChangeLang } = useTranslate('nav')
+  const { isAuthenticated, user, logout } = useAuth()
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
@@ -167,14 +169,46 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link href={'/my-dashboard'}>
-              <button
-                className="inline-flex items-center justify-center rounded-full w-11 h-11 border border-muted-foreground bg-white hover:bg-primary hover:text-white hover:border-primary transition-colors"
-                aria-label="Toggle language"
+            {isAuthenticated ? (
+              <>
+                <Link href={'/my-dashboard'}>
+                  <button
+                    className="inline-flex items-center justify-center rounded-full w-11 h-11 border border-muted-foreground bg-white hover:bg-primary hover:text-white hover:border-primary transition-colors"
+                    aria-label="Dashboard"
+                  >
+                    <LayoutDashboardIcon className="w-5 h-5" />
+                  </button>
+                </Link>
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="flex items-center justify-center rounded-full w-11 h-11 border border-muted-foreground bg-white hover:bg-primary hover:text-white hover:border-primary transition-colors">
+                    <User className="w-5 h-5" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <div className="px-2 py-1.5 text-sm font-medium">
+                      {user?.name}
+                    </div>
+                    <DropdownMenuItem asChild>
+                      <Link href="/my-dashboard" className="w-full cursor-pointer">
+                        {t('dashboard') || 'Dashboard'}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={logout} className="w-full cursor-pointer">
+                      <LogOut className="w-4 h-4 mr-2" />
+                      {t('logout') || 'Logout'}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            ) : (
+              <Button
+                className="hidden sm:inline-flex rounded-full h-11 px-8 bg-primary hover:bg-secondary text-white font-medium"
+                asChild
               >
-                <LayoutDashboardIcon className="w-5 h-5" />
-              </button>
-            </Link>
+                <Link href="/login">
+                  <span suppressHydrationWarning>{t('login')}</span>
+                </Link>
+              </Button>
+            )}
             <button
               onClick={() => onChangeLang(currentLang.value === 'en' ? 'ar' : 'en')}
               className="inline-flex items-center justify-center rounded-full w-11 h-11 border border-muted-foreground bg-white hover:bg-primary hover:text-white hover:border-primary transition-colors"
@@ -182,15 +216,6 @@ export function Header() {
             >
               <Globe className="w-5 h-5" />
             </button>
-
-            <Button
-              className="hidden sm:inline-flex rounded-full h-11 px-8 bg-primary hover:bg-secondary text-white font-medium"
-              asChild
-            >
-              <Link href="/login">
-                <span suppressHydrationWarning>{t('login')}</span>
-              </Link>
-            </Button>
 
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild className="lg:hidden">
@@ -227,14 +252,31 @@ export function Header() {
                   <Link href="/consulting-services" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
                     {currentLang.value === 'ar' ? 'الخدمات الاستشارية' : 'Consulting Services'}
                   </Link>
-                  <Button
-                    className="rounded-full h-11 bg-primary hover:bg-secondary text-white font-medium mt-4"
-                    asChild
-                  >
-                    <Link href="/login">
-                      <span suppressHydrationWarning>{t('login')}</span>
-                    </Link>
-                  </Button>
+                  {isAuthenticated ? (
+                    <>
+                      <Link href="/my-dashboard" className="text-lg font-medium hover:text-primary" onClick={() => setIsOpen(false)}>
+                        {t('dashboard') || 'Dashboard'}
+                      </Link>
+                      <Button
+                        className="rounded-full h-11 bg-secondary hover:bg-primary text-white font-medium"
+                        onClick={() => {
+                          logout()
+                          setIsOpen(false)
+                        }}
+                      >
+                        {t('logout') || 'Logout'}
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      className="rounded-full h-11 bg-primary hover:bg-secondary text-white font-medium mt-4"
+                      asChild
+                    >
+                      <Link href="/login" onClick={() => setIsOpen(false)}>
+                        <span suppressHydrationWarning>{t('login')}</span>
+                      </Link>
+                    </Button>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>

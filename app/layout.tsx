@@ -15,6 +15,7 @@ import './globals.css'
 import { I18nProvider } from '@/locales'
 import { Suspense } from 'react'
 import Loading from './loading'
+import { AuthProvider } from '@/shared/contexts/auth-context'
 
 const geist = Geist({ subsets: ["latin"] });
 const geistMono = Geist_Mono({ subsets: ["latin"] });
@@ -98,7 +99,8 @@ export default function RootLayout({
             <Suspense fallback={<Loading />}>
               <I18nProvider>
                 <LocalizationProvider>
-                  <div className="min-h-screen flex flex-col">
+                  <AuthProvider>
+                    <div className="min-h-screen flex flex-col">
                     <Suspense fallback={null}>
                       <Header />
                     </Suspense>
@@ -111,6 +113,7 @@ export default function RootLayout({
                       <Footer />
                     </Suspense>
                   </div>
+                  </AuthProvider>
                   <Toaster />
                   <Analytics />
                   <AnalyticsProvider />

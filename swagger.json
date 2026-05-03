@@ -744,6 +744,10 @@
                                         "type": "string",
                                         "format": "uuid"
                                     },
+                                    "Price": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    },
                                     "Now": {
                                         "type": "boolean"
                                     },
@@ -862,6 +866,9 @@
                                     "style": "form"
                                 },
                                 "SubDebId": {
+                                    "style": "form"
+                                },
+                                "Price": {
                                     "style": "form"
                                 },
                                 "Now": {
@@ -1105,6 +1112,10 @@
                                         "type": "string",
                                         "format": "uuid"
                                     },
+                                    "Price": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    },
                                     "Now": {
                                         "type": "boolean"
                                     },
@@ -1223,6 +1234,9 @@
                                     "style": "form"
                                 },
                                 "SubDebId": {
+                                    "style": "form"
+                                },
+                                "Price": {
                                     "style": "form"
                                 },
                                 "Now": {
@@ -1658,6 +1672,77 @@
                         }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/OnlinePaymentCourseReservation": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReserveCourseOnlinePayment"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReserveCourseOnlinePayment"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReserveCourseOnlinePayment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Course/AcknowledgeReserveCourse": {
+            "post": {
+                "tags": [
+                    "Course"
+                ],
+                "parameters": [
+                    {
+                        "name": "hmac",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymobCallbackRequest"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymobCallbackRequest"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymobCallbackRequest"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -4727,6 +4812,56 @@
     },
     "components": {
         "schemas": {
+            "BillingData": {
+                "type": "object",
+                "properties": {
+                    "apartment": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "first_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "street": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "building": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "city": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "country": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "email": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "floor": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "state": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
             "ContactUsVM": {
                 "required": [
                     "email",
@@ -5002,6 +5137,267 @@
                 },
                 "additionalProperties": false
             },
+            "Merchant": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "company_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phones": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "company_emails": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "city": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "country": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "MigsOrder": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "currency": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "OrderItem": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "amount_cents": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "PaymentKeyClaims": {
+                "type": "object",
+                "properties": {
+                    "order_id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "amount_cents": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "currency": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "billing_data": {
+                        "$ref": "#/components/schemas/BillingData"
+                    },
+                    "extra": {
+                        "type": "object",
+                        "additionalProperties": {},
+                        "nullable": true
+                    },
+                    "redirection_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "notification_url": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "PaymobCallbackRequest": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "obj": {
+                        "$ref": "#/components/schemas/PaymobTransaction"
+                    },
+                    "issuer_bank": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "transaction_processed_callback_responses": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "PaymobOrder": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "merchant": {
+                        "$ref": "#/components/schemas/Merchant"
+                    },
+                    "amount_cents": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "currency": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "merchant_order_id": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItem"
+                        },
+                        "nullable": true
+                    },
+                    "shipping_data": {
+                        "$ref": "#/components/schemas/ShippingData"
+                    },
+                    "payment_status": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "PaymobTransaction": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "pending": {
+                        "type": "boolean"
+                    },
+                    "amount_cents": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "is_auth": {
+                        "type": "boolean"
+                    },
+                    "is_capture": {
+                        "type": "boolean"
+                    },
+                    "is_standalone_payment": {
+                        "type": "boolean"
+                    },
+                    "is_voided": {
+                        "type": "boolean"
+                    },
+                    "is_refunded": {
+                        "type": "boolean"
+                    },
+                    "is_3d_secure": {
+                        "type": "boolean"
+                    },
+                    "integration_id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "profile_id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "has_parent_transaction": {
+                        "type": "boolean"
+                    },
+                    "error_occured": {
+                        "type": "boolean"
+                    },
+                    "order": {
+                        "$ref": "#/components/schemas/PaymobOrder"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "currency": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "owner": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "source_data": {
+                        "$ref": "#/components/schemas/SourceData"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/TransactionData"
+                    },
+                    "payment_key_claims": {
+                        "$ref": "#/components/schemas/PaymentKeyClaims"
+                    },
+                    "is_live": {
+                        "type": "boolean"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "additionalProperties": false
+            },
             "remove": {
                 "required": [
                     "courseId",
@@ -5034,6 +5430,93 @@
                     "courseId": {
                         "type": "string",
                         "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ReserveCourseOnlinePayment": {
+                "type": "object",
+                "properties": {
+                    "courseId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ShippingData": {
+                "type": "object",
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "email": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "SourceData": {
+                "type": "object",
+                "properties": {
+                    "pan": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "type": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "sub_type": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "TransactionData": {
+                "type": "object",
+                "properties": {
+                    "gateway_integration_pk": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "klass": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "currency": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "migs_order": {
+                        "$ref": "#/components/schemas/MigsOrder"
+                    },
+                    "migs_result": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "txn_response_code": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "nullable": true
                     }
                 },
                 "additionalProperties": false
