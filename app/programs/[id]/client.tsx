@@ -2,7 +2,7 @@
 
 import { use, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useCourse } from '@/hooks/api/use-courses'
+import { useCourse, useOnlinePaymentReservation } from '@/hooks/api/use-courses'
 import { CourseReviews } from './_components/course-reviews'
 import { CourseDetailsHero } from './_components/course-details-hero'
 import { CourseDetailsSidebar } from './_components/course-details-sidebar'
@@ -213,8 +213,15 @@ export default function CourseDetailClient({ params }: { params: Promise<{ id: s
   const { isAuthenticated } = useAuth()
   const { t } = useTranslate('programs')
   const [showPDFModal, setShowPDFModal] = useState(false)
+  const onlinePaymentReservation = useOnlinePaymentReservation()
 
   const { data: course, isLoading, error, refetch } = useCourse(id)
+
+  const handleEnroll = () => {
+    if (course?.courseId) {
+      onlinePaymentReservation.mutate(course.courseId)
+    }
+  }
 
   if (isLoading) {
     return (
@@ -308,7 +315,7 @@ export default function CourseDetailClient({ params }: { params: Promise<{ id: s
               months={course.numberOfMonths || 0}
               location={course.place}
               isAuthenticated={isAuthenticated}
-              onEnroll={() => router.push('/payment/1')}
+              onEnroll={handleEnroll}
               onLogin={() => router.push('/login')}
               onRequestProgram={() => router.push(`/apply-for-program/${course.courseId}`)}
               courseId={course.courseId}

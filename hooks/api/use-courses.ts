@@ -111,6 +111,19 @@ export function useDeleteCourse() {
   });
 }
 
+export function useOnlinePaymentReservation() {
+  return useMutation({
+    mutationFn: (courseId: string) => courseService.onlinePaymentReservation(courseId),
+    onSuccess: (data: { data: { checkoutUrl: string } }) => {
+      // Redirect to payment URL
+      window.location.href = data.data.checkoutUrl;
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Failed to initiate payment');
+    },
+  });
+}
+
 export function useAddWWWL() {
   const queryClient = useQueryClient();
 

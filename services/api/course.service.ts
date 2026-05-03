@@ -199,6 +199,10 @@ class CourseService {
     const response = await apiClient.get<{ data: CourseType[] }>(endpoints.courses.getCourseTypes);
     return response.data || [];
   }
+
+  async onlinePaymentReservation(courseId: string): Promise<{  data : {checkoutUrl: string}}> {
+    return apiClient.post<{ data : {checkoutUrl: string} }>(endpoints.courses.onlinePaymentReservation, { courseId });
+  }
 }
 
 export const courseService = new CourseService();

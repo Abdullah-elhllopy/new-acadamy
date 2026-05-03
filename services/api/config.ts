@@ -57,6 +57,7 @@ export const endpoints = {
     addLectures: '/api/Course/Add-Lectures-To-Course',
     removeLecture: '/api/Course/Remove-Lecture-from-Course',
     addInstructors: '/api/Course/Add-Instructors-To-Course',
+    onlinePaymentReservation: '/api/Course/OnlinePaymentCourseReservation',
   },
   departments: {
     getAllMain: '/api/MainDepartment/All-Departments',
